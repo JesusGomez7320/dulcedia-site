@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dulce Día Cine | Cinematic Wedding Films – Southern California</title>
   <meta name="description" content="From Hollywood sets to wedding vows — cinematic wedding films across Southern California. Documentary approach, organic feel, editorial polish." />
-  <link rel="canonical" href="https://YOUR-SITE.netlify.app/" />
+  <link rel="canonical" href="https://example.netlify.app/" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,8 +16,8 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Dulce Día Cine – Cinematic Wedding Films">
   <meta property="og:description" content="Documentary approach, organic feel, editorial polish.">
-  <meta property="og:url" content="https://YOUR-SITE.netlify.app/">
   <meta property="og:image" content="assets/images/og-cover.jpg">
+  <meta property="og:url" content="https://example.netlify.app/">
   <meta name="twitter:card" content="summary_large_image">
 
   <style>
@@ -33,12 +33,12 @@
     .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
 
     /* Header */
-    header{position:sticky;top:0;z-index:8;background:rgba(247,246,242,.85);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+    header{position:sticky;top:0;z-index:10;background:rgba(247,246,242,.85);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
     .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
     .brand{font-family:"Cormorant Garamond",serif;font-weight:600;letter-spacing:.06em}
     .nav a{margin-left:22px;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
 
-    /* Newspaper typography */
+    /* Headings / copy */
     h1,h2,h3,.ttl{font-family:"Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.16em}
     h1{font-size:clamp(30px,5.2vw,54px);line-height:1.05;margin:0 0 6px}
     h2{font-size:clamp(18px,2.1vw,28px);margin:0 0 12px}
@@ -47,10 +47,10 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* Parallax hero */
+    /* HERO - parallax-like fixed video */
     .hero{position:relative; isolation:isolate; min-height:68vh; display:grid; place-items:center; border-bottom:1px solid var(--line)}
-    .hero__media{position:fixed; inset:0; z-index:-1; overflow:hidden; background:#000}
-    .hero__media::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.35)); pointer-events:none;}
+    .hero__media{position:fixed; inset:0; z-index:-1; overflow:hidden; background:#000; pointer-events:none;}
+    .hero__media::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.35));}
     .hero__media video{width:100%; height:100%; object-fit:cover; filter:brightness(.6)}
     .hero__content{text-align:center; padding:10vh 0 9vh}
     .hero__sub{color:#EEE9E0; font-variant-caps:all-small-caps; letter-spacing:.18em}
@@ -63,12 +63,12 @@
     .section-head{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:24px}
     .section-head .sub{margin:6px 0 0}
 
-    /* Newspaper column helpers */
+    /* Newspaper columns */
     .columns{column-count:2; column-gap:2.2rem}
     @media (max-width:900px){ .columns{column-count:1} }
     .lede{font-style:italic}
 
-    /* Grid helpers */
+    /* Grids */
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
     .grid-2{grid-template-columns:repeat(2,1fr)}
@@ -90,9 +90,12 @@
     .btn{display:inline-block;border:1px solid var(--ink);padding:10px 14px;border-radius:12px}
     .btn:hover{background:var(--ink);color:#fff}
 
-    /* Reveal on scroll */
+    /* Reveal */
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .5s ease, transform .6s ease}
     .reveal.is-in{opacity:1;transform:none}
+
+    /* Visually hidden for skip link */
+    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}
 
     @media (prefers-reduced-motion:reduce){ .reveal{transition:none;opacity:1;transform:none} .hero__media video{display:none} }
   </style>
@@ -104,7 +107,6 @@
     <div class="wrap nav" aria-label="Main navigation">
       <div class="brand">Dulce Día Cine</div>
       <nav>
-        <a href="#portfolio">Portfolio</a>
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#packages">Packages</a>

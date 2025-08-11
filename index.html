@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dulce Día Cine | Cinematic Wedding Films – Southern California</title>
-  <meta name="description" content="Documentary-style wedding films with editorial polish. From Hollywood sets to wedding vows, Dulce Día Cine crafts cinematic, heartfelt stories." />
+  <meta name="description" content="From Hollywood sets to wedding vows — cinematic wedding films across Southern California. Documentary approach, organic feel, editorial polish." />
   <link rel="canonical" href="https://YOUR-SITE.netlify.app/" />
 
   <!-- Fonts -->
@@ -40,7 +40,6 @@
 
     /* Newspaper typography */
     h1,h2,h3,.ttl{font-family:"Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.16em}
-    /* Tighter clamp to mirror Nguyen hero scale */
     h1{font-size:clamp(30px,5.2vw,54px);line-height:1.05;margin:0 0 6px}
     h2{font-size:clamp(18px,2.1vw,28px);margin:0 0 12px}
     p{margin:0 0 16px; hyphens:auto; text-wrap:pretty}
@@ -48,7 +47,7 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* ===== Parallax-style hero ===== */
+    /* Parallax hero */
     .hero{position:relative; isolation:isolate; min-height:68vh; display:grid; place-items:center; border-bottom:1px solid var(--line)}
     .hero__media{position:fixed; inset:0; z-index:-1; overflow:hidden; background:#000}
     .hero__media::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.35)); pointer-events:none;}
@@ -57,69 +56,45 @@
     .hero__sub{color:#EEE9E0; font-variant-caps:all-small-caps; letter-spacing:.18em}
     .hero h1{color:#FFFFFF}
     .hero .rule{background:rgba(255,255,255,.55); margin:14px auto 0}
-    @media (max-width:640px){ .hero{min-height:56vh} .hero__content{padding:12vh 0 10vh} h1{font-size:clamp(26px,6vw,36px)}
-      .hero__sub{letter-spacing:.22em}
-    }
+    @media (max-width:640px){ .hero{min-height:56vh} .hero__content{padding:12vh 0 10vh} h1{font-size:clamp(26px,6vw,36px)} .hero__sub{letter-spacing:.22em} }
 
     /* Sections */
     .section{padding:72px 0; background:var(--bg)}
     .section-head{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:24px}
     .section-head .sub{margin:6px 0 0}
 
-    /* Grid */
-    .grid{display:grid;grid-template-columns:1fr;gap:22px}
-    @media (min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media (min-width:1040px){.grid{grid-template-columns:repeat(3,1fr)}}
-    .card{display:flex;flex-direction:column;gap:10px}
-    .ph{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
-    .ph::after{content:"";display:block;aspect-ratio:16/9}
-    .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .meta{padding:2px}
-    .ttl{margin:0 0 6px;font-size:16px}
-    .exc{margin:0 0 6px;color:var(--muted);font-size:15px}
-    .more{font-size:14px;text-decoration:underline;text-underline-offset:3px}
+    /* Newspaper column helpers */
+    .columns{column-count:2; column-gap:2.2rem}
+    @media (max-width:900px){ .columns{column-count:1} }
+    .lede{font-style:italic}
 
-    /* About */
-    .about{display:grid;grid-template-columns:1fr;gap:28px}
-    @media (min-width:960px){.about{grid-template-columns:1.05fr .95fr}}
-    .cardlight{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
-    .about .img{aspect-ratio:4/3;border-radius:var(--r);overflow:hidden}
-    .about .body{padding:22px}
+    /* Grid helpers */
+    .grid{display:grid;gap:22px}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    @media (max-width:980px){ .grid-3{grid-template-columns:1fr} .grid-2{grid-template-columns:1fr} }
 
     /* Packages */
-    .pkgs{display:grid;grid-template-columns:1fr;gap:16px}
-    @media (min-width:980px){.pkgs{grid-template-columns:repeat(3,1fr)}}
-    .pkg{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
-    .pkg h3{font-family:"Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.12em;margin:0 0 8px}
-    .pkg .price{margin-top:8px;font-weight:700}
+    .pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:980px){.pkgs{grid-template-columns:1fr}}
+    .pkg{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:22px}
+    .pkg h3{letter-spacing:.12em;margin:0 0 8px}
+    .price{font-weight:700;margin:4px 0 10px}
 
-    /* Contact */
-    form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    form .row{grid-column:1/-1}
-    input,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink)}
-    input:focus,textarea:focus{outline:none;box-shadow:0 0 0 3px rgba(201,187,166,.35)}
-    textarea{min-height:120px;resize:vertical}
-    button.primary{padding:12px 18px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:700;cursor:pointer}
+    /* Process */
+    .process .step{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
+    .kicker{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--muted)}
 
-    footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted); background:var(--bg)}
+    /* Socials */
+    .socials{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .btn{display:inline-block;border:1px solid var(--ink);padding:10px 14px;border-radius:12px}
+    .btn:hover{background:var(--ink);color:#fff}
 
-    /* Reveal-on-scroll */
+    /* Reveal on scroll */
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .5s ease, transform .6s ease}
     .reveal.is-in{opacity:1;transform:none}
-    .reveal.up{transform:translateY(24px)}
-    .reveal.fade{transform:none}
 
-    /* Lightbox */
-    .lightbox[hidden]{display:none}
-    .lightbox__backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6)}
-    .lightbox__dialog{position:fixed;inset:0;display:grid;place-items:center;padding:16px}
-    .lightbox__frame{width:min(100%,960px);aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.45)}
-    .lightbox__frame iframe{width:100%;height:100%;border:0;display:block}
-    .lightbox__close{position:fixed;top:14px;right:14px;font-size:32px;line-height:1;border:0;background:transparent;color:#fff;cursor:pointer}
-    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion:reduce){ .hero__media video{display:none} .reveal{transition:none; opacity:1; transform:none} }
+    @media (prefers-reduced-motion:reduce){ .reveal{transition:none;opacity:1;transform:none} .hero__media video{display:none} }
   </style>
 </head>
 <body>
@@ -131,6 +106,7 @@
       <nav>
         <a href="#portfolio">Portfolio</a>
         <a href="#about">About</a>
+        <a href="#experience">Experience</a>
         <a href="#packages">Packages</a>
         <a href="#contact">Inquire</a>
       </nav>
@@ -138,7 +114,7 @@
   </header>
 
   <main id="main">
-    <!-- HERO: parallax-style fixed video -->
+    <!-- HERO -->
     <section class="hero" aria-label="Featured reel">
       <div class="hero__media" aria-hidden="true">
         <video id="heroVideo" autoplay muted playsinline loop preload="auto" poster="assets/images/hero-poster.jpg">
@@ -146,7 +122,7 @@
           <source src="assets/hero.mp4" type="video/mp4">
         </video>
       </div>
-      <div class="wrap hero__content reveal fade">
+      <div class="wrap hero__content reveal">
         <p class="hero__sub">From Hollywood Sets to Wedding Vows</p>
         <h1>Capturing Emotions with Cinematic Artistry</h1>
         <div class="rule" role="presentation" style="margin-inline:auto"></div>
@@ -154,113 +130,102 @@
       </div>
     </section>
 
-    <!-- PORTFOLIO -->
-    <section id="portfolio" class="section reveal up" aria-labelledby="portfolio-title">
+    <!-- ABOUT -->
+    <section id="about" class="section reveal" aria-labelledby="about-title">
       <div class="wrap">
-        <div class="section-head">
-          <h2 id="portfolio-title">Portfolio</h2>
-          <p class="sub">A series of beautiful love stories — select films and highlights.</p>
-        </div>
-
-        <div class="grid">
-          <article class="card reveal up">
-            <figure class="ph"><img src="assets/images/sample1.jpg" alt="Bride and groom at sunset" loading="lazy"></figure>
-            <div class="meta">
-              <p class="ttl">Sofia & Matteo / Lake Como, IT</p>
-              <p class="exc">Black-tie elegance with a modern, romantic flair.</p>
-              <a class="more" href="#" data-video="https://www.youtube.com/watch?v=ysz5S6PUM-U">View more →</a>
-            </div>
-          </article>
-
-          <article class="card reveal up">
-            <figure class="ph"><img src="assets/images/sample2.jpg" alt="Coastal wedding in California" loading="lazy"></figure>
-            <div class="meta">
-              <p class="ttl">María & Luis / Laguna Beach, CA</p>
-              <p class="exc">Wind-tousled vows and sunlit cliffs; pure California.</p>
-              <a class="more" href="#" data-video="https://vimeo.com/76979871">View more →</a>
-            </div>
-          </article>
-
-          <article class="card reveal up">
-            <figure class="ph"><img src="assets/images/sample3.jpg" alt="Desert wedding ceremony" loading="lazy"></figure>
-            <div class="meta">
-              <p class="ttl">Claire & Jules / Joshua Tree, CA</p>
-              <p class="exc">Minimalist desert vows under a molten sky.</p>
-              <a class="more" href="#" data-video="https://youtu.be/dQw4w9WgXcQ">View more →</a>
-            </div>
-          </article>
+        <h2 id="about-title">From Hollywood Sets to Wedding Vows</h2>
+        <div class="columns">
+          <p class="lede">There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
+          <p>Before returning to my hometown of Orange County, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
+          <p>Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
+          <p>Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="section reveal up" aria-labelledby="about-title">
-      <div class="wrap about">
-        <div class="cardlight img" role="img" aria-label="Filmmaker behind the camera">
-          <img src="assets/images/about.jpg" alt="Filmmaker with camera in hand" loading="lazy" />
-        </div>
-        <div class="cardlight body">
-          <h2 id="about-title">About</h2>
-          <div class="prose">
-            <p class="sub">Hi, I’m Jesus — the filmmaker behind Dulce Día.</p>
-            <p>I craft wedding films that feel lived-in, not staged. Guided by natural light and authentic moments, I blend documentary honesty with editorial polish — so you can revisit your day years from now and still feel the heartbeat of it.</p>
-          </div>
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section reveal" aria-labelledby="exp-title">
+      <div class="wrap">
+        <h2 id="exp-title">A Love Story in Motion: The Experience</h2>
+        <div class="grid grid-3">
+          <p>Your wedding day is one of the most meaningful stories you’ll ever live — and I’m here to help you relive it, beautifully.</p>
+          <p>From our first conversation to the final delivery, I work closely with you to bring your vision to life. I focus on the details, capture the in-between moments, and craft a film that feels like you.</p>
+          <p>My goal is simple: to go above and beyond so your wedding is remembered not just clearly — but emotionally.</p>
         </div>
       </div>
     </section>
 
     <!-- PACKAGES -->
-    <section id="packages" class="section reveal up" aria-labelledby="packages-title">
+    <section id="packages" class="section reveal" aria-labelledby="packages-title">
       <div class="wrap">
         <h2 id="packages-title">Packages</h2>
         <div class="pkgs">
-          <div class="pkg">
-            <h3>Local</h3>
-            <div class="prose">
-              <p><strong>Best for one-location weddings.</strong></p>
-              <ul>
-                <li>8 hours of coverage</li>
-                <li>1 filmmaker</li>
-                <li>5–7 minute highlight film</li>
-                <li>Licensed music</li>
-              </ul>
-              <p class="sub">Teaser delivered within 1 week · Final film within 10 weeks.</p>
-              <p class="price">Starting at $____</p>
-            </div>
+          <article class="pkg">
+            <h3>Dulce Inicio <span class="sub">(Sweet Beginning)</span></h3>
+            <p class="price">$1,800</p>
+            <ul>
+              <li>6 Hours of Coverage</li>
+              <li>Two Videographers</li>
+              <li>Drone Coverage</li>
+              <li>Highlight Reel Video</li>
+            </ul>
+            <p class="sub"><strong>Book through August 31st</strong> and receive an extra videographer and drone coverage.</p>
+          </article>
+
+          <article class="pkg">
+            <h3>Dulce Recuerdo <span class="sub">(Sweet Memory)</span></h3>
+            <p class="price">$2,500</p>
+            <ul>
+              <li>8 Hours of Coverage</li>
+              <li>Two Videographers</li>
+              <li>4–6 min Highlight Video</li>
+              <li>1 Shortform Vertical Highlight Reel</li>
+              <li>Drone Coverage</li>
+            </ul>
+          </article>
+
+          <article class="pkg">
+            <h3>Dulce Eternidad <span class="sub">(Sweet Eternity)</span></h3>
+            <p class="price">$3,200</p>
+            <ul>
+              <li>All-Day Coverage</li>
+              <li>Two Videographers</li>
+              <li>Highlight Video</li>
+              <li>Documentary Edit</li>
+              <li>3 Shortform Vertical Highlight Reels</li>
+              <li>Drone Coverage</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section reveal" aria-labelledby="process-title">
+      <div class="wrap">
+        <h2 id="process-title">The Process</h2>
+        <div class="grid grid-3 process">
+          <div class="step">
+            <p class="kicker">UNO</p>
+            <h3>Reach Out</h3>
+            <p>It all starts with a message — and from there, it’s more than planning. It’s a collaboration. I take time to get to know you, your vibe, and what makes your relationship yours.</p>
           </div>
-          <div class="pkg">
-            <h3>Signature</h3>
-            <div class="prose">
-              <p><strong>Our most popular option.</strong></p>
-              <ul>
-                <li>10 hours of coverage</li>
-                <li>1–2 filmmakers</li>
-                <li>7–9 minute highlight</li>
-                <li>Ceremony & speeches edits</li>
-              </ul>
-              <p class="sub">Secure backups the same night · Stream & download on delivery.</p>
-              <p class="price">Starting at $____</p>
-            </div>
+          <div class="step">
+            <p class="kicker">DOS</p>
+            <h3>Confirmation</h3>
+            <p>We’ll walk through your options together, talk vision, and choose the collection that fits your day. A couple months out, a quick questionnaire locks in timeline, locations, and priorities. We’ll hop on a call to dial everything in.</p>
           </div>
-          <div class="pkg">
-            <h3>Destination</h3>
-            <div class="prose">
-              <p><strong>For multi-day celebrations.</strong></p>
-              <ul>
-                <li>Weekend coverage</li>
-                <li>2 filmmakers</li>
-                <li>Teaser within 1 week</li>
-                <li>Travel handled</li>
-              </ul>
-              <p class="price">Custom proposal</p>
-            </div>
+          <div class="step">
+            <p class="kicker">TRES</p>
+            <h3>Final Send-Off</h3>
+            <p>On the day, I arrive early and capture everything smoothly and naturally. I back up footage immediately. A teaser lands within the first week; your final film is delivered within ten weeks via easy streaming and downloads.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="section reveal up" aria-labelledby="contact-title">
+    <section id="contact" class="section reveal" aria-labelledby="contact-title">
       <div class="wrap">
         <h2 id="contact-title">Inquire</h2>
         <p class="sub prose">Tell me a bit about your day and I’ll reply within 24–48 hours.</p>
@@ -271,23 +236,22 @@
           <label><span class="sr-only">Wedding date</span><input placeholder="Wedding date" name="date" /></label>
           <label class="row"><span class="sr-only">Venue / Location</span><input placeholder="Venue / Location" name="venue" autocomplete="organization" /></label>
           <label class="row"><span class="sr-only">Message</span><textarea class="row" placeholder="Tell me your story…" name="message"></textarea></label>
-          <button class="row primary" type="submit">Check Availability</button>
+          <button class="row btn" type="submit">Check Availability</button>
         </form>
       </div>
     </section>
   </main>
 
-  <footer role="contentinfo">
-    <div class="wrap">© <span id="y"></span> Dulce Día Cine · Southern California</div>
-  </footer>
-
-  <div class="lightbox" id="lightbox" hidden>
-    <div class="lightbox__backdrop" data-close></div>
-    <div class="lightbox__dialog">
-      <button class="lightbox__close" aria-label="Close video" data-close>&times;</button>
-      <div class="lightbox__frame"><iframe id="player" src="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Film"></iframe></div>
+  <footer role="contentinfo" class="section" style="padding-top:32px">
+    <div class="wrap">
+      <div class="socials" style="margin-bottom:14px">
+        <a class="btn" href="https://www.instagram.com/dulcediacine" target="_blank" rel="noopener">Instagram</a>
+        <a class="btn" href="https://www.facebook.com/profile.php?id=61578925093961" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn" href="https://www.tiktok.com/@dulcediacine" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <div class="wrap" style="text-align:center;color:var(--muted)">© <span id="y"></span> Dulce Día Cine · Southern California</div>
     </div>
-  </div>
+  </footer>
 
   <script>
     // Year
@@ -302,25 +266,6 @@
     // Pause hero video when tab hidden
     const hv = document.getElementById('heroVideo');
     document.addEventListener('visibilitychange', () => { if (!hv) return; if (document.hidden) hv.pause(); else hv.play().catch(()=>{}); });
-
-    // Simple lightbox for YouTube/Vimeo
-    const box = document.getElementById('lightbox');
-    const frame = document.getElementById('player');
-    function toEmbed(url){
-      if(!url) return '';
-      if(url.includes('watch?v=')) return url.replace('watch?v=','embed/') + '&autoplay=1&rel=0&playsinline=1';
-      if(url.includes('youtu.be/')) return url.replace('youtu.be/','www.youtube.com/embed/') + '?autoplay=1&rel=0&playsinline=1';
-      if(url.includes('vimeo.com/') && !url.includes('/video/')){
-        const id = url.split('vimeo.com/').pop().split('?')[0].replace(/\D/g,'');
-        return id ? `https://player.vimeo.com/video/${id}?autoplay=1` : url;
-      }
-      return url;
-    }
-    function openVideo(url){ const src = toEmbed(url); if(!src) return; frame.src = src; box.hidden = false; document.body.style.overflow='hidden'; }
-    function closeVideo(){ frame.src=''; box.hidden = true; document.body.style.overflow=''; }
-    document.querySelectorAll('[data-video]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openVideo(a.dataset.video); }));
-    box.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeVideo));
-    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeVideo(); });
   </script>
 </body>
 </html>

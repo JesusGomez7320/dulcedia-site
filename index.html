@@ -5,15 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dulce Día Cine | Cinematic Wedding Films – Southern California</title>
   <meta name="description" content="From Hollywood sets to wedding vows — cinematic wedding films across Southern California. Documentary approach, organic feel, editorial polish." />
+  <link rel="canonical" href="https://example.netlify.app/" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
+  <!-- OG/Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Dulce Día Cine – Cinematic Wedding Films">
+  <meta property="og:description" content="Documentary approach, organic feel, editorial polish.">
+  <meta property="og:image" content="assets/images/og-cover.jpg">
+  <meta property="og:url" content="https://example.netlify.app/">
+  <meta name="twitter:card" content="summary_large_image">
+
   <style>
     :root{
-      --bg:#F7F6F2; --ink:#0E0F12; --muted:#666B74; --line:#E8E6E0; --max:1160px; --r:14px; --shadow:0 10px 24px rgba(0,0,0,.06);
+      --bg:#F7F6F2; --ink:#0E0F12; --muted:#666B74; --line:#E8E6E0; --accent:#C9BBA6;
+      --max:1160px; --r:14px; --shadow:0 10px 24px rgba(0,0,0,.06);
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--ink)}
@@ -23,13 +33,13 @@
     .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
 
     /* Header */
-    header{position:sticky;top:0;z-index:5;background:rgba(247,246,242,.85);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+    header{position:sticky;top:0;z-index:10;background:rgba(247,246,242,.85);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
     .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
     .brand{font-family:"Cormorant Garamond",serif;font-weight:600;letter-spacing:.06em}
     .nav a{margin-left:22px;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
 
     /* Headings / copy */
-    h1,h2,h3{font-family:"Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.16em}
+    h1,h2,h3,.ttl{font-family:"Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.16em}
     h1{font-size:clamp(30px,5.2vw,54px);line-height:1.05;margin:0 0 6px}
     h2{font-size:clamp(18px,2.1vw,28px);margin:0 0 12px}
     p{margin:0 0 16px; hyphens:auto; text-wrap:pretty}
@@ -37,9 +47,9 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* HERO (parallax-like, stabilized) */
-    .hero{position:relative; isolation:isolate; min-height:68vh; display:grid; place-items:center; border-bottom:1px solid var(--line); z-index:1;}
-    .hero__media{position:fixed; inset:0; z-index:0; overflow:hidden; background:#000; pointer-events:none; will-change:transform;}
+    /* HERO - parallax-like fixed video */
+    .hero{position:relative; isolation:isolate; min-height:68vh; display:grid; place-items:center; border-bottom:1px solid var(--line)}
+    .hero__media{position:fixed; inset:0; z-index:-1; overflow:hidden; background:#000; pointer-events:none;}
     .hero__media::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.35));}
     .hero__media video{width:100%; height:100%; object-fit:cover; filter:brightness(.6)}
     .hero__content{text-align:center; padding:10vh 0 9vh}
@@ -49,7 +59,11 @@
     @media (max-width:640px){ .hero{min-height:56vh} .hero__content{padding:12vh 0 10vh} h1{font-size:clamp(26px,6vw,36px)} .hero__sub{letter-spacing:.22em} }
 
     /* Sections */
-    .section{padding:72px 0; background:var(--bg); position:relative; z-index:1;}
+    .section{padding:72px 0; background:var(--bg)}
+    .section-head{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:24px}
+    .section-head .sub{margin:6px 0 0}
+
+    /* Newspaper columns */
     .columns{column-count:2; column-gap:2.2rem}
     @media (max-width:900px){ .columns{column-count:1} }
     .lede{font-style:italic}
@@ -77,24 +91,13 @@
     .btn:hover{background:var(--ink);color:#fff}
 
     /* Reveal */
-    .reveal{opacity:0; transform:translateY(22px) translateZ(0); backface-visibility:hidden; will-change:opacity, transform; transition:opacity .5s ease, transform .6s ease;}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .5s ease, transform .6s ease}
     .reveal.is-in{opacity:1;transform:none}
 
-    /* ===== Feature video components ===== */
-    .feature-video{padding:4rem 0; background-color:#f8f8f8; text-align:center; opacity:0; transform:translateY(40px); transition:opacity 1s ease, transform 1s ease;}
-    .feature-video.visible{opacity:1; transform:translateY(0);}
-    .feature-video .video-wrapper{max-width:1200px; margin:0 auto;}
-    .feature-video video{width:100%; height:auto; border-radius:8px}
-    /* aspect boxes so they’re visible before the video paints */
-    .feature-video .ratio{aspect-ratio:16/9; background:#000; border-radius:8px; overflow:hidden;}
-    .feature-video.small .ratio{aspect-ratio:4/5;}
-    .feature-video .ratio>video{width:100%; height:100%; object-fit:cover; display:block}
-    /* narrow container for the 4x5 */
-    .feature-video.small .video-wrapper{max-width:800px}
-
-    /* A11y helper */
+    /* Visually hidden for skip link */
     .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}
-    @media (prefers-reduced-motion:reduce){ .reveal,.feature-video{transition:none;opacity:1;transform:none} .hero__media video{display:none} }
+
+    @media (prefers-reduced-motion:reduce){ .reveal{transition:none;opacity:1;transform:none} .hero__media video{display:none} }
   </style>
 </head>
 <body>
@@ -142,19 +145,6 @@
       </div>
     </section>
 
-    <!-- ===== LANDSCAPE VIDEO INTERLUDE (between About & Experience) ===== -->
-    <!-- Files: assets/feature1-web.webm, assets/feature1-web.mp4, poster assets/images/feature1-poster.jpg -->
-    <section class="feature-video" id="video1">
-      <div class="video-wrapper">
-        <div class="ratio">
-          <video autoplay muted loop playsinline poster="assets/images/feature1-poster.jpg">
-            <source src="assets/feature1-web.webm" type="video/webm">
-            <source src="assets/feature1-web.mp4"  type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </section>
-
     <!-- EXPERIENCE -->
     <section id="experience" class="section reveal" aria-labelledby="exp-title">
       <div class="wrap">
@@ -183,6 +173,7 @@
             </ul>
             <p class="sub"><strong>Book through August 31st</strong> and receive an extra videographer and drone coverage.</p>
           </article>
+
           <article class="pkg">
             <h3>Dulce Recuerdo <span class="sub">(Sweet Memory)</span></h3>
             <p class="price">$2,500</p>
@@ -194,6 +185,7 @@
               <li>Drone Coverage</li>
             </ul>
           </article>
+
           <article class="pkg">
             <h3>Dulce Eternidad <span class="sub">(Sweet Eternity)</span></h3>
             <p class="price">$3,200</p>
@@ -206,19 +198,6 @@
               <li>Drone Coverage</li>
             </ul>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== VERTICAL 4×5 VIDEO (AFTER PACKAGES) ===== -->
-    <!-- Files: assets/packages-4x5-web.webm, assets/packages-4x5-web.mp4, poster assets/images/feature2-poster.jpg -->
-    <section class="feature-video small" id="video2">
-      <div class="video-wrapper">
-        <div class="ratio">
-          <video autoplay muted loop playsinline poster="assets/images/feature2-poster.jpg">
-            <source src="assets/packages-4x5-web.webm" type="video/webm">
-            <source src="assets/packages-4x5-web.mp4"  type="video/mp4">
-          </video>
         </div>
       </div>
     </section>
@@ -277,20 +256,14 @@
   </footer>
 
   <script>
-    // Year stamp
+    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Reveal sections
+    // Reveal-on-scroll
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
+    }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-    // Fade-in for feature videos
-    const vio = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); vio.unobserve(e.target); } });
-    }, { threshold: 0.2 });
-    document.querySelectorAll('.feature-video').forEach(v => vio.observe(v));
 
     // Pause hero video when tab hidden
     const hv = document.getElementById('heroVideo');

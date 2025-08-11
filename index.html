@@ -33,7 +33,7 @@
     .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
 
     /* Header */
-    header{position:sticky;top:0;z-index:10;background:rgba(247,246,242,.85);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+    header{position:sticky;top:0;z-index:5;background:rgba(247,246,242,.85);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
     .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
     .brand{font-family:"Cormorant Garamond",serif;font-weight:600;letter-spacing:.06em}
     .nav a{margin-left:22px;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
@@ -47,9 +47,12 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* HERO - parallax-like fixed video */
-    .hero{position:relative; isolation:isolate; min-height:68vh; display:grid; place-items:center; border-bottom:1px solid var(--line)}
-    .hero__media{position:fixed; inset:0; z-index:-1; overflow:hidden; background:#000; pointer-events:none;}
+    /* HERO - parallax-like fixed video (stabilized) */
+    .hero{position:relative; isolation:isolate; min-height:68vh; display:grid; place-items:center; border-bottom:1px solid var(--line); z-index:1;}
+    .hero__media{
+      position:fixed; inset:0; z-index:0; overflow:hidden; background:#000; pointer-events:none;
+      will-change:transform;
+    }
     .hero__media::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.35));}
     .hero__media video{width:100%; height:100%; object-fit:cover; filter:brightness(.6)}
     .hero__content{text-align:center; padding:10vh 0 9vh}
@@ -58,8 +61,8 @@
     .hero .rule{background:rgba(255,255,255,.55); margin:14px auto 0}
     @media (max-width:640px){ .hero{min-height:56vh} .hero__content{padding:12vh 0 10vh} h1{font-size:clamp(26px,6vw,36px)} .hero__sub{letter-spacing:.22em} }
 
-    /* Sections */
-    .section{padding:72px 0; background:var(--bg)}
+    /* Sections (paint above video) */
+    .section{padding:72px 0; background:var(--bg); position:relative; z-index:1;}
     .section-head{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:24px}
     .section-head .sub{margin:6px 0 0}
 
@@ -90,8 +93,14 @@
     .btn{display:inline-block;border:1px solid var(--ink);padding:10px 14px;border-radius:12px}
     .btn:hover{background:var(--ink);color:#fff}
 
-    /* Reveal */
-    .reveal{opacity:0;transform:translateY(22px);transition:opacity .5s ease, transform .6s ease}
+    /* Reveal (stable) */
+    .reveal{
+      opacity:0;
+      transform:translateY(22px) translateZ(0);
+      backface-visibility:hidden;
+      will-change:opacity, transform;
+      transition:opacity .5s ease, transform .6s ease;
+    }
     .reveal.is-in{opacity:1;transform:none}
 
     /* Visually hidden for skip link */
@@ -259,10 +268,15 @@
     // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Reveal-on-scroll
+    // Stable reveal-on-scroll
     const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
     // Pause hero video when tab hidden

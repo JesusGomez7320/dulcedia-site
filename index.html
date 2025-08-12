@@ -32,6 +32,7 @@
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--ink)}
+    html{scroll-behavior:smooth}
     body{
       font:16px/1.75 Inter, BrandSans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       text-rendering:optimizeLegibility; overflow-x:hidden
@@ -53,6 +54,7 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
+    /* Hero */
     .hero{
       position:relative;min-height:68vh;display:grid;place-items:center;
       border-bottom:1px solid var(--line);color:#fff;text-align:center;overflow:hidden
@@ -68,19 +70,23 @@
     .parallax-ready .bg-video{ transform: translate3d(0,0,0); }
     .no-js .bg-video{ transform:none }
 
-    .section{padding:64px 0;background:var(--bg)}
+    /* Sections */
+    .section{padding:64px 0;background:var(--bg); scroll-margin-top:80px}
     .columns{column-count:2;column-gap:2rem}
     @media (max-width:900px){ .columns{column-count:1} }
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
     @media (max-width:980px){ .grid-3{grid-template-columns:1fr} }
 
+    /* Cards / packages */
     .pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     @media (max-width:980px){.pkgs{grid-template-columns:1fr}}
     .pkg{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:22px}
     .price{font-weight:700;margin:4px 0 10px}
 
+    /* Process */
     .process .step{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
+
     .kicker{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--muted)}
 
     .socials{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
@@ -89,6 +95,10 @@
 
     .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
 
+    /* Reveal animation
+       - Default state is visible (no-JS safety)
+       - When JS loads, we add .js-init to set initial hidden, then add .is-revealed on intersect
+       - Once revealed, it stays revealed (no removal) */
     .reveal{will-change:transform, opacity; transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease)}
     .reveal{opacity:1; transform:none}
     @media (scripting: enabled){
@@ -99,6 +109,9 @@
       .reveal{transition: opacity 120ms linear}
       .reveal.js-init{transform:none}
     }
+
+    /* Simple footer */
+    footer{border-top:1px solid var(--line);padding:28px 0;background:#fff}
   </style>
 </head>
 <body class="no-js">
@@ -111,13 +124,15 @@
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#packages">Packages</a>
+        <a href="#process">Process</a>
         <a href="#contact">Inquire</a>
       </nav>
     </div>
   </header>
 
   <main id="main">
-    <section class="hero">
+    <!-- HERO -->
+    <section class="hero" id="home" aria-label="Hero">
       <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg">
         <source src="/assets/hero.webm" type="video/webm" />
         <source src="/assets/hero.mp4" type="video/mp4" />
@@ -125,62 +140,184 @@
       <div class="wrap">
         <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
         <h1 class="reveal serif">Capturing Emotions with Cinematic Artistry</h1>
-        <div class="rule reveal"></div>
+        <div class="rule reveal" aria-hidden="true"></div>
         <p class="sub prose reveal">Documentary approach, organic feel, editorial polish. Serving Southern California &amp; destinations worldwide.</p>
       </div>
     </section>
 
-    <!-- Rest of your sections go here (About, Experience, Packages, Process, Contact, Footer) -->
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="wrap">
+        <h2 class="serif reveal">About</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+        <div class="columns">
+          <p class="reveal">We bring a film-forward sensibility to wedding stories—balancing vérité moments with refined editorial touches.</p>
+          <p class="reveal">Our promise is simple: tasteful direction when needed, and quiet observation when it matters most.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section">
+      <div class="wrap">
+        <h2 class="serif reveal">Experience</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+        <div class="grid grid-3">
+          <div class="reveal">
+            <h3 class="kicker">Cinematography</h3>
+            <p>Multi-cam coverage, aerial options, and true-to-life color that ages beautifully.</p>
+          </div>
+          <div class="reveal">
+            <h3 class="kicker">Story</h3>
+            <p>Dialog-driven edits with intentional pacing—your personalities lead the cut.</p>
+          </div>
+          <div class="reveal">
+            <h3 class="kicker">Delivery</h3>
+            <p>Films for sharing and films for keeping—social cuts, trailers, and archival masters.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section id="packages" class="section">
+      <div class="wrap">
+        <h2 class="serif reveal">Packages</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+        <div class="pkgs">
+          <article class="pkg reveal">
+            <h3 class="kicker">Essentials</h3>
+            <p class="price">$ — 6 hrs, 1 filmmaker</p>
+            <p>Highlight film and ceremony audio coverage.</p>
+          </article>
+          <article class="pkg reveal">
+            <h3 class="kicker">Signature</h3>
+            <p class="price">$$ — 8 hrs, 2 filmmakers</p>
+            <p>Feature film, full speeches, and social trailer.</p>
+          </article>
+          <article class="pkg reveal">
+            <h3 class="kicker">Editorial</h3>
+            <p class="price">$$$ — Full day, 2–3 filmmakers</p>
+            <p>Director-led coverage, supercut, and archival deliverables.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process" class="section process">
+      <div class="wrap">
+        <h2 class="serif reveal">Process</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+        <div class="grid grid-3">
+          <div class="step reveal">
+            <h3 class="kicker">1 · Connect</h3>
+            <p>Share your date, venue, and vibe. We’ll align on coverage.</p>
+          </div>
+          <div class="step reveal">
+            <h3 class="kicker">2 · Capture</h3>
+            <p>Discreet direction and documentary pacing on the day.</p>
+          </div>
+          <div class="step reveal">
+            <h3 class="kicker">3 · Craft</h3>
+            <p>Story-first edit with color, sound, and delivery tailored to you.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="wrap">
+        <h2 class="serif reveal">Inquire</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+        <p class="prose sub reveal">Tell us about your day—date, location, and what matters most to you.</p>
+        <form class="grid reveal" style="max-width:720px">
+          <input aria-label="Name" placeholder="Name" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
+          <input aria-label="Email" placeholder="Email" type="email" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
+          <input aria-label="Date" placeholder="Wedding Date" type="text" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
+          <textarea aria-label="Message" placeholder="Message" rows="5" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"></textarea>
+          <button class="btn" type="button">Send</button>
+        </form>
+        <div class="socials reveal" style="margin-top:16px">
+          <a class="btn" href="#" aria-label="Instagram">Instagram</a>
+          <a class="btn" href="#" aria-label="TikTok">TikTok</a>
+          <a class="btn" href="#" aria-label="Email">Email</a>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <footer role="contentinfo">
+    <div class="wrap">
+      <p class="sub">© <span id="year"></span> Dulce Día Cine • Southern California</p>
+    </div>
+  </footer>
+
   <script>
+    // JS-ready flags
     document.body.classList.remove('no-js');
     document.body.classList.add('parallax-ready');
 
-    // Reveal animation
+    // Current year
+    (function(){
+      var y = document.getElementById('year');
+      if(y) y.textContent = new Date().getFullYear();
+    })();
+
+    // Reveal animation (once revealed, stays revealed)
     (function(){
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const items = Array.from(document.querySelectorAll('.reveal'));
+      // Initialize hidden state only if JS is enabled
       items.forEach(el => el.classList.add('js-init'));
+
       if (prefersReduced || !('IntersectionObserver' in window)) {
         items.forEach(el => el.classList.add('is-revealed'));
         return;
       }
+
       const io = new IntersectionObserver((entries)=>{
         entries.forEach(entry => {
           if(entry.isIntersecting){
-            entry.target.classList.add('is-revealed');
-            io.unobserve(entry.target);
+            entry.target.classList.add('is-revealed'); // stays on
+            io.unobserve(entry.target); // stop observing so it never toggles back
           }
         });
       }, {root:null, rootMargin:'0px 0px -10% 0px', threshold:0.1});
+
       items.forEach((el, idx) => {
+        // Stagger: clamp to avoid long delays
         el.style.transitionDelay = el.style.transitionDelay || (Math.min(idx * 60, 360) + 'ms');
         io.observe(el);
       });
     })();
 
-    // Hero parallax
+    // Hero parallax (lightweight, no jank)
     (function(){
       const vid = document.getElementById('heroVideo');
       if(!vid) return;
+
       let ticking = false;
+      const speed = 0.07;
+
       const onScroll = () => {
         if(ticking) return;
+        ticking = true;
         requestAnimationFrame(() => {
           const rect = vid.getBoundingClientRect();
           const viewportCenter = window.innerHeight / 2;
           const sectionCenter = rect.top + rect.height/2;
           const delta = sectionCenter - viewportCenter;
-          const speed = 0.07;
-          vid.style.transform = `translate3d(0, ${(-delta * speed).toFixed(2)}px, 0)`;
+          vid.style.transform = 'translate3d(0,' + (-delta * speed).toFixed(2) + 'px,0)';
           ticking = false;
         });
-        ticking = true;
       };
+
+      // Run once and bind
+      onScroll();
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onScroll);
-      onScroll();
     })();
   </script>
 </body>

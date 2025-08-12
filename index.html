@@ -114,7 +114,7 @@
     footer{border-top:1px solid var(--line);padding:28px 0;background:#fff}
 
     /* ===========================
-       Testimonial (dark) section
+       Testimonial (dark) sections
        =========================== */
     .section.dark{
       background:var(--dark);
@@ -136,23 +136,26 @@
       .testimonial{ grid-template-columns:1fr; }
     }
 
-    .t-photos{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto auto;
-      gap:14px;
+    /* Media block (video) */
+    .t-media{
+      position:relative; border-radius:12px; overflow:hidden; background:#000;
+      box-shadow:var(--shadow);
     }
-    .t-photos figure{ margin:0; overflow:hidden; border-radius:12px; }
-    .t-photos img{ width:100%; height:100%; object-fit:cover; display:block; }
-    /* Make a tall image on bottom spanning both columns */
-    .t-photos .t-wide{ grid-column: 1 / -1; height: 320px; }
-    .t-photos .t-small{ height: 220px; }
-
-    @media (max-width:600px){
-      .t-photos .t-wide{ height: 220px; }
-      .t-photos .t-small{ height: 160px; }
+    .t-media video{
+      width:100%; height:100%; display:block; object-fit:cover;
     }
+    .sound-btn{
+      position:absolute; right:10px; bottom:10px;
+      border:1px solid rgba(255,255,255,.7);
+      background:rgba(0,0,0,.35);
+      color:#fff; padding:8px 10px; border-radius:10px;
+      font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+      backdrop-filter: blur(4px);
+      cursor:pointer;
+    }
+    .sound-btn:focus{ outline:2px solid #fff; outline-offset:2px; }
 
+    .t-copy .eyebrow{ font-size:12px; letter-spacing:.28em; color:var(--dark-sub); margin-bottom:8px; }
     .t-copy .who{ font-weight:700; letter-spacing:.06em; margin-bottom:6px; }
     .t-copy blockquote{
       margin:0 0 14px;
@@ -161,9 +164,6 @@
       font-family: Playfair Display, BrandSerif, Georgia, serif;
     }
     .t-copy .body{ color: var(--dark-sub); }
-    .t-copy .arrow{
-      display:inline-block; margin-top:8px; letter-spacing:.28em; font-size:12px; color:var(--dark-sub);
-    }
   </style>
 </head>
 <body class="no-js">
@@ -211,19 +211,21 @@
       </div>
     </section>
 
-    <!-- NEW TESTIMONIAL (after About / “Hollywood & Vows”) -->
-    <section class="section dark" id="testimonial-intro" aria-label="Couple Testimonial">
+    <!-- DARK VIDEO FEATURE (replaces Dorothy/Chris photos) -->
+    <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
-        <div class="t-photos reveal">
-          <figure class="t-small"><img src="/assets/test-a1.jpg" alt="Bride and groom candid"></figure>
-          <figure class="t-small"><img src="/assets/test-a2.jpg" alt="Couple laughing"></figure>
-          <figure class="t-wide"><img src="/assets/test-a3.jpg" alt="Ceremony aisle view"></figure>
+        <div class="t-media reveal">
+          <video class="auto-play-io" playsinline muted loop preload="metadata" poster="/assets/dorothy-chairs.jpg" aria-label="Make It a Dulce Día">
+            <source src="/assets/dorothy-chairs.mp4" type="video/mp4"/>
+            <source src="/assets/dorothy-chairs.webm" type="video/webm"/>
+          </video>
+          <button class="sound-btn" data-target="previous" aria-label="Unmute video">Unmute</button>
         </div>
         <div class="t-copy">
-          <div class="who serif reveal">Dorothy &amp; Chris</div>
-          <blockquote class="reveal">“Every time we look at our wedding album, we are transported back to that wonderful day.”</blockquote>
-          <p class="body reveal">There aren’t enough kind words to describe the experience. From the first call to our final film, everything felt thoughtful and effortless. The story, the music, the pacing—it all feels like us. We’ve watched our video more times than we can count and still get chills.</p>
-          <span class="arrow reveal">→</span>
+          <div class="eyebrow serif reveal">Feature</div>
+          <h2 class="serif reveal">Make It a Dulce Día</h2>
+          <blockquote class="reveal">Turn your day into a film you’ll feel forever.</blockquote>
+          <p class="body reveal">A short, cinematic piece that blends honest moments with elegant composition—the way your day actually felt. Shot documentary-style with an editorial finish, this film invites you back to every glance, every cheer, every breath before “I do.”</p>
         </div>
       </div>
     </section>
@@ -318,24 +320,26 @@
       </div>
     </section>
 
-    <!-- NEW TESTIMONIAL (after Process) -->
+    <!-- TESTIMONIAL VIDEO (after Process) -->
     <section id="testimonials" class="section dark" aria-label="Testimonial">
       <div class="wrap">
         <h2 class="serif reveal">TESTIMONIAL</h2>
         <div class="rule reveal" aria-hidden="true"></div>
 
         <div class="testimonial">
-          <div class="t-photos reveal">
-            <figure class="t-small"><img src="/assets/test-b1.jpg" alt="Couple first look"></figure>
-            <figure class="t-small"><img src="/assets/test-b2.jpg" alt="Reception cheers"></figure>
-            <figure class="t-wide"><img src="/assets/test-b3.jpg" alt="Outdoor ceremony view"></figure>
+          <div class="t-media reveal">
+            <video class="auto-play-io" playsinline muted loop preload="metadata" poster="/assets/pags-gunner.jpg" aria-label="Meet Pags &amp; Gunner">
+              <source src="/assets/pags-gunner.mp4" type="video/mp4"/>
+              <source src="/assets/pags-gunner.webm" type="video/webm"/>
+            </video>
+            <button class="sound-btn" data-target="previous" aria-label="Unmute video">Unmute</button>
           </div>
 
           <div class="t-copy">
-            <div class="who serif reveal">Maya &amp; Julian</div>
-            <blockquote class="reveal">“We didn’t just get a video—we got a time machine. It takes us right back into the feelings, the laughter, the dance floor.”</blockquote>
-            <p class="body reveal">Professional, kind, and unbelievably talented. The direction was subtle and the candid moments were everything. Our families cried (in the best way) watching the film. Couldn’t recommend more.</p>
-            <span class="arrow reveal">→</span>
+            <div class="eyebrow serif reveal">Client Story</div>
+            <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
+            <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
+            <p class="body reveal">This short marks the opening note of their journey—a goofy, romantic look at the little moments that say everything. Shot on-location with natural sound and gentle direction, it’s an inviting preview of the full story to come.</p>
           </div>
         </div>
       </div>
@@ -437,6 +441,47 @@
       onScroll();
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onScroll);
+    })();
+
+    // ===== Autoplay-on-scroll for testimonial videos + Unmute toggle =====
+    (function(){
+      const vids = Array.from(document.querySelectorAll('video.auto-play-io'));
+      if (!('IntersectionObserver' in window) || vids.length === 0) {
+        vids.forEach(v => { try { v.play(); } catch(e){} });
+        return;
+      }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          const v = entry.target;
+          if(entry.isIntersecting && entry.intersectionRatio >= 0.5){
+            v.play().catch(()=>{});
+          } else {
+            v.pause();
+          }
+        });
+      }, {threshold:[0,0.5,1]});
+      vids.forEach(v=>io.observe(v));
+
+      // simple unmute/mute buttons
+      document.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.sound-btn');
+        if(!btn) return;
+        // target the previous sibling video if data-target="previous"
+        let video;
+        if(btn.dataset.target === 'previous'){
+          video = btn.previousElementSibling && btn.previousElementSibling.tagName === 'VIDEO'
+            ? btn.previousElementSibling
+            : btn.parentElement.querySelector('video');
+        } else {
+          video = document.querySelector(btn.dataset.target);
+        }
+        if(!video) return;
+
+        video.muted = !video.muted;
+        btn.textContent = video.muted ? 'Unmute' : 'Mute';
+        btn.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+        if(!video.paused){ video.play().catch(()=>{}); }
+      });
     })();
   </script>
 </body>

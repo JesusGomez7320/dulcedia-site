@@ -27,7 +27,7 @@
 
     :root{
       --bg:#F7F6F2; --ink:#0E0F12; --muted:#666B74; --line:#E8E6E0; --accent:#C9BBA6;
-      --max:1160px; --r:14px; --shadow:0 10px 24px rgba(0,0,0,.06);
+      --max:1160px; --r:18px; --shadow:0 20px 40px rgba(0,0,0,.08);
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
     }
     *{box-sizing:border-box}
@@ -48,7 +48,8 @@
 
     h1,h2,h3{letter-spacing:.12em;text-transform:uppercase}
     h1{font-size:clamp(30px,5.2vw,54px);line-height:1.05;margin:0 0 6px}
-    h2{font-size:clamp(18px,2.1vw,28px);margin:0 0 12px}
+    h2{font-size:clamp(20px,2.4vw,34px);margin:0 0 12px}
+    h3{font-size:clamp(16px,1.6vw,22px)}
     p{margin:0 0 16px}
     .prose{max-width:760px}
     .sub{color:var(--muted)}
@@ -71,23 +72,27 @@
     .no-js .bg-video{ transform:none }
 
     /* Sections */
-    .section{padding:64px 0;background:var(--bg); scroll-margin-top:80px}
-    .columns{column-count:2;column-gap:2rem}
+    .section{padding:72px 0;background:var(--bg); scroll-margin-top:80px}
+    .columns{column-count:2;column-gap:3rem}
+    .columns p{break-inside:avoid}
     @media (max-width:900px){ .columns{column-count:1} }
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
     @media (max-width:980px){ .grid-3{grid-template-columns:1fr} }
 
     /* Cards / packages */
-    .pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
     @media (max-width:980px){.pkgs{grid-template-columns:1fr}}
-    .pkg{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:22px}
-    .price{font-weight:700;margin:4px 0 10px}
+    .pkg{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px}
+    .pkg h3{letter-spacing:.16em}
+    .price{font-weight:800;margin:10px 0 16px;font-size:22px}
+    .pkg ul{margin:0 0 16px 18px}
+    .pkg li{margin:8px 0}
 
     /* Process */
-    .process .step{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
-
-    .kicker{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--muted)}
+    .process .step{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px}
+    .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--muted);margin-bottom:8px}
+    .kicker{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--ink);margin:0 0 10px}
 
     .socials{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
     .btn{display:inline-block;border:1px solid var(--ink);padding:10px 14px;border-radius:12px}
@@ -95,10 +100,7 @@
 
     .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
 
-    /* Reveal animation
-       - Default state is visible (no-JS safety)
-       - When JS loads, we add .js-init to set initial hidden, then add .is-revealed on intersect
-       - Once revealed, it stays revealed (no removal) */
+    /* Reveal animation */
     .reveal{will-change:transform, opacity; transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease)}
     .reveal{opacity:1; transform:none}
     @media (scripting: enabled){
@@ -110,7 +112,6 @@
       .reveal.js-init{transform:none}
     }
 
-    /* Simple footer */
     footer{border-top:1px solid var(--line);padding:28px 0;background:#fff}
   </style>
 </head>
@@ -145,88 +146,112 @@
       </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- ABOUT (matches screenshot 1) -->
     <section id="about" class="section">
       <div class="wrap">
-        <h2 class="serif reveal">About</h2>
+        <h2 class="serif reveal">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="columns">
-          <p class="reveal">We bring a film-forward sensibility to wedding stories—balancing vérité moments with refined editorial touches.</p>
-          <p class="reveal">Our promise is simple: tasteful direction when needed, and quiet observation when it matters most.</p>
+          <p class="reveal">There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
+          <p class="reveal">Before returning to my hometown of Orange County, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
+
+          <p class="reveal">Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
+          <p class="reveal">Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
         </div>
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
+    <!-- EXPERIENCE (matches screenshot 2) -->
     <section id="experience" class="section">
       <div class="wrap">
-        <h2 class="serif reveal">Experience</h2>
+        <h2 class="serif reveal">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="grid grid-3">
           <div class="reveal">
-            <h3 class="kicker">Cinematography</h3>
-            <p>Multi-cam coverage, aerial options, and true-to-life color that ages beautifully.</p>
+            <p>Your wedding day is one of the most meaningful stories you’ll ever live — and I’m here to help you relive it, beautifully.</p>
           </div>
           <div class="reveal">
-            <h3 class="kicker">Story</h3>
-            <p>Dialog-driven edits with intentional pacing—your personalities lead the cut.</p>
+            <p>From our first conversation to the final delivery, I work closely with you to bring your vision to life. I focus on the details, capture the in-between moments, and craft a film that feels like you.</p>
           </div>
           <div class="reveal">
-            <h3 class="kicker">Delivery</h3>
-            <p>Films for sharing and films for keeping—social cuts, trailers, and archival masters.</p>
+            <p>My goal is simple: to go above and beyond so your wedding is remembered not just clearly — but emotionally.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PACKAGES -->
+    <!-- PACKAGES (matches screenshot 3) -->
     <section id="packages" class="section">
       <div class="wrap">
-        <h2 class="serif reveal">Packages</h2>
+        <h2 class="serif reveal">PACKAGES</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="pkgs">
           <article class="pkg reveal">
-            <h3 class="kicker">Essentials</h3>
-            <p class="price">$ — 6 hrs, 1 filmmaker</p>
-            <p>Highlight film and ceremony audio coverage.</p>
+            <h3 class="serif">DULCE INICIO (SWEET BEGINNING)</h3>
+            <p class="price">$1,800</p>
+            <ul>
+              <li>6 Hours of Coverage</li>
+              <li>Two Videographers</li>
+              <li>Drone Coverage</li>
+              <li>Highlight Reel Video</li>
+            </ul>
+            <p><strong>Book through August 31st</strong> and receive an extra videographer and drone coverage.</p>
           </article>
+
           <article class="pkg reveal">
-            <h3 class="kicker">Signature</h3>
-            <p class="price">$$ — 8 hrs, 2 filmmakers</p>
-            <p>Feature film, full speeches, and social trailer.</p>
+            <h3 class="serif">DULCE RECUERDO (SWEET MEMORY)</h3>
+            <p class="price">$2,500</p>
+            <ul>
+              <li>8 Hours of Coverage</li>
+              <li>Two Videographers</li>
+              <li>4–6 min Highlight Video</li>
+              <li>1 Shortform Vertical Highlight Reel</li>
+              <li>Drone Coverage</li>
+            </ul>
           </article>
+
           <article class="pkg reveal">
-            <h3 class="kicker">Editorial</h3>
-            <p class="price">$$$ — Full day, 2–3 filmmakers</p>
-            <p>Director-led coverage, supercut, and archival deliverables.</p>
+            <h3 class="serif">DULCE ETERNIDAD (SWEET ETERNITY)</h3>
+            <p class="price">$3,200</p>
+            <ul>
+              <li>All-Day Coverage</li>
+              <li>Two Videographers</li>
+              <li>Highlight Video</li>
+              <li>Documentary Edit</li>
+              <li>3 Shortform Vertical Highlight Reels</li>
+              <li>Drone Coverage</li>
+            </ul>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- PROCESS -->
+    <!-- PROCESS (matches screenshot 4) -->
     <section id="process" class="section process">
       <div class="wrap">
-        <h2 class="serif reveal">Process</h2>
+        <h2 class="serif reveal">THE PROCESS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="grid grid-3">
           <div class="step reveal">
-            <h3 class="kicker">1 · Connect</h3>
-            <p>Share your date, venue, and vibe. We’ll align on coverage.</p>
+            <div class="eyebrow">UNO</div>
+            <h3 class="serif kicker">REACH OUT</h3>
+            <p>It all starts with a message — and from there, it’s more than planning. It’s a collaboration. I take time to get to know you, your vibe, and what makes your relationship yours.</p>
           </div>
           <div class="step reveal">
-            <h3 class="kicker">2 · Capture</h3>
-            <p>Discreet direction and documentary pacing on the day.</p>
+            <div class="eyebrow">DOS</div>
+            <h3 class="serif kicker">CONFIRMATION</h3>
+            <p>We’ll walk through your options together, talk vision, and choose the collection that fits your day. A couple months out, a quick questionnaire locks in timeline, locations, and priorities. We’ll hop on a call to dial everything in.</p>
           </div>
           <div class="step reveal">
-            <h3 class="kicker">3 · Craft</h3>
-            <p>Story-first edit with color, sound, and delivery tailored to you.</p>
+            <div class="eyebrow">TRES</div>
+            <h3 class="serif kicker">FINAL SEND-OFF</h3>
+            <p>On the day, I arrive early and capture everything smoothly and naturally. I back up footage immediately. A teaser lands within the first week; your final film is delivered within ten weeks via easy streaming and downloads.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- CONTACT (unchanged) -->
     <section id="contact" class="section">
       <div class="wrap">
         <h2 class="serif reveal">Inquire</h2>
@@ -239,11 +264,6 @@
           <textarea aria-label="Message" placeholder="Message" rows="5" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"></textarea>
           <button class="btn" type="button">Send</button>
         </form>
-        <div class="socials reveal" style="margin-top:16px">
-          <a class="btn" href="#" aria-label="Instagram">Instagram</a>
-          <a class="btn" href="#" aria-label="TikTok">TikTok</a>
-          <a class="btn" href="#" aria-label="Email">Email</a>
-        </div>
       </div>
     </section>
   </main>
@@ -269,38 +289,31 @@
     (function(){
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const items = Array.from(document.querySelectorAll('.reveal'));
-      // Initialize hidden state only if JS is enabled
       items.forEach(el => el.classList.add('js-init'));
-
       if (prefersReduced || !('IntersectionObserver' in window)) {
         items.forEach(el => el.classList.add('is-revealed'));
         return;
       }
-
       const io = new IntersectionObserver((entries)=>{
         entries.forEach(entry => {
           if(entry.isIntersecting){
-            entry.target.classList.add('is-revealed'); // stays on
-            io.unobserve(entry.target); // stop observing so it never toggles back
+            entry.target.classList.add('is-revealed');
+            io.unobserve(entry.target);
           }
         });
       }, {root:null, rootMargin:'0px 0px -10% 0px', threshold:0.1});
-
       items.forEach((el, idx) => {
-        // Stagger: clamp to avoid long delays
         el.style.transitionDelay = el.style.transitionDelay || (Math.min(idx * 60, 360) + 'ms');
         io.observe(el);
       });
     })();
 
-    // Hero parallax (lightweight, no jank)
+    // Hero parallax
     (function(){
       const vid = document.getElementById('heroVideo');
       if(!vid) return;
-
       let ticking = false;
       const speed = 0.07;
-
       const onScroll = () => {
         if(ticking) return;
         ticking = true;
@@ -313,8 +326,6 @@
           ticking = false;
         });
       };
-
-      // Run once and bind
       onScroll();
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onScroll);

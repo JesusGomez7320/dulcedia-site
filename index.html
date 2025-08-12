@@ -29,15 +29,25 @@
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
 
+    /* Header / Nav */
     header{position:sticky;top:0;z-index:50;background:rgba(247,246,242,.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
     .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .brand{font-weight:700;letter-spacing:.04em}
+    .brand{font-weight:700;letter-spacing:.04em;white-space:nowrap;flex:0 1 auto}
     .nav a{margin-left:18px;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+    .nav-links{display:flex;align-items:center;flex:1 0 auto;justify-content:flex-end}
+    .menu-btn{display:none;background:none;border:1px solid var(--ink);padding:8px 10px;border-radius:10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    @media (max-width:820px){
+      .menu-btn{display:inline-block}
+      .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:rgba(247,246,242,.98);border-bottom:1px solid var(--line);padding:12px 22px}
+      .nav-links.open{display:flex;flex-direction:column;gap:10px}
+      .nav a{margin:6px 0}
+      .brand{font-size:16px;letter-spacing:.03em}
+    }
 
     h1,h2,h3{letter-spacing:.12em;text-transform:uppercase}
-    h1{font-size:clamp(30px,5.2vw,54px);line-height:1.05;margin:0 0 6px}
-    h2{font-size:clamp(20px,2.4vw,34px);margin:0 0 12px}
-    h3{font-size:clamp(16px,1.6vw,22px)}
+    h1{font-size:clamp(28px,5.2vw,54px);line-height:1.05;margin:0 0 6px}
+    h2{font-size:clamp(18px,2.4vw,34px);margin:0 0 12px}
+    h3{font-size:clamp(15px,1.6vw,22px)}
     p{margin:0 0 16px}
     .prose{max-width:760px;margin:0 auto 16px}
     .sub{color:var(--muted)}
@@ -50,6 +60,7 @@
     .bg-video{position:absolute;inset:0;z-index:0;object-fit:cover;width:100%;height:100%;filter:brightness(.55) contrast(1.05) saturate(1.04);transform:translateZ(0);will-change:transform}
 
     .section{padding:72px 0;background:var(--bg);scroll-margin-top:80px}
+    @media (max-width:560px){ .section{padding:56px 0} }
     .columns{column-count:2;column-gap:3rem}
     .columns p{break-inside:avoid}
     @media (max-width:900px){ .columns{column-count:1} }
@@ -102,6 +113,13 @@
     .t-media.drive iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
+
+    /* Socials bar */
+    .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff}
+    .socials a{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;transition:transform .18s ease, background .18s ease}
+    .socials a:hover{transform:translateY(-1px);background:#faf9f6}
+    .socials svg{width:18px;height:18px;display:block}
+    @media (max-width:520px){ .socials{flex-wrap:wrap;gap:10px} .socials a{padding:8px 10px} }
   </style>
 </head>
 <body class="no-js">
@@ -110,7 +128,8 @@
   <header role="banner">
     <div class="wrap nav" aria-label="Main navigation">
       <div class="brand">Dulce Día Cine</div>
-      <nav>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <nav id="navLinks" class="nav-links">
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#packages">Packages</a>
@@ -259,9 +278,13 @@
         <div class="rule reveal" aria-hidden="true"></div>
 
         <div class="testimonial">
-          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
+          <div
+            class="t-media drive ratio-4x5 reveal"
+            aria-label="Meet Pags &amp; Gunner">
             <iframe
+              class="drive-autoplay"
               src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
+              data-src-base="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
               allow="autoplay; fullscreen"
               allowfullscreen
               loading="lazy"
@@ -299,6 +322,33 @@
     </section>
   </main>
 
+  <!-- Socials bar -->
+  <div class="socials" aria-label="Follow Dulce Día Cine">
+    <a href="https://instagram.com/dulcediacine" target="_blank" rel="noopener" aria-label="Instagram">
+      <!-- IG icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <circle cx="17.5" cy="6.5" r="1"></circle>
+      </svg>
+      <span>@dulcediacine</span>
+    </a>
+    <a href="https://www.tiktok.com/@dulcediacine" target="_blank" rel="noopener" aria-label="TikTok">
+      <!-- TikTok icon -->
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M14 3c.3 2.1 1.6 3.8 3.7 4.4A7 7 0 0 0 18 5.1v3.2a9 9 0 0 1-4-1.3v6.5a5 5 0 1 1-5.6-4.9v2.7a2.2 2.2 0 1 0 1.6 2.1V3h3z"/>
+      </svg>
+      <span>@dulcediacine</span>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61578925093961" target="_blank" rel="noopener" aria-label="Facebook">
+      <!-- FB icon -->
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M13 9h3V6h-3c-1.7 0-3 1.3-3 3v2H8v3h2v7h3v-7h2.6l.4-3H13V9z"/>
+      </svg>
+      <span>Facebook</span>
+    </a>
+  </div>
+
   <footer role="contentinfo">
     <div class="wrap">
       <p class="sub">© <span id="year"></span> Dulce Día Cine • Southern California</p>
@@ -314,6 +364,23 @@
     (function(){
       var y = document.getElementById('year');
       if(y) y.textContent = new Date().getFullYear();
+    })();
+
+    // Mobile menu toggle
+    (function(){
+      const btn = document.getElementById('menuBtn');
+      const nav = document.getElementById('navLinks');
+      if(!btn || !nav) return;
+      btn.addEventListener('click', ()=>{
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      // Close on link click (mobile)
+      nav.addEventListener('click', (e)=>{
+        if(e.target.tagName === 'A' && nav.classList.contains('open')){
+          nav.classList.remove('open'); btn.setAttribute('aria-expanded','false');
+        }
+      });
     })();
 
     // Reveal animation
@@ -346,64 +413,42 @@
       onScroll(); addEventListener('scroll', onScroll, {passive:true}); addEventListener('resize', onScroll);
     })();
 
-    // Autoplay-on-scroll + Sound + Fullscreen (for <video> elements only; Drive iframes use built-in controls)
+    // Autoplay-on-scroll for native <video> and Drive iframes
     (function(){
-      const vids = Array.from(document.querySelectorAll('video.auto-play-io'));
-      if ('IntersectionObserver' in window && vids.length){
-        const io = new IntersectionObserver((entries)=>{
-          entries.forEach(entry=>{
-            const v = entry.target;
-            if(entry.isIntersecting && entry.intersectionRatio >= 0.5){ v.play().catch(()=>{}); }
-            else { v.pause(); }
-          });
-        }, {threshold:[0,0.5,1]});
-        vids.forEach(v=>io.observe(v));
-      } else {
-        vids.forEach(v=>{ try{ v.play(); }catch(e){} });
-      }
-
-      // sound + fullscreen controls only exist on native <video> blocks; not shown for Drive embeds
-      document.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.sound-btn');
-        if(!btn) return;
-        const wrapper = btn.closest('.t-media');
-        const video = wrapper.querySelector('video');
-        if(!video) return;
-        video.muted = !video.muted;
-        btn.textContent = video.muted ? 'Unmute' : 'Mute';
-        btn.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
-        if(!video.paused){ video.play().catch(()=>{}); }
-      });
-
-      document.addEventListener('click', (e)=>{
-        const fsBtn = e.target.closest('.fullscreen-btn');
-        if(!fsBtn) return;
-        const wrapper = fsBtn.closest('.t-media');
-        const video = wrapper.querySelector('video');
-        if(!video) return; // Ignore for Drive iframes
-        const el = wrapper;
-        const enter = ()=> (el.requestFullscreen?.() || el.webkitRequestFullscreen?.() || el.msRequestFullscreen?.());
-        const exit  = ()=> (document.exitFullscreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.());
-        if (document.fullscreenElement === el || document.webkitFullscreenElement === el) {
-          exit && exit.call(document);
-        } else {
-          enter && enter.call(el);
+      const nativeVids = Array.from(document.querySelectorAll('video.auto-play-io'));
+      if ('IntersectionObserver' in window) {
+        if(nativeVids.length){
+          const ioV = new IntersectionObserver((entries)=>{
+            entries.forEach(entry=>{
+              const v = entry.target;
+              if(entry.isIntersecting && entry.intersectionRatio >= 0.5){ v.play().catch(()=>{}); }
+              else { v.pause(); }
+            });
+          }, {threshold:[0,0.5,1]});
+          nativeVids.forEach(v=>ioV.observe(v));
         }
-      });
 
-      const updateFSButtons = ()=>{
-        document.querySelectorAll('.fullscreen-btn').forEach(btn=>{
-          const el = btn.closest('.t-media');
-          const hasVideo = !!el.querySelector('video');
-          if(!hasVideo){ btn.style.display = 'none'; return; } // hide on Drive embeds
-          const active = (document.fullscreenElement === el) || (document.webkitFullscreenElement === el);
-          btn.textContent = active ? 'Exit' : 'Fullscreen';
-          btn.setAttribute('aria-label', active ? 'Exit full screen' : 'Full screen');
-        });
-      };
-      ['fullscreenchange','webkitfullscreenchange','msfullscreenchange'].forEach(ev=>{
-        document.addEventListener(ev, updateFSButtons);
-      });
+        // Drive preview iframes: toggle autoplay param when visible
+        const driveFrames = Array.from(document.querySelectorAll('iframe.drive-autoplay'));
+        if(driveFrames.length){
+          const ioD = new IntersectionObserver((entries)=>{
+            entries.forEach(entry=>{
+              const f = entry.target;
+              const base = f.getAttribute('data-src-base') || f.src;
+              // Ensure we don't stack params repeatedly
+              const cleanBase = base.split('?')[0] + '/preview';
+              if(entry.isIntersecting && entry.intersectionRatio >= 0.5){
+                // Request autoplay muted (supported by Drive preview)
+                f.src = cleanBase + '?autoplay=1&mute=1';
+              } else {
+                // Reset to stop playback
+                f.src = cleanBase;
+              }
+            });
+          }, {threshold:[0,0.5,1]});
+          driveFrames.forEach(fr=>ioD.observe(fr));
+        }
+      }
     })();
   </script>
 </body>

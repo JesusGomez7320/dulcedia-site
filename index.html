@@ -29,6 +29,7 @@
       --bg:#F7F6F2; --ink:#0E0F12; --muted:#666B74; --line:#E8E6E0; --accent:#C9BBA6;
       --max:1160px; --r:18px; --shadow:0 20px 40px rgba(0,0,0,.08);
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
+      --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--ink)}
@@ -51,7 +52,7 @@
     h2{font-size:clamp(20px,2.4vw,34px);margin:0 0 12px}
     h3{font-size:clamp(16px,1.6vw,22px)}
     p{margin:0 0 16px}
-    .prose{max-width:760px; margin:0 auto 16px;} /* <-- centers narrow text blocks */
+    .prose{max-width:760px; margin:0 auto 16px;}
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
@@ -68,8 +69,6 @@
       filter:brightness(.55) contrast(1.05) saturate(1.04);
       transform:translateZ(0); will-change:transform;
     }
-    .parallax-ready .bg-video{ transform: translate3d(0,0,0); }
-    .no-js .bg-video{ transform:none }
 
     /* Sections */
     .section{padding:72px 0;background:var(--bg); scroll-margin-top:80px}
@@ -113,6 +112,58 @@
     }
 
     footer{border-top:1px solid var(--line);padding:28px 0;background:#fff}
+
+    /* ===========================
+       Testimonial (dark) section
+       =========================== */
+    .section.dark{
+      background:var(--dark);
+      color:var(--dark-ink);
+      border-top:1px solid var(--dark-line);
+      border-bottom:1px solid var(--dark-line);
+    }
+    .section.dark .sub,
+    .section.dark .eyebrow{ color: var(--dark-sub); }
+    .section.dark .rule{ background:var(--dark-line); }
+
+    .testimonial{
+      display:grid;
+      grid-template-columns: 1.1fr 1.4fr;
+      gap:36px;
+      align-items:start;
+    }
+    @media (max-width:980px){
+      .testimonial{ grid-template-columns:1fr; }
+    }
+
+    .t-photos{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap:14px;
+    }
+    .t-photos figure{ margin:0; overflow:hidden; border-radius:12px; }
+    .t-photos img{ width:100%; height:100%; object-fit:cover; display:block; }
+    /* Make a tall image on bottom spanning both columns */
+    .t-photos .t-wide{ grid-column: 1 / -1; height: 320px; }
+    .t-photos .t-small{ height: 220px; }
+
+    @media (max-width:600px){
+      .t-photos .t-wide{ height: 220px; }
+      .t-photos .t-small{ height: 160px; }
+    }
+
+    .t-copy .who{ font-weight:700; letter-spacing:.06em; margin-bottom:6px; }
+    .t-copy blockquote{
+      margin:0 0 14px;
+      font-size:clamp(18px,2.1vw,24px);
+      line-height:1.5;
+      font-family: Playfair Display, BrandSerif, Georgia, serif;
+    }
+    .t-copy .body{ color: var(--dark-sub); }
+    .t-copy .arrow{
+      display:inline-block; margin-top:8px; letter-spacing:.28em; font-size:12px; color:var(--dark-sub);
+    }
   </style>
 </head>
 <body class="no-js">
@@ -154,9 +205,25 @@
         <div class="columns">
           <p class="reveal">There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
           <p class="reveal">Before returning to my hometown of Orange County, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
-
           <p class="reveal">Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
           <p class="reveal">Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW TESTIMONIAL (after About / “Hollywood & Vows”) -->
+    <section class="section dark" id="testimonial-intro" aria-label="Couple Testimonial">
+      <div class="wrap testimonial">
+        <div class="t-photos reveal">
+          <figure class="t-small"><img src="/assets/test-a1.jpg" alt="Bride and groom candid"></figure>
+          <figure class="t-small"><img src="/assets/test-a2.jpg" alt="Couple laughing"></figure>
+          <figure class="t-wide"><img src="/assets/test-a3.jpg" alt="Ceremony aisle view"></figure>
+        </div>
+        <div class="t-copy">
+          <div class="who serif reveal">Dorothy &amp; Chris</div>
+          <blockquote class="reveal">“Every time we look at our wedding album, we are transported back to that wonderful day.”</blockquote>
+          <p class="body reveal">There aren’t enough kind words to describe the experience. From the first call to our final film, everything felt thoughtful and effortless. The story, the music, the pacing—it all feels like us. We’ve watched our video more times than we can count and still get chills.</p>
+          <span class="arrow reveal">→</span>
         </div>
       </div>
     </section>
@@ -251,18 +318,59 @@
       </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- NEW TESTIMONIAL (after Process) -->
+    <section id="testimonials" class="section dark" aria-label="Testimonial">
+      <div class="wrap">
+        <h2 class="serif reveal">TESTIMONIAL</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+
+        <div class="testimonial">
+          <div class="t-photos reveal">
+            <figure class="t-small"><img src="/assets/test-b1.jpg" alt="Couple first look"></figure>
+            <figure class="t-small"><img src="/assets/test-b2.jpg" alt="Reception cheers"></figure>
+            <figure class="t-wide"><img src="/assets/test-b3.jpg" alt="Outdoor ceremony view"></figure>
+          </div>
+
+          <div class="t-copy">
+            <div class="who serif reveal">Maya &amp; Julian</div>
+            <blockquote class="reveal">“We didn’t just get a video—we got a time machine. It takes us right back into the feelings, the laughter, the dance floor.”</blockquote>
+            <p class="body reveal">Professional, kind, and unbelievably talented. The direction was subtle and the candid moments were everything. Our families cried (in the best way) watching the film. Couldn’t recommend more.</p>
+            <span class="arrow reveal">→</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT (Netlify Forms enabled) -->
     <section id="contact" class="section">
       <div class="wrap">
         <h2 class="serif reveal">Inquire</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <p class="prose sub reveal">Tell us about your day—date, location, and what matters most to you.</p>
-        <form class="grid reveal" style="max-width:720px">
-          <input aria-label="Name" placeholder="Name" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
-          <input aria-label="Email" placeholder="Email" type="email" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
-          <input aria-label="Date" placeholder="Wedding Date" type="text" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
-          <textarea aria-label="Message" placeholder="Message" rows="5" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"></textarea>
-          <button class="btn" type="button">Send</button>
+
+        <form name="inquire"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              action="/thanks.html"
+              class="grid reveal"
+              style="max-width:720px">
+          <input type="hidden" name="form-name" value="inquire" />
+          <p class="sr-only">
+            <label>Don’t fill this out if you’re human:
+              <input name="bot-field" />
+            </label>
+          </p>
+
+          <input name="name" aria-label="Name" placeholder="Name" required
+                 style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
+          <input name="email" aria-label="Email" placeholder="Email" type="email" required
+                 style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
+          <input name="date" aria-label="Date" placeholder="Wedding Date" type="text"
+                 style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
+          <textarea name="message" aria-label="Message" placeholder="Message" rows="5"
+                    style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"></textarea>
+          <button class="btn" type="submit">Send</button>
         </form>
       </div>
     </section>

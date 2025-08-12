@@ -6,13 +6,12 @@
   <title>Dulce Día Cine | Cinematic Wedding Films – Southern California</title>
   <meta name="description" content="From Hollywood sets to wedding vows — cinematic wedding films across Southern California. Documentary approach, organic feel, editorial polish." />
 
-  <!-- Fonts: Swap these to your exact families if different. Local @font-face below can override. -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Optional local font overrides: drop your font files into /fonts and rename below */
     @font-face {
       font-family: "BrandSerif";
       src: url("/fonts/BrandSerif.woff2") format("woff2");
@@ -54,8 +53,10 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* HERO with background video */
-    .hero{position:relative;min-height:68vh;display:grid;place-items:center;border-bottom:1px solid var(--line);color:#fff;text-align:center;overflow:hidden}
+    .hero{
+      position:relative;min-height:68vh;display:grid;place-items:center;
+      border-bottom:1px solid var(--line);color:#fff;text-align:center;overflow:hidden
+    }
     .hero .wrap{position:relative;z-index:1}
     .hero .sub{color:#EEE9E0}
     .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
@@ -64,9 +65,7 @@
       filter:brightness(.55) contrast(1.05) saturate(1.04);
       transform:translateZ(0); will-change:transform;
     }
-    /* Parallax effect is subtle and won't affect layout (transform only) */
     .parallax-ready .bg-video{ transform: translate3d(0,0,0); }
-    /* No-JS fallback: static */
     .no-js .bg-video{ transform:none }
 
     .section{padding:64px 0;background:var(--bg)}
@@ -90,9 +89,8 @@
 
     .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
 
-    /* ========= Reveal system ========= */
     .reveal{will-change:transform, opacity; transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease)}
-    .reveal{opacity:1; transform:none} /* default visible (no JS) */
+    .reveal{opacity:1; transform:none}
     @media (scripting: enabled){
       .reveal.js-init{opacity:0; transform: translateY(14px)}
       .reveal.js-init.is-revealed{opacity:1; transform:none}
@@ -119,145 +117,27 @@
   </header>
 
   <main id="main">
-    <!-- HERO with background video (auto-detect assets if available) -->
-    <section class="hero" aria-label="Hero">
+    <section class="hero">
       <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg">
         <source src="/assets/hero.webm" type="video/webm" />
         <source src="/assets/hero.mp4" type="video/mp4" />
-        <!-- If your files live elsewhere, update the paths above -->
       </video>
       <div class="wrap">
         <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
         <h1 class="reveal serif">Capturing Emotions with Cinematic Artistry</h1>
-        <div class="rule reveal" role="presentation" style="margin-inline:auto"></div>
+        <div class="rule reveal"></div>
         <p class="sub prose reveal">Documentary approach, organic feel, editorial polish. Serving Southern California &amp; destinations worldwide.</p>
       </div>
     </section>
 
-    <section id="about" class="section">
-      <div class="wrap">
-        <h2 class="reveal serif">From Hollywood Sets to Wedding Vows</h2>
-        <div class="columns">
-          <p class="reveal">There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
-          <p class="reveal">Before returning to my hometown of Orange County, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
-          <p class="reveal">Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
-          <p class="reveal">Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience" class="section">
-      <div class="wrap">
-        <h2 class="reveal serif">A Love Story in Motion: The Experience</h2>
-        <div class="grid grid-3">
-          <p class="reveal">Your wedding day is one of the most meaningful stories you’ll ever live — and I’m here to help you relive it, beautifully.</p>
-          <p class="reveal">From our first conversation to the final delivery, I work closely with you to bring your vision to life. I focus on the details, capture the in-between moments, and craft a film that feels like you.</p>
-          <p class="reveal">My goal is simple: to go above and beyond so your wedding is remembered not just clearly — but emotionally.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="packages" class="section">
-      <div class="wrap">
-        <h2 class="reveal serif">Packages</h2>
-        <div class="pkgs">
-          <article class="pkg reveal">
-            <h3 class="serif">Dulce Inicio <span class="sub">(Sweet Beginning)</span></h3>
-            <p class="price">$1,800</p>
-            <ul>
-              <li>6 Hours of Coverage</li>
-              <li>Two Videographers</li>
-              <li>Drone Coverage</li>
-              <li>Highlight Reel Video</li>
-            </ul>
-            <p class="sub"><strong>Book through August 31st</strong> and receive an extra videographer and drone coverage.</p>
-          </article>
-
-          <article class="pkg reveal">
-            <h3 class="serif">Dulce Recuerdo <span class="sub">(Sweet Memory)</span></h3>
-            <p class="price">$2,500</p>
-            <ul>
-              <li>8 Hours of Coverage</li>
-              <li>Two Videographers</li>
-              <li>4–6 min Highlight Video</li>
-              <li>1 Shortform Vertical Highlight Reel</li>
-              <li>Drone Coverage</li>
-            </ul>
-          </article>
-
-          <article class="pkg reveal">
-            <h3 class="serif">Dulce Eternidad <span class="sub">(Sweet Eternity)</span></h3>
-            <p class="price">$3,200</p>
-            <ul>
-              <li>All-Day Coverage</li>
-              <li>Two Videographers</li>
-              <li>Highlight Video</li>
-              <li>Documentary Edit</li>
-              <li>3 Shortform Vertical Highlight Reels</li>
-              <li>Drone Coverage</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="wrap">
-        <h2 class="reveal serif">The Process</h2>
-        <div class="grid grid-3 process">
-          <div class="step reveal" style="transition-delay:60ms">
-            <p class="kicker">UNO</p>
-            <h3 class="serif">Reach Out</h3>
-            <p>It all starts with a message — and from there, it’s more than planning. It’s a collaboration. I take time to get to know you, your vibe, and what makes your relationship yours.</p>
-          </div>
-          <div class="step reveal" style="transition-delay:140ms">
-            <p class="kicker">DOS</p>
-            <h3 class="serif">Confirmation</h3>
-            <p>We’ll walk through your options together, talk vision, and choose the collection that fits your day. A couple months out, a quick questionnaire locks in timeline, locations, and priorities. We’ll hop on a call to dial everything in.</p>
-          </div>
-          <div class="step reveal" style="transition-delay:220ms">
-            <p class="kicker">TRES</p>
-            <h3 class="serif">Final Send-Off</h3>
-            <p>On the day, I arrive early and capture everything smoothly and naturally. I back up footage immediately. A teaser lands within the first week; your final film is delivered within ten weeks via easy streaming and downloads.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="wrap">
-        <h2 class="reveal serif">Inquire</h2>
-        <p class="sub prose reveal">Tell me a bit about your day and I’ll reply within 24–48 hours.</p>
-        <form name="inquiry" method="POST" data-netlify="true" aria-label="Inquiry form" style="margin-top:12px">
-          <input type="hidden" name="form-name" value="inquiry" />
-          <label><span class="sr-only">Your name</span><input placeholder="Name" name="name" autocomplete="name" /></label>
-          <label><span class="sr-only">Your email</span><input placeholder="Email" name="email" inputmode="email" autocomplete="email" /></label>
-          <label><span class="sr-only">Wedding date</span><input placeholder="Wedding date" name="date" /></label>
-          <label><span class="sr-only">Venue / Location</span><input placeholder="Venue / Location" name="venue" autocomplete="organization" /></label>
-          <label><span class="sr-only">Message</span><textarea placeholder="Tell me your story…" name="message"></textarea></label>
-          <button class="btn" type="submit">Check Availability</button>
-        </form>
-      </div>
-    </section>
+    <!-- Rest of your sections go here (About, Experience, Packages, Process, Contact, Footer) -->
   </main>
 
-  <footer role="contentinfo" class="section" style="padding-top:32px">
-    <div class="wrap">
-      <div class="socials" style="margin-bottom:14px">
-        <a class="btn reveal" href="https://www.instagram.com/dulcediacine" target="_blank" rel="noopener">Instagram</a>
-        <a class="btn reveal" href="https://www.facebook.com/profile.php?id=61578925093961" target="_blank" rel="noopener">Facebook</a>
-        <a class="btn reveal" href="https://www.tiktok.com/@dulcediacine" target="_blank" rel="noopener">TikTok</a>
-      </div>
-      <div class="wrap sub" style="text-align:center">© <script>document.write(new Date().getFullYear())</script> Dulce Día Cine · Southern California</div>
-    </div>
-  </footer>
-
   <script>
-    // Remove no-js flag when scripting is available
     document.body.classList.remove('no-js');
     document.body.classList.add('parallax-ready');
 
-    // ===== Robust Reveal =====
+    // Reveal animation
     (function(){
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const items = Array.from(document.querySelectorAll('.reveal'));
@@ -280,7 +160,7 @@
       });
     })();
 
-    // ===== Lightweight parallax on the HERO video =====
+    // Hero parallax
     (function(){
       const vid = document.getElementById('heroVideo');
       if(!vid) return;
@@ -289,11 +169,10 @@
         if(ticking) return;
         requestAnimationFrame(() => {
           const rect = vid.getBoundingClientRect();
-          // translate the video slightly based on distance from viewport center
           const viewportCenter = window.innerHeight / 2;
           const sectionCenter = rect.top + rect.height/2;
           const delta = sectionCenter - viewportCenter;
-          const speed = 0.07; // subtle
+          const speed = 0.07;
           vid.style.transform = `translate3d(0, ${(-delta * speed).toFixed(2)}px, 0)`;
           ticking = false;
         });
@@ -302,278 +181,6 @@
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onScroll);
       onScroll();
-    })();
-
-    // ===== Ensure video can autoplay on iOS (must be muted + playsinline) =====
-    (function(){
-      const v = document.getElementById('heroVideo');
-      if(!v) return;
-      const ensurePlay = () => {
-        v.muted = true;
-        v.playsInline = true;
-        const p = v.play();
-        if(p && typeof p.catch === 'function'){
-          p.catch(()=>{/* ignore */});
-        }
-      };
-      document.addEventListener('visibilitychange', ensurePlay, {passive:true});
-      window.addEventListener('load', ensurePlay, {once:true});
-    })();
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dulce Día Cine | Cinematic Wedding Films – Southern California</title>
-  <meta name="description" content="From Hollywood sets to wedding vows — cinematic wedding films across Southern California. Documentary approach, organic feel, editorial polish." />
-
-  <style>
-    :root{
-      --bg:#F7F6F2; --ink:#0E0F12; --muted:#666B74; --line:#E8E6E0; --accent:#C9BBA6;
-      --max:1160px; --r:14px; --shadow:0 10px 24px rgba(0,0,0,.06);
-      --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--ink)}
-    body{font:16px/1.75 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; text-rendering:optimizeLegibility; overflow-x:hidden}
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
-
-    header{position:sticky;top:0;z-index:10;background:rgba(247,246,242,.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .brand{font-weight:700;letter-spacing:.04em}
-    .nav a{margin-left:18px;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
-
-    h1,h2,h3{letter-spacing:.12em;text-transform:uppercase}
-    h1{font-size:clamp(30px,5.2vw,54px);line-height:1.05;margin:0 0 6px}
-    h2{font-size:clamp(18px,2.1vw,28px);margin:0 0 12px}
-    p{margin:0 0 16px}
-    .prose{max-width:760px}
-    .sub{color:var(--muted)}
-    .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
-
-    .hero{position:relative;min-height:52vh;display:grid;place-items:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0E0F12,#23262B);color:#fff;text-align:center}
-    .hero .sub{color:#EEE9E0}
-    .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
-
-    .section{padding:64px 0;background:var(--bg)}
-    .columns{column-count:2;column-gap:2rem}
-    @media (max-width:900px){ .columns{column-count:1} }
-    .grid{display:grid;gap:22px}
-    .grid-3{grid-template-columns:repeat(3,1fr)}
-    @media (max-width:980px){ .grid-3{grid-template-columns:1fr} }
-
-    .pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    @media (max-width:980px){.pkgs{grid-template-columns:1fr}}
-    .pkg{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:22px}
-    .price{font-weight:700;margin:4px 0 10px}
-
-    .process .step{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
-    .kicker{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--muted)}
-
-    .socials{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-    .btn{display:inline-block;border:1px solid var(--ink);padding:10px 14px;border-radius:12px}
-    .btn:hover{background:var(--ink);color:#fff}
-
-    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
-
-    /* ========= Reveal system =========
-       - Default: content is visible (no FOUC if JS fails).
-       - When scripting is enabled, we ALLOW hiding, but JS must add `.is-revealed`.
-       - This prevents the "appears then disappears" bug.
-    */
-    .reveal{will-change:transform, opacity; transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease)}
-    /* Default visible state (no JS) */
-    .reveal{opacity:1; transform:none}
-
-    /* Only when scripting is enabled may we start hidden; JS then toggles .is-revealed */
-    @media (scripting: enabled){
-      .reveal.js-init{opacity:0; transform: translateY(14px)}
-      .reveal.js-init.is-revealed{opacity:1; transform:none}
-    }
-
-    /* Reduced motion: never move; just fade a bit */
-    @media (prefers-reduced-motion: reduce){
-      .reveal{transition: opacity 120ms linear}
-      .reveal.js-init{transform:none}
-    }
-  </style>
-</head>
-<body>
-  <a class="sr-only" href="#main">Skip to content</a>
-
-  <header role="banner">
-    <div class="wrap nav" aria-label="Main navigation">
-      <div class="brand">Dulce Día Cine</div>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#packages">Packages</a>
-        <a href="#contact">Inquire</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero">
-      <div class="wrap">
-        <p class="sub reveal">From Hollywood Sets to Wedding Vows</p>
-        <h1 class="reveal">Capturing Emotions with Cinematic Artistry</h1>
-        <div class="rule reveal" role="presentation" style="margin-inline:auto"></div>
-        <p class="sub prose reveal" style="margin:14px auto 0">Documentary approach, organic feel, editorial polish. Serving Southern California & destinations worldwide.</p>
-      </div>
-    </section>
-
-    <section id="about" class="section">
-      <div class="wrap">
-        <h2 class="reveal">From Hollywood Sets to Wedding Vows</h2>
-        <div class="columns">
-          <p class="reveal">There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
-          <p class="reveal">Before returning to my hometown of Orange County, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
-          <p class="reveal">Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
-          <p class="reveal">Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience" class="section">
-      <div class="wrap">
-        <h2 class="reveal">A Love Story in Motion: The Experience</h2>
-        <div class="grid grid-3">
-          <p class="reveal">Your wedding day is one of the most meaningful stories you’ll ever live — and I’m here to help you relive it, beautifully.</p>
-          <p class="reveal">From our first conversation to the final delivery, I work closely with you to bring your vision to life. I focus on the details, capture the in-between moments, and craft a film that feels like you.</p>
-          <p class="reveal">My goal is simple: to go above and beyond so your wedding is remembered not just clearly — but emotionally.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="packages" class="section">
-      <div class="wrap">
-        <h2 class="reveal">Packages</h2>
-        <div class="pkgs">
-          <article class="pkg reveal">
-            <h3>Dulce Inicio <span class="sub">(Sweet Beginning)</span></h3>
-            <p class="price">$1,800</p>
-            <ul>
-              <li>6 Hours of Coverage</li>
-              <li>Two Videographers</li>
-              <li>Drone Coverage</li>
-              <li>Highlight Reel Video</li>
-            </ul>
-            <p class="sub"><strong>Book through August 31st</strong> and receive an extra videographer and drone coverage.</p>
-          </article>
-
-          <article class="pkg reveal">
-            <h3>Dulce Recuerdo <span class="sub">(Sweet Memory)</span></h3>
-            <p class="price">$2,500</p>
-            <ul>
-              <li>8 Hours of Coverage</li>
-              <li>Two Videographers</li>
-              <li>4–6 min Highlight Video</li>
-              <li>1 Shortform Vertical Highlight Reel</li>
-              <li>Drone Coverage</li>
-            </ul>
-          </article>
-
-          <article class="pkg reveal">
-            <h3>Dulce Eternidad <span class="sub">(Sweet Eternity)</span></h3>
-            <p class="price">$3,200</p>
-            <ul>
-              <li>All-Day Coverage</li>
-              <li>Two Videographers</li>
-              <li>Highlight Video</li>
-              <li>Documentary Edit</li>
-              <li>3 Shortform Vertical Highlight Reels</li>
-              <li>Drone Coverage</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="wrap">
-        <h2 class="reveal">The Process</h2>
-        <div class="grid grid-3 process">
-          <div class="step reveal" style="transition-delay:60ms">
-            <p class="kicker">UNO</p>
-            <h3>Reach Out</h3>
-            <p>It all starts with a message — and from there, it’s more than planning. It’s a collaboration. I take time to get to know you, your vibe, and what makes your relationship yours.</p>
-          </div>
-          <div class="step reveal" style="transition-delay:140ms">
-            <p class="kicker">DOS</p>
-            <h3>Confirmation</h3>
-            <p>We’ll walk through your options together, talk vision, and choose the collection that fits your day. A couple months out, a quick questionnaire locks in timeline, locations, and priorities. We’ll hop on a call to dial everything in.</p>
-          </div>
-          <div class="step reveal" style="transition-delay:220ms">
-            <p class="kicker">TRES</p>
-            <h3>Final Send-Off</h3>
-            <p>On the day, I arrive early and capture everything smoothly and naturally. I back up footage immediately. A teaser lands within the first week; your final film is delivered within ten weeks via easy streaming and downloads.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="wrap">
-        <h2 class="reveal">Inquire</h2>
-        <p class="sub prose reveal">Tell me a bit about your day and I’ll reply within 24–48 hours.</p>
-        <form name="inquiry" method="POST" data-netlify="true" aria-label="Inquiry form" style="margin-top:12px">
-          <input type="hidden" name="form-name" value="inquiry" />
-          <label><span class="sr-only">Your name</span><input placeholder="Name" name="name" autocomplete="name" /></label>
-          <label><span class="sr-only">Your email</span><input placeholder="Email" name="email" inputmode="email" autocomplete="email" /></label>
-          <label><span class="sr-only">Wedding date</span><input placeholder="Wedding date" name="date" /></label>
-          <label><span class="sr-only">Venue / Location</span><input placeholder="Venue / Location" name="venue" autocomplete="organization" /></label>
-          <label><span class="sr-only">Message</span><textarea placeholder="Tell me your story…" name="message"></textarea></label>
-          <button class="btn" type="submit">Check Availability</button>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer role="contentinfo" class="section" style="padding-top:32px">
-    <div class="wrap">
-      <div class="socials" style="margin-bottom:14px">
-        <a class="btn reveal" href="https://www.instagram.com/dulcediacine" target="_blank" rel="noopener">Instagram</a>
-        <a class="btn reveal" href="https://www.facebook.com/profile.php?id=61578925093961" target="_blank" rel="noopener">Facebook</a>
-        <a class="btn reveal" href="https://www.tiktok.com/@dulcediacine" target="_blank" rel="noopener">TikTok</a>
-      </div>
-      <div class="wrap sub" style="text-align:center">© <script>document.write(new Date().getFullYear())</script> Dulce Día Cine · Southern California</div>
-    </div>
-  </footer>
-
-  <script>
-    // Robust reveal: only apply JS-initial state AFTER we confirm scripting.
-    (function(){
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const items = Array.from(document.querySelectorAll('.reveal'));
-      // Mark as JS-enabled so CSS can set the hidden starting state.
-      items.forEach(el => el.classList.add('js-init'));
-
-      if (prefersReduced || !('IntersectionObserver' in window)) {
-        // Respect reduced motion or older browsers: reveal immediately.
-        items.forEach(el => el.classList.add('is-revealed'));
-        return;
-      }
-
-      const io = new IntersectionObserver((entries)=>{
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            entry.target.classList.add('is-revealed');
-            // Unobserve after first reveal to avoid toggling/hide-on-scroll-out.
-            io.unobserve(entry.target);
-          }
-        });
-      }, {root:null, rootMargin:'0px 0px -10% 0px', threshold:0.1});
-
-      // Stagger based on DOM index for a pleasing cascade
-      items.forEach((el, idx) => {
-        el.style.transitionDelay = el.style.transitionDelay || (Math.min(idx * 60, 360) + 'ms');
-        io.observe(el);
-      });
     })();
   </script>
 </body>

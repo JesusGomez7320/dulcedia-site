@@ -278,13 +278,9 @@
         <div class="rule reveal" aria-hidden="true"></div>
 
         <div class="testimonial">
-          <div
-            class="t-media drive ratio-4x5 reveal"
-            aria-label="Meet Pags &amp; Gunner">
+          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
             <iframe
-              class="drive-autoplay"
               src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
-              data-src-base="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
               allow="autoplay; fullscreen"
               allowfullscreen
               loading="lazy"
@@ -413,43 +409,7 @@
       onScroll(); addEventListener('scroll', onScroll, {passive:true}); addEventListener('resize', onScroll);
     })();
 
-    // Autoplay-on-scroll for native <video> and Drive iframes
-    (function(){
-      const nativeVids = Array.from(document.querySelectorAll('video.auto-play-io'));
-      if ('IntersectionObserver' in window) {
-        if(nativeVids.length){
-          const ioV = new IntersectionObserver((entries)=>{
-            entries.forEach(entry=>{
-              const v = entry.target;
-              if(entry.isIntersecting && entry.intersectionRatio >= 0.5){ v.play().catch(()=>{}); }
-              else { v.pause(); }
-            });
-          }, {threshold:[0,0.5,1]});
-          nativeVids.forEach(v=>ioV.observe(v));
-        }
-
-        // Drive preview iframes: toggle autoplay param when visible
-        const driveFrames = Array.from(document.querySelectorAll('iframe.drive-autoplay'));
-        if(driveFrames.length){
-          const ioD = new IntersectionObserver((entries)=>{
-            entries.forEach(entry=>{
-              const f = entry.target;
-              const base = f.getAttribute('data-src-base') || f.src;
-              // Ensure we don't stack params repeatedly
-              const cleanBase = base.split('?')[0] + '/preview';
-              if(entry.isIntersecting && entry.intersectionRatio >= 0.5){
-                // Request autoplay muted (supported by Drive preview)
-                f.src = cleanBase + '?autoplay=1&mute=1';
-              } else {
-                // Reset to stop playback
-                f.src = cleanBase;
-              }
-            });
-          }, {threshold:[0,0.5,1]});
-          driveFrames.forEach(fr=>ioD.observe(fr));
-        }
-      }
-    })();
+    // (No Drive autoplay logic; using standard embeds)
   </script>
 </body>
 </html>

@@ -21,10 +21,7 @@
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
       --cursor-size:28px;
-
-      /* Glass alpha controls */
-      --glass-min: .22;
-      --glass-max: .55;
+      --glass-min:.22; --glass-max:.55;
     }
 
     *{box-sizing:border-box}
@@ -127,28 +124,20 @@
     @media (max-width:980px){.testimonial{grid-template-columns:1fr}}
     .t-media{position:relative;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
     .t-media video{width:100%;height:100%;display:block;object-fit:cover}
-    .t-controls{position:absolute;right:10px;bottom:10px;display:flex;gap:8px}
-    .control-btn{border:1px solid rgba(255,255,255,.7);background:rgba(0,0,0,.35);color:#fff;padding:8px 10px;border-radius:10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(4px);cursor:pointer}
-    .control-btn:focus{outline:2px solid #fff;outline-offset:2px}
+    .t-media.drive iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:0}
+    .drive-thumb{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; z-index:1; pointer-events:none; opacity:1;
+      transition:opacity 260ms ease;
+      background:#000; /* guards against brief white flash */
+    }
+    .t-media.drive.is-loaded .drive-thumb{ opacity:0; }
+
     .t-copy .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--dark-sub);margin-bottom:8px}
     .t-copy blockquote{margin:0 0 14px;font-size:clamp(18px,2.1vw,24px);line-height:1.5;font-family:Playfair Display,BrandSerif,Georgia,serif}
     .t-copy .body{color:var(--dark-sub)}
-    .t-media.drive iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:0}
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
-
-    /* ---- Non-blocking thumbnails for Drive iframes (fixed stacking) ---- */
-    .t-media.drive{--thumb:none;}
-    .t-media.drive::before{
-      content:"";
-      position:absolute; inset:0;
-      background-image: var(--thumb);
-      background-size: cover; background-position:center;
-      opacity:1; transition: opacity 240ms ease;
-      pointer-events:none;
-      z-index:1; /* sit above iframe */
-    }
-    .t-media.drive.is-loaded::before{ opacity:0; }
 
     /* Carousel */
     .carousel{position:relative}
@@ -206,12 +195,10 @@
       position: relative;
       isolation: isolate;
     }
-
-    /* Background photos (relative paths) */
     #experience.bg-photo { background-image: url('./assets/bg_1.jpg'); }
     #process.bg-photo    { background-image: url('./assets/bg_2.jpg'); }
 
-    /* ---- Socials ---- */
+    /* Socials */
     .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff}
     .socials a{
       display:inline-flex; align-items:center; gap:8px;
@@ -275,7 +262,8 @@
     <!-- DARK FEATURE (Drive 16:9 with TN_1) -->
     <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
-        <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día" style="--thumb: url('./assets/TN_1.jpg');">
+        <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día">
+          <img class="drive-thumb" src="./assets/TN_1.jpg" alt="" aria-hidden="true" />
           <iframe
             src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
             allow="autoplay; fullscreen"
@@ -406,7 +394,8 @@
         <h2 class="serif reveal">TESTIMONIAL</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="testimonial">
-          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner" style="--thumb: url('./assets/TN_2.jpg');">
+          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
+            <img class="drive-thumb" src="./assets/TN_2.jpg" alt="" aria-hidden="true" />
             <iframe
               src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
               allow="autoplay; fullscreen"
@@ -550,22 +539,6 @@
       vp.addEventListener('keydown', (e)=>{ if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); } if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); } });
     })();
 
-    // Custom cursor
-    (function(){
-      const c = document.getElementById('cursor'); if(!c) return;
-      let x = innerWidth/2, y = innerHeight/2, tx = x, ty = y;
-      const lerp = (a,b,t)=>a+(b-a)*t;
-      function move(e){ tx = e.clientX; ty = e.clientY; c.classList.remove('is-hidden'); }
-      function loop(){ x = lerp(x, tx, 0.22); y = lerp(y, ty, 0.22); c.style.transform = `translate3d(${x}px, ${y}px, 0)`; requestAnimationFrame(loop); }
-      function onEnter(){ c.classList.add('is-link'); } function onLeave(){ c.classList.remove('is-link'); }
-      document.addEventListener('mousemove', move, {passive:true});
-      document.addEventListener('mouseenter', ()=>c.classList.remove('is-hidden'));
-      document.addEventListener('mouseleave', ()=>c.classList.add('is-hidden'));
-      document.querySelectorAll('a, button, .btn, [role="button"], input, textarea, select, .caro-btn')
-        .forEach(el=>{ el.addEventListener('mouseenter', onEnter); el.addEventListener('mouseleave', onLeave); });
-      loop();
-    })();
-
     // BG-PHOTO PARALLAX + GLASS OPACITY
     (function(){
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -607,15 +580,13 @@
       window.addEventListener('resize', onScroll);
     })();
 
-    // Drive iframe thumbnail fade (non-blocking + small delay)
+    // Drive iframe thumbnail fade
     (function(){
       const drives = document.querySelectorAll('.t-media.drive iframe');
       drives.forEach((frame)=>{
         frame.addEventListener('load', ()=>{
           const parent = frame.closest('.t-media.drive');
-          if(parent){
-            setTimeout(()=> parent.classList.add('is-loaded'), 200);
-          }
+          if(parent){ parent.classList.add('is-loaded'); }
         });
       });
     })();

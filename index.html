@@ -20,7 +20,6 @@
       --max:1160px; --r:18px; --shadow:0 20px 40px rgba(0,0,0,.08);
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
-
       --cursor-size:28px;
     }
 
@@ -30,7 +29,7 @@
     body{
       font:16px/1.75 Inter, BrandSans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       text-rendering:optimizeLegibility; overflow-x:hidden;
-      cursor:none; /* custom cursor */
+      cursor:none;
     }
     input, textarea, button { cursor:auto }
 
@@ -62,31 +61,23 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* HERO — full-bleed video INSIDE the section with parallax */
+    /* HERO (parallax video) */
     .hero{
-      position:relative;
-      min-height:100vh;
+      position:relative; min-height:100vh;
       display:grid; place-items:center;
       color:#fff; text-align:center; overflow:hidden;
-      background:transparent;
-      isolation:isolate;
+      background:transparent; isolation:isolate;
     }
     .hero .wrap{position:relative;z-index:1}
     .hero .sub{color:#EEE9E0}
     .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
     .bg-video{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      object-fit:cover;
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       filter:brightness(.55) contrast(1.05) saturate(1.04);
-      transform:translate3d(0,0,0);
-      will-change:transform;
-      pointer-events:none;
-      z-index:0;
+      transform:translate3d(0,0,0); will-change:transform; pointer-events:none; z-index:0;
     }
     .hero::after{
-      content:"";
-      position:absolute; inset:0; z-index:0;
+      content:""; position:absolute; inset:0; z-index:0;
       background:linear-gradient(180deg, rgba(0,0,0,.30) 0%, rgba(0,0,0,.10) 40%, rgba(0,0,0,.25) 100%);
       pointer-events:none;
     }
@@ -110,7 +101,6 @@
     .pkg ul{margin:0 0 16px 18px}
     .pkg li{margin:8px 0}
 
-    .process .step{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px}
     .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--muted);margin-bottom:8px}
     .kicker{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--ink);margin:0 0 10px}
 
@@ -125,25 +115,20 @@
 
     footer{border-top:1px solid var(--line);padding:28px 0;background:#fff}
 
-    /* Dark feature/testimonial sections */
+    /* Dark feature/testimonial */
     .section.dark{background:var(--dark);color:var(--dark-ink);border-top:1px solid var(--dark-line);border-bottom:1px solid var(--dark-line)}
     .section.dark .sub,.section.dark .eyebrow{color:var(--dark-sub)}
     .section.dark .rule{background:var(--dark-line)}
     .testimonial{display:grid;grid-template-columns:1.1fr 1.4fr;gap:36px;align-items:start}
     @media (max-width:980px){.testimonial{grid-template-columns:1fr}}
-
     .t-media{position:relative;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
     .t-media video{width:100%;height:100%;display:block;object-fit:cover}
     .t-controls{position:absolute;right:10px;bottom:10px;display:flex;gap:8px}
     .control-btn{border:1px solid rgba(255,255,255,.7);background:rgba(0,0,0,.35);color:#fff;padding:8px 10px;border-radius:10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(4px);cursor:pointer}
     .control-btn:focus{outline:2px solid #fff;outline-offset:2px}
-
     .t-copy .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--dark-sub);margin-bottom:8px}
     .t-copy blockquote{margin:0 0 14px;font-size:clamp(18px,2.1vw,24px);line-height:1.5;font-family:Playfair Display,BrandSerif,Georgia,serif}
     .t-copy .body{color:var(--dark-sub)}
-
-    /* Google Drive embeds */
-    .t-media.drive{background:#000}
     .t-media.drive iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
@@ -151,83 +136,64 @@
     /* Carousel */
     .carousel{position:relative}
     .caro-viewport{
-      overflow-x:auto;
-      scroll-snap-type:x mandatory;
-      -webkit-overflow-scrolling:touch;
-      scroll-behavior:smooth;
-      border-radius:var(--r);
-      border:1px solid var(--line);
-      background:#fff;
-      box-shadow:var(--shadow);
-      padding:16px;
+      overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scroll-behavior:smooth;
+      border-radius:var(--r); border:1px solid var(--line); background:#fff; box-shadow:var(--shadow); padding:16px;
     }
     .caro-track{
-      display:grid;
-      grid-auto-flow:column;
-      grid-auto-columns:clamp(220px, 28vw, 380px);
-      gap:16px;
-      list-style:none;
-      margin:0; padding:0;
+      display:grid; grid-auto-flow:column; grid-auto-columns:clamp(220px, 28vw, 380px);
+      gap:16px; list-style:none; margin:0; padding:0;
     }
     .caro-slide{scroll-snap-align:center}
-    .caro-card{
-      position:relative;
-      overflow:hidden;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:#000;
-      aspect-ratio:4/5;
-      margin:0;
-    }
-    .caro-card img{
-      width:100%; height:100%; object-fit:cover; display:block;
-      transform:scale(1); transition:transform 220ms ease, filter 220ms ease;
-      will-change:transform;
-    }
+    .caro-card{position:relative; overflow:hidden; border-radius:14px; border:1px solid var(--line); background:#000; aspect-ratio:4/5; margin:0}
+    .caro-card img{width:100%; height:100%; object-fit:cover; display:block; transform:scale(1); transition:transform 220ms ease, filter 220ms ease; will-change:transform}
     .caro-card:hover img{ transform:scale(1.03) }
     @media (pointer:coarse){ .caro-card:hover img{ transform:scale(1) } }
     .caro-btn{
       position:absolute; top:50%; translate:0 -50%;
-      border:1px solid var(--ink); background:#fff;
-      width:40px; height:40px; border-radius:999px;
-      display:grid; place-items:center; cursor:pointer;
-      box-shadow:var(--shadow);
+      border:1px solid var(--ink); background:#fff; width:40px; height:40px; border-radius:999px;
+      display:grid; place-items:center; cursor:pointer; box-shadow:var(--shadow);
     }
-    .caro-btn.prev{ left:-6px }
-    .caro-btn.next{ right:-6px }
+    .caro-btn.prev{ left:-6px } .caro-btn.next{ right:-6px }
     .caro-btn:hover{ background:var(--ink); color:#fff }
     @media (max-width:560px){ .caro-btn{ display:none } }
 
-    /* Custom circular cursor with soft shadow */
+    /* Custom cursor */
     .cursor{
       position:fixed; left:0; top:0; translate:-50% -50%;
       width:var(--cursor-size); height:var(--cursor-size);
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,.55);
-      background:rgba(255,255,255,.7);
-      box-shadow:0 8px 18px rgba(0,0,0,.18);
-      pointer-events:none; z-index:9999;
-      transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease;
-      will-change:transform;
-      mix-blend-mode:normal;
+      border-radius:999px; border:1px solid rgba(0,0,0,.55);
+      background:rgba(255,255,255,.7); box-shadow:0 8px 18px rgba(0,0,0,.18);
+      pointer-events:none; z-index:9999; transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease;
+      will-change:transform; mix-blend-mode:normal;
     }
     .cursor.is-hidden{ opacity:0 }
     .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
     @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
 
-    /* Glass-panel style + background images for specific sections */
-    .glass-panel {
+    /* Glass panel styling (for bg-photo sections) */
+    .glass-panel{
       background: rgba(20, 20, 20, 0.55);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-radius: var(--r);
-      padding: 32px;
-      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-radius: var(--r); padding: 32px; box-shadow: var(--shadow);
     }
-    .glass-panel h2, .glass-panel p, .glass-panel h3 { color: #fff; }
-    /* Apply photo backgrounds to these sections */
+    .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
+
+    /* Background photos */
     #experience.bg-photo { background: url('/assets/bg_1.jpg') center/cover no-repeat; }
     #process.bg-photo    { background: url('/assets/bg_2.jpg') center/cover no-repeat; }
+
+    /* ---- Socials (fix giant logos) ---- */
+    .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff}
+    .socials a{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border:1px solid var(--line); border-radius:999px;
+      transition:transform .18s ease, background .18s ease; font-size:14px; line-height:1;
+    }
+    .socials a:hover{transform:translateY(-1px);background:#faf9f6}
+    /* Stronger selector + !important to defeat any global svg rules */
+    .socials a svg{width:18px !important;height:18px !important;display:inline-block;flex:none}
+    .socials a span{display:inline-block}
+    @media (max-width:520px){ .socials{flex-wrap:wrap;gap:10px} .socials a{padding:8px 10px} }
   </style>
 </head>
 <body class="no-js">
@@ -271,24 +237,19 @@
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="columns">
           <p class="reveal">There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
-          <p class="reveal">Before returning to my hometown of Orange County, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
+          <p class="reveal">Before returning to my hometown of San Clemente, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
           <p class="reveal">Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
           <p class="reveal">Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
         </div>
       </div>
     </section>
 
-    <!-- DARK FEATURE (Google Drive 16:9) -->
+    <!-- DARK FEATURE (Drive 16:9) -->
     <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
         <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día">
-          <iframe
-            src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
-            allow="autoplay; fullscreen"
-            allowfullscreen
-            loading="lazy"
-            title="Make It a Dulce Día">
-          </iframe>
+          <iframe src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
+                  allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Make It a Dulce Día"></iframe>
         </div>
         <div class="t-copy">
           <div class="eyebrow serif reveal">Feature</div>
@@ -299,7 +260,7 @@
       </div>
     </section>
 
-    <!-- EXPERIENCE (Glass panel over photo background) -->
+    <!-- EXPERIENCE (glass panel over photo) -->
     <section id="experience" class="section bg-photo" aria-label="Experience">
       <div class="wrap glass-panel">
         <h2 class="serif reveal">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
@@ -382,8 +343,8 @@
       </div>
     </section>
 
-    <!-- PROCESS (Glass panel over photo background) -->
-    <section id="process" class="section process bg-photo" aria-label="Process">
+    <!-- PROCESS (glass panel over photo) -->
+    <section id="process" class="section bg-photo" aria-label="Process">
       <div class="wrap glass-panel">
         <h2 class="serif reveal">THE PROCESS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
@@ -414,13 +375,8 @@
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="testimonial">
           <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
-            <iframe
-              src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
-              allow="autoplay; fullscreen"
-              allowfullscreen
-              loading="lazy"
-              title="Meet Pags &amp; Gunner (4x5)">
-            </iframe>
+            <iframe src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
+                    allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Meet Pags &amp; Gunner (4x5)"></iframe>
           </div>
           <div class="t-copy">
             <div class="eyebrow serif reveal">Client Story</div>
@@ -482,7 +438,6 @@
   </footer>
 
   <script>
-    // Remove no-js
     document.body.classList.remove('no-js');
 
     // Year
@@ -509,9 +464,7 @@
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const items = Array.from(document.querySelectorAll('.reveal'));
       items.forEach(el => el.classList.add('js-init'));
-      if (prefersReduced || !('IntersectionObserver' in window)) {
-        items.forEach(el => el.classList.add('is-revealed')); return;
-      }
+      if (prefersReduced || !('IntersectionObserver' in window)) { items.forEach(el => el.classList.add('is-revealed')); return; }
       const io = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
           if(entry.isIntersecting){ entry.target.classList.add('is-revealed'); io.unobserve(entry.target); }
@@ -525,25 +478,18 @@
       const hero = document.getElementById('home');
       const vid  = document.getElementById('heroVideo');
       if(!hero || !vid) return;
-
-      let ticking = false;
-      const speed = 0.15;
-
+      let ticking = false; const speed = 0.15;
       function update(){
         const rect = hero.getBoundingClientRect();
         const vh = window.innerHeight || document.documentElement.clientHeight;
         if(rect.bottom > 0 && rect.top < vh){
-          const heroCenter = rect.top + rect.height/2;
-          const viewportCenter = vh/2;
-          const delta = (heroCenter - viewportCenter);
+          const delta = (rect.top + rect.height/2) - (vh/2);
           vid.style.transform = 'translate3d(0,' + (-delta * speed).toFixed(2) + 'px,0)';
         }
         ticking = false;
       }
       function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
-      update();
-      window.addEventListener('scroll', onScroll, {passive:true});
-      window.addEventListener('resize', onScroll);
+      update(); window.addEventListener('scroll', onScroll, {passive:true}); window.addEventListener('resize', onScroll);
     })();
 
     // Carousel
@@ -551,7 +497,6 @@
       const vp = document.getElementById('caroViewport');
       const track = document.getElementById('caroTrack');
       if(!vp || !track) return;
-
       function step(dir){
         const slide = track.querySelector('.caro-slide');
         const slideW = slide ? slide.getBoundingClientRect().width : 300;
@@ -560,60 +505,28 @@
       document.querySelectorAll('.caro-btn').forEach(btn=>{
         btn.addEventListener('click', ()=> step(parseInt(btn.dataset.dir,10)));
       });
-
       // drag to scroll
       let isDown = false, startX = 0, startScroll = 0;
-      vp.addEventListener('pointerdown', (e)=>{
-        isDown = true; vp.setPointerCapture(e.pointerId);
-        startX = e.clientX; startScroll = vp.scrollLeft;
-      });
-      vp.addEventListener('pointermove', (e)=>{
-        if(!isDown) return;
-        const dx = e.clientX - startX;
-        vp.scrollLeft = startScroll - dx;
-      });
-      vp.addEventListener('pointerup', ()=>{ isDown = false });
-      vp.addEventListener('pointercancel', ()=>{ isDown = false });
-
+      vp.addEventListener('pointerdown', (e)=>{ isDown = true; vp.setPointerCapture(e.pointerId); startX = e.clientX; startScroll = vp.scrollLeft; });
+      vp.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx = e.clientX - startX; vp.scrollLeft = startScroll - dx; });
+      vp.addEventListener('pointerup', ()=>{ isDown = false }); vp.addEventListener('pointercancel', ()=>{ isDown = false });
       // keyboard
-      vp.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
-        if(e.key === 'ArrowLeft'){  e.preventDefault(); step(-1); }
-      });
+      vp.addEventListener('keydown', (e)=>{ if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); } if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); } });
     })();
 
     // Custom cursor
     (function(){
-      const c = document.getElementById('cursor');
-      if(!c) return;
-
-      let x = window.innerWidth / 2, y = window.innerHeight / 2;
-      let tx = x, ty = y;
+      const c = document.getElementById('cursor'); if(!c) return;
+      let x = innerWidth/2, y = innerHeight/2, tx = x, ty = y;
       const lerp = (a,b,t)=>a+(b-a)*t;
-
-      function move(e){
-        tx = e.clientX; ty = e.clientY;
-        c.classList.remove('is-hidden');
-      }
-      function loop(){
-        x = lerp(x, tx, 0.22);
-        y = lerp(y, ty, 0.22);
-        c.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-        requestAnimationFrame(loop);
-      }
-      function onEnterLink(){ c.classList.add('is-link'); }
-      function onLeaveLink(){ c.classList.remove('is-link'); }
-
+      function move(e){ tx = e.clientX; ty = e.clientY; c.classList.remove('is-hidden'); }
+      function loop(){ x = lerp(x, tx, 0.22); y = lerp(y, ty, 0.22); c.style.transform = `translate3d(${x}px, ${y}px, 0)`; requestAnimationFrame(loop); }
+      function onEnter(){ c.classList.add('is-link'); } function onLeave(){ c.classList.remove('is-link'); }
       document.addEventListener('mousemove', move, {passive:true});
       document.addEventListener('mouseenter', ()=>c.classList.remove('is-hidden'));
       document.addEventListener('mouseleave', ()=>c.classList.add('is-hidden'));
-
-      const hoverables = 'a, button, .btn, [role="button"], input, textarea, select, .caro-btn';
-      document.querySelectorAll(hoverables).forEach(el=>{
-        el.addEventListener('mouseenter', onEnterLink);
-        el.addEventListener('mouseleave', onLeaveLink);
-      });
-
+      document.querySelectorAll('a, button, .btn, [role="button"], input, textarea, select, .caro-btn')
+        .forEach(el=>{ el.addEventListener('mouseenter', onEnter); el.addEventListener('mouseleave', onLeave); });
       loop();
     })();
   </script>

@@ -86,9 +86,6 @@
       pointer-events:none;
     }
 
-    /* As you scroll DOWN, the white page naturally paints over the hero.
-       Ensure subsequent sections sit above hero (no z-index on hero children). */
-
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg)}
     @media (max-width:560px){ .section{padding:56px 0} }
 
@@ -139,6 +136,19 @@
     .t-media.drive iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
+
+    /* ---- Non-blocking thumbnails for Drive iframes ---- */
+    .t-media.drive{--thumb: none;}
+    .t-media.drive::before{
+      content:"";
+      position:absolute; inset:0;
+      background-image: var(--thumb);
+      background-size: cover; background-position:center;
+      transition: opacity 240ms ease;
+      pointer-events:none; /* don’t block clicks */
+      opacity:1;
+    }
+    .t-media.drive.is-loaded::before{ opacity:0; }
 
     /* Carousel */
     .carousel{position:relative}
@@ -245,7 +255,7 @@
         <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
         <h1 class="reveal serif">Capturing Emotions with Cinematic Artistry</h1>
         <div class="rule reveal" aria-hidden="true"></div>
-        <p class="sub prose reveal">Documentary approach, organic feel, editorial polish. Serving Southern California &amp; destinations worldwide.</p>
+        <p class="sub prose reveal">Documentary approach, organic feel, editorial polish. Serving Southern California.</p>
       </div>
     </section>
 
@@ -263,12 +273,16 @@
       </div>
     </section>
 
-    <!-- DARK FEATURE (Drive 16:9) -->
+    <!-- DARK FEATURE (Drive 16:9 with TN_1) -->
     <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
-        <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día">
-          <iframe src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
-                  allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Make It a Dulce Día"></iframe>
+        <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día" style="--thumb: url('/assets/TN_1.jpg');">
+          <iframe
+            src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            loading="lazy"
+            title="Make It a Dulce Día"></iframe>
         </div>
         <div class="t-copy">
           <div class="eyebrow serif reveal">Feature</div>
@@ -387,15 +401,19 @@
       </div>
     </section>
 
-    <!-- TESTIMONIAL (Drive 4:5) -->
+    <!-- TESTIMONIAL (Drive 4:5 with TN_2) -->
     <section id="testimonials" class="section dark" aria-label="Testimonial">
       <div class="wrap">
         <h2 class="serif reveal">TESTIMONIAL</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="testimonial">
-          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
-            <iframe src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
-                    allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Meet Pags &amp; Gunner (4x5)"></iframe>
+          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner" style="--thumb: url('/assets/TN_2.jpg');">
+            <iframe
+              src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
+              allow="autoplay; fullscreen"
+              allowfullscreen
+              loading="lazy"
+              title="Meet Pags &amp; Gunner (4x5)"></iframe>
           </div>
           <div class="t-copy">
             <div class="eyebrow serif reveal">Client Story</div>
@@ -569,7 +587,6 @@
           // Parallax background
           if(!prefersReduced){
             const speed = parseFloat(sec.getAttribute('data-speed')) || 0.2;
-            // offset so bg moves slower than scroll; negative for subtle upward drift
             const offsetY = -(rect.top * speed);
             sec.style.backgroundPosition = `center ${offsetY.toFixed(1)}px`;
           }
@@ -577,18 +594,16 @@
           // Dynamic glass opacity (strongest at viewport center)
           const panel = sec.querySelector('[data-glass]');
           if(panel){
-            // distance from section center to viewport center
             const secCenter = rect.top + rect.height/2;
             const dist = Math.abs(secCenter - centerY);
 
-            // Normalize so f = 1 at center, ~0 at far (use 0.9*vh falloff for a smooth bell)
             const falloff = 0.9 * vh;
             const f = 1 - clamp(dist / falloff, 0, 1);
 
             const maxA = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--glass-max')) || 0.55;
             const minA = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--glass-min')) || 0.22;
 
-            const a = minA + f * (maxA - minA); // never exceeds maxA
+            const a = minA + f * (maxA - minA);
             panel.style.setProperty('--glassA', a.toFixed(3));
           }
         });
@@ -600,6 +615,20 @@
       function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(()=>{ update(); ticking = false; }); } }
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onScroll);
+    })();
+
+    // =========================
+    // Drive iframe thumbnail fade (non-blocking)
+    // =========================
+    (function(){
+      const drives = document.querySelectorAll('.t-media.drive iframe');
+      drives.forEach((frame)=>{
+        // When the Drive preview loads, fade out the custom TN overlay
+        frame.addEventListener('load', ()=>{
+          const parent = frame.closest('.t-media.drive');
+          if(parent) parent.classList.add('is-loaded');
+        });
+      });
     })();
   </script>
 </body>

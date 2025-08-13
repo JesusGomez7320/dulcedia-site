@@ -21,6 +21,10 @@
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
       --cursor-size:28px;
+
+      /* Glass alpha controls */
+      --glass-min: .22;   /* minimum opacity when far from center */
+      --glass-max: .55;   /* DO NOT exceed current design max */
     }
 
     *{box-sizing:border-box}
@@ -82,7 +86,10 @@
       pointer-events:none;
     }
 
-    .section{padding:72px 0;scroll-margin-top:80px}
+    /* As you scroll DOWN, the white page naturally paints over the hero.
+       Ensure subsequent sections sit above hero (no z-index on hero children). */
+
+    .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg)}
     @media (max-width:560px){ .section{padding:56px 0} }
 
     .columns{column-count:2;column-gap:3rem}
@@ -170,19 +177,32 @@
     .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
     @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
 
-    /* Glass panel styling (for bg-photo sections) */
+    /* Glass panel styling (dynamic opacity) */
     .glass-panel{
-      background: rgba(20, 20, 20, 0.55);
+      /* JS updates --glassA; fallback equals max to preserve current design if JS off */
+      --glassA: var(--glass-max);
+      background: rgba(20, 20, 20, var(--glassA));
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border-radius: var(--r); padding: 32px; box-shadow: var(--shadow);
+      transition: background 200ms linear;
     }
     .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
 
-    /* Background photos */
-    #experience.bg-photo { background: url('/assets/bg_1.jpg') center/cover no-repeat; }
-    #process.bg-photo    { background: url('/assets/bg_2.jpg') center/cover no-repeat; }
+    /* Background photos with parallax */
+    #experience.bg-photo, #process.bg-photo{
+      background-position: center 0px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      will-change: background-position;
+      position: relative;
+      isolation: isolate;
+    }
 
-    /* ---- Socials (fix giant logos) ---- */
+    /* Background photos */
+    #experience.bg-photo { background-image: url('/assets/bg_1.jpg'); }
+    #process.bg-photo    { background-image: url('/assets/bg_2.jpg'); }
+
+    /* ---- Socials (fixed giant logos) ---- */
     .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff}
     .socials a{
       display:inline-flex; align-items:center; gap:8px;
@@ -190,7 +210,6 @@
       transition:transform .18s ease, background .18s ease; font-size:14px; line-height:1;
     }
     .socials a:hover{transform:translateY(-1px);background:#faf9f6}
-    /* Stronger selector + !important to defeat any global svg rules */
     .socials a svg{width:18px !important;height:18px !important;display:inline-block;flex:none}
     .socials a span{display:inline-block}
     @media (max-width:520px){ .socials{flex-wrap:wrap;gap:10px} .socials a{padding:8px 10px} }
@@ -260,9 +279,9 @@
       </div>
     </section>
 
-    <!-- EXPERIENCE (glass panel over photo) -->
-    <section id="experience" class="section bg-photo" aria-label="Experience">
-      <div class="wrap glass-panel">
+    <!-- EXPERIENCE (glass panel over photo with parallax + dynamic opacity) -->
+    <section id="experience" class="section bg-photo" aria-label="Experience" data-parallax data-speed="0.22">
+      <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="grid grid-3">
@@ -343,9 +362,9 @@
       </div>
     </section>
 
-    <!-- PROCESS (glass panel over photo) -->
-    <section id="process" class="section bg-photo" aria-label="Process">
-      <div class="wrap glass-panel">
+    <!-- PROCESS (glass panel over photo with parallax + dynamic opacity) -->
+    <section id="process" class="section bg-photo" aria-label="Process" data-parallax data-speed="0.20">
+      <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">THE PROCESS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="grid grid-3">
@@ -473,7 +492,7 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // HERO parallax
+    // HERO subtle parallax (video moves slightly).
     (function(){
       const hero = document.getElementById('home');
       const vid  = document.getElementById('heroVideo');
@@ -528,6 +547,59 @@
       document.querySelectorAll('a, button, .btn, [role="button"], input, textarea, select, .caro-btn')
         .forEach(el=>{ el.addEventListener('mouseenter', onEnter); el.addEventListener('mouseleave', onLeave); });
       loop();
+    })();
+
+    // =========================
+    // BG-PHOTO PARALLAX + GLASS OPACITY (experience/process)
+    // =========================
+    (function(){
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const sections = Array.from(document.querySelectorAll('[data-parallax].bg-photo'));
+      if(!sections.length) return;
+
+      // Helper: clamp and map
+      const clamp = (v, min, max)=> Math.max(min, Math.min(max, v));
+
+      function update(){
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const centerY = vh / 2;
+
+        sections.forEach(sec=>{
+          const rect = sec.getBoundingClientRect();
+          // Parallax background
+          if(!prefersReduced){
+            const speed = parseFloat(sec.getAttribute('data-speed')) || 0.2;
+            // offset so bg moves slower than scroll; negative for subtle upward drift
+            const offsetY = -(rect.top * speed);
+            sec.style.backgroundPosition = `center ${offsetY.toFixed(1)}px`;
+          }
+
+          // Dynamic glass opacity (strongest at viewport center)
+          const panel = sec.querySelector('[data-glass]');
+          if(panel){
+            // distance from section center to viewport center
+            const secCenter = rect.top + rect.height/2;
+            const dist = Math.abs(secCenter - centerY);
+
+            // Normalize so f = 1 at center, ~0 at far (use 0.9*vh falloff for a smooth bell)
+            const falloff = 0.9 * vh;
+            const f = 1 - clamp(dist / falloff, 0, 1);
+
+            const maxA = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--glass-max')) || 0.55;
+            const minA = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--glass-min')) || 0.22;
+
+            const a = minA + f * (maxA - minA); // never exceeds maxA
+            panel.style.setProperty('--glassA', a.toFixed(3));
+          }
+        });
+      }
+
+      // Kick things once and on scroll/resize
+      update();
+      let ticking = false;
+      function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(()=>{ update(); ticking = false; }); } }
+      window.addEventListener('scroll', onScroll, {passive:true});
+      window.addEventListener('resize', onScroll);
     })();
   </script>
 </body>

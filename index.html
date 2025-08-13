@@ -23,8 +23,8 @@
       --cursor-size:28px;
 
       /* Glass alpha controls */
-      --glass-min: .22;   /* minimum opacity when far from center */
-      --glass-max: .55;   /* DO NOT exceed current design max */
+      --glass-min: .22;
+      --glass-max: .55;
     }
 
     *{box-sizing:border-box}
@@ -133,20 +133,20 @@
     .t-copy .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--dark-sub);margin-bottom:8px}
     .t-copy blockquote{margin:0 0 14px;font-size:clamp(18px,2.1vw,24px);line-height:1.5;font-family:Playfair Display,BrandSerif,Georgia,serif}
     .t-copy .body{color:var(--dark-sub)}
-    .t-media.drive iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .t-media.drive iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:0}
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
 
-    /* ---- Non-blocking thumbnails for Drive iframes ---- */
-    .t-media.drive{--thumb: none;}
+    /* ---- Non-blocking thumbnails for Drive iframes (fixed stacking) ---- */
+    .t-media.drive{--thumb:none;}
     .t-media.drive::before{
       content:"";
       position:absolute; inset:0;
       background-image: var(--thumb);
       background-size: cover; background-position:center;
-      transition: opacity 240ms ease;
-      pointer-events:none; /* don’t block clicks */
-      opacity:1;
+      opacity:1; transition: opacity 240ms ease;
+      pointer-events:none;
+      z-index:1; /* sit above iframe */
     }
     .t-media.drive.is-loaded::before{ opacity:0; }
 
@@ -189,7 +189,6 @@
 
     /* Glass panel styling (dynamic opacity) */
     .glass-panel{
-      /* JS updates --glassA; fallback equals max to preserve current design if JS off */
       --glassA: var(--glass-max);
       background: rgba(20, 20, 20, var(--glassA));
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -208,11 +207,11 @@
       isolation: isolate;
     }
 
-    /* Background photos */
-    #experience.bg-photo { background-image: url('/assets/bg_1.jpg'); }
-    #process.bg-photo    { background-image: url('/assets/bg_2.jpg'); }
+    /* Background photos (relative paths) */
+    #experience.bg-photo { background-image: url('./assets/bg_1.jpg'); }
+    #process.bg-photo    { background-image: url('./assets/bg_2.jpg'); }
 
-    /* ---- Socials (fixed giant logos) ---- */
+    /* ---- Socials ---- */
     .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff}
     .socials a{
       display:inline-flex; align-items:center; gap:8px;
@@ -247,9 +246,9 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" id="home" aria-label="Hero">
-      <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg">
-        <source src="/assets/hero.webm" type="video/webm" />
-        <source src="/assets/hero.mp4"  type="video/mp4" />
+      <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="./assets/hero-poster.jpg">
+        <source src="./assets/hero.webm" type="video/webm" />
+        <source src="./assets/hero.mp4"  type="video/mp4" />
       </video>
       <div class="wrap">
         <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
@@ -276,7 +275,7 @@
     <!-- DARK FEATURE (Drive 16:9 with TN_1) -->
     <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
-        <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día" style="--thumb: url('/assets/TN_1.jpg');">
+        <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día" style="--thumb: url('./assets/TN_1.jpg');">
           <iframe
             src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
             allow="autoplay; fullscreen"
@@ -293,7 +292,7 @@
       </div>
     </section>
 
-    <!-- EXPERIENCE (glass panel over photo with parallax + dynamic opacity) -->
+    <!-- EXPERIENCE -->
     <section id="experience" class="section bg-photo" aria-label="Experience" data-parallax data-speed="0.22">
       <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
@@ -359,16 +358,16 @@
           <button class="caro-btn prev" aria-label="Previous" data-dir="-1">‹</button>
           <div class="caro-viewport" id="caroViewport" tabindex="0">
             <ul class="caro-track" id="caroTrack">
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/1.jpg"  alt="Gallery image 1"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/2.jpg"  alt="Gallery image 2"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/3.jpg"  alt="Gallery image 3"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/4.jpg"  alt="Gallery image 4"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/5.jpg"  alt="Gallery image 5"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/6.jpg"  alt="Gallery image 6"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/7.jpg"  alt="Gallery image 7"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/8.jpg"  alt="Gallery image 8"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/9.jpg"  alt="Gallery image 9"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/10.jpg" alt="Gallery image 10" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/1.jpg"  alt="Gallery image 1"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/2.jpg"  alt="Gallery image 2"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/3.jpg"  alt="Gallery image 3"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/4.jpg"  alt="Gallery image 4"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/5.jpg"  alt="Gallery image 5"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/6.jpg"  alt="Gallery image 6"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/7.jpg"  alt="Gallery image 7"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/8.jpg"  alt="Gallery image 8"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/9.jpg"  alt="Gallery image 9"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="./assets/gallery/10.jpg" alt="Gallery image 10" loading="lazy" /></figure></li>
             </ul>
           </div>
           <button class="caro-btn next" aria-label="Next" data-dir="1">›</button>
@@ -376,7 +375,7 @@
       </div>
     </section>
 
-    <!-- PROCESS (glass panel over photo with parallax + dynamic opacity) -->
+    <!-- PROCESS -->
     <section id="process" class="section bg-photo" aria-label="Process" data-parallax data-speed="0.20">
       <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">THE PROCESS</h2>
@@ -407,7 +406,7 @@
         <h2 class="serif reveal">TESTIMONIAL</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="testimonial">
-          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner" style="--thumb: url('/assets/TN_2.jpg');">
+          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner" style="--thumb: url('./assets/TN_2.jpg');">
             <iframe
               src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
               allow="autoplay; fullscreen"
@@ -510,7 +509,7 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // HERO subtle parallax (video moves slightly).
+    // HERO subtle parallax
     (function(){
       const hero = document.getElementById('home');
       const vid  = document.getElementById('heroVideo');
@@ -567,15 +566,12 @@
       loop();
     })();
 
-    // =========================
-    // BG-PHOTO PARALLAX + GLASS OPACITY (experience/process)
-    // =========================
+    // BG-PHOTO PARALLAX + GLASS OPACITY
     (function(){
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const sections = Array.from(document.querySelectorAll('[data-parallax].bg-photo'));
       if(!sections.length) return;
 
-      // Helper: clamp and map
       const clamp = (v, min, max)=> Math.max(min, Math.min(max, v));
 
       function update(){
@@ -584,32 +580,26 @@
 
         sections.forEach(sec=>{
           const rect = sec.getBoundingClientRect();
-          // Parallax background
           if(!prefersReduced){
             const speed = parseFloat(sec.getAttribute('data-speed')) || 0.2;
             const offsetY = -(rect.top * speed);
             sec.style.backgroundPosition = `center ${offsetY.toFixed(1)}px`;
           }
 
-          // Dynamic glass opacity (strongest at viewport center)
           const panel = sec.querySelector('[data-glass]');
           if(panel){
             const secCenter = rect.top + rect.height/2;
             const dist = Math.abs(secCenter - centerY);
-
             const falloff = 0.9 * vh;
             const f = 1 - clamp(dist / falloff, 0, 1);
-
             const maxA = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--glass-max')) || 0.55;
             const minA = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--glass-min')) || 0.22;
-
             const a = minA + f * (maxA - minA);
             panel.style.setProperty('--glassA', a.toFixed(3));
           }
         });
       }
 
-      // Kick things once and on scroll/resize
       update();
       let ticking = false;
       function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(()=>{ update(); ticking = false; }); } }
@@ -617,16 +607,15 @@
       window.addEventListener('resize', onScroll);
     })();
 
-    // =========================
-    // Drive iframe thumbnail fade (non-blocking)
-    // =========================
+    // Drive iframe thumbnail fade (non-blocking + small delay)
     (function(){
       const drives = document.querySelectorAll('.t-media.drive iframe');
       drives.forEach((frame)=>{
-        // When the Drive preview loads, fade out the custom TN overlay
         frame.addEventListener('load', ()=>{
           const parent = frame.closest('.t-media.drive');
-          if(parent) parent.classList.add('is-loaded');
+          if(parent){
+            setTimeout(()=> parent.classList.add('is-loaded'), 200);
+          }
         });
       });
     })();

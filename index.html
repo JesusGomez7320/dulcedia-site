@@ -13,7 +13,7 @@
 
   <style>
     @font-face { font-family:"BrandSerif"; src:url("/fonts/BrandSerif.woff2") format("woff2"); font-weight:400 700; font-display:swap; }
-    @font-face { font-family:"BrandSans"; src:url("/fonts/BrandSans.woff2") format("woff2"); font-weight:300 800; font-display:swap; }
+    @font-face { font-family:"BrandSans";  src:url("/fonts/BrandSans.woff2")  format("woff2"); font-weight:300 800; font-display:swap; }
 
     :root{
       --bg:#F7F6F2; --ink:#0E0F12; --muted:#666B74; --line:#E8E6E0; --accent:#C9BBA6;
@@ -23,15 +23,15 @@
 
       --cursor-size:28px;
     }
+
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--ink)}
     html{scroll-behavior:smooth}
     body{
       font:16px/1.75 Inter, BrandSans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       text-rendering:optimizeLegibility; overflow-x:hidden;
-      cursor:none; /* use our custom cursor */
+      cursor:none; /* custom cursor */
     }
-    /* Keep native cursor inside form fields so typing feels normal */
     input, textarea, button { cursor:auto }
 
     .serif{font-family: Playfair Display, BrandSerif, Georgia, "Times New Roman", Times, serif}
@@ -65,18 +65,15 @@
     /* HERO — full-bleed video INSIDE the section with parallax */
     .hero{
       position:relative;
-      min-height:100vh;             /* fills the screen "right away" */
+      min-height:100vh;
       display:grid; place-items:center;
       color:#fff; text-align:center; overflow:hidden;
-      border-bottom:none;
-      background:transparent;       /* video provides the look here */
+      background:transparent;
       isolation:isolate;
     }
     .hero .wrap{position:relative;z-index:1}
     .hero .sub{color:#EEE9E0}
     .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
-
-    /* Video fills the hero only; no border/window */
     .bg-video{
       position:absolute; inset:0;
       width:100%; height:100%;
@@ -87,7 +84,6 @@
       pointer-events:none;
       z-index:0;
     }
-    /* Soft gradient overlay for readability */
     .hero::after{
       content:"";
       position:absolute; inset:0; z-index:0;
@@ -95,11 +91,13 @@
       pointer-events:none;
     }
 
-    .section{padding:72px 0;background:var(--bg);scroll-margin-top:80px}
+    .section{padding:72px 0;scroll-margin-top:80px}
     @media (max-width:560px){ .section{padding:56px 0} }
+
     .columns{column-count:2;column-gap:3rem}
     .columns p{break-inside:avoid}
     @media (max-width:900px){ .columns{column-count:1} }
+
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
     @media (max-width:980px){ .grid-3{grid-template-columns:1fr} }
@@ -127,7 +125,7 @@
 
     footer{border-top:1px solid var(--line);padding:28px 0;background:#fff}
 
-    /* Dark testimonial/feature sections */
+    /* Dark feature/testimonial sections */
     .section.dark{background:var(--dark);color:var(--dark-ink);border-top:1px solid var(--dark-line);border-bottom:1px solid var(--dark-line)}
     .section.dark .sub,.section.dark .eyebrow{color:var(--dark-sub)}
     .section.dark .rule{background:var(--dark-line)}
@@ -150,14 +148,7 @@
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
 
-    /* Socials bar */
-    .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff}
-    .socials a{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;transition:transform .18s ease, background .18s ease}
-    .socials a:hover{transform:translateY(-1px);background:#faf9f6}
-    .socials svg{width:18px;height:18px;display:block}
-    @media (max-width:520px){ .socials{flex-wrap:wrap;gap:10px} .socials a{padding:8px 10px} }
-
-    /* --- Carousel --- */
+    /* Carousel */
     .carousel{position:relative}
     .caro-viewport{
       overflow-x:auto;
@@ -194,9 +185,7 @@
       will-change:transform;
     }
     .caro-card:hover img{ transform:scale(1.03) }
-    @media (pointer:coarse){
-      .caro-card:hover img{ transform:scale(1) }
-    }
+    @media (pointer:coarse){ .caro-card:hover img{ transform:scale(1) } }
     .caro-btn{
       position:absolute; top:50%; translate:0 -50%;
       border:1px solid var(--ink); background:#fff;
@@ -207,11 +196,9 @@
     .caro-btn.prev{ left:-6px }
     .caro-btn.next{ right:-6px }
     .caro-btn:hover{ background:var(--ink); color:#fff }
-    @media (max-width:560px){
-      .caro-btn{ display:none }
-    }
+    @media (max-width:560px){ .caro-btn{ display:none } }
 
-    /* --- Custom circular cursor with soft shadow --- */
+    /* Custom circular cursor with soft shadow */
     .cursor{
       position:fixed; left:0; top:0; translate:-50% -50%;
       width:var(--cursor-size); height:var(--cursor-size);
@@ -226,16 +213,25 @@
     }
     .cursor.is-hidden{ opacity:0 }
     .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
+    @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
 
-    @media (pointer:coarse) {
-      body{ cursor:auto } .cursor{ display:none } /* no custom cursor on touch */
+    /* Glass-panel style + background images for specific sections */
+    .glass-panel {
+      background: rgba(20, 20, 20, 0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: var(--r);
+      padding: 32px;
+      box-shadow: var(--shadow);
     }
+    .glass-panel h2, .glass-panel p, .glass-panel h3 { color: #fff; }
+    /* Apply photo backgrounds to these sections */
+    #experience.bg-photo { background: url('/assets/bg_1.jpg') center/cover no-repeat; }
+    #process.bg-photo    { background: url('/assets/bg_2.jpg') center/cover no-repeat; }
   </style>
 </head>
 <body class="no-js">
   <a class="sr-only" href="#main">Skip to content</a>
-
-  <!-- custom cursor element -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <header role="banner">
@@ -258,7 +254,7 @@
     <section class="hero" id="home" aria-label="Hero">
       <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg">
         <source src="/assets/hero.webm" type="video/webm" />
-        <source src="/assets/hero.mp4" type="video/mp4" />
+        <source src="/assets/hero.mp4"  type="video/mp4" />
       </video>
       <div class="wrap">
         <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
@@ -269,7 +265,7 @@
     </section>
 
     <!-- ABOUT -->
-    <section id="about" class="section">
+    <section id="about" class="section" aria-label="About">
       <div class="wrap">
         <h2 class="serif reveal">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
@@ -282,7 +278,7 @@
       </div>
     </section>
 
-    <!-- DARK VIDEO FEATURE (Google Drive 16:9) -->
+    <!-- DARK FEATURE (Google Drive 16:9) -->
     <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
         <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día">
@@ -303,9 +299,9 @@
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
-    <section id="experience" class="section">
-      <div class="wrap">
+    <!-- EXPERIENCE (Glass panel over photo background) -->
+    <section id="experience" class="section bg-photo" aria-label="Experience">
+      <div class="wrap glass-panel">
         <h2 class="serif reveal">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="grid grid-3">
@@ -317,7 +313,7 @@
     </section>
 
     <!-- PACKAGES -->
-    <section id="packages" class="section">
+    <section id="packages" class="section" aria-label="Packages">
       <div class="wrap">
         <h2 class="serif reveal">PACKAGES</h2>
         <div class="rule reveal" aria-hidden="true"></div>
@@ -386,9 +382,9 @@
       </div>
     </section>
 
-    <!-- PROCESS -->
-    <section id="process" class="section process">
-      <div class="wrap">
+    <!-- PROCESS (Glass panel over photo background) -->
+    <section id="process" class="section process bg-photo" aria-label="Process">
+      <div class="wrap glass-panel">
         <h2 class="serif reveal">THE PROCESS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="grid grid-3">
@@ -411,12 +407,11 @@
       </div>
     </section>
 
-    <!-- TESTIMONIAL VIDEO (Google Drive 4:5) -->
+    <!-- TESTIMONIAL (Drive 4:5) -->
     <section id="testimonials" class="section dark" aria-label="Testimonial">
       <div class="wrap">
         <h2 class="serif reveal">TESTIMONIAL</h2>
         <div class="rule reveal" aria-hidden="true"></div>
-
         <div class="testimonial">
           <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
             <iframe
@@ -427,7 +422,6 @@
               title="Meet Pags &amp; Gunner (4x5)">
             </iframe>
           </div>
-
           <div class="t-copy">
             <div class="eyebrow serif reveal">Client Story</div>
             <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
@@ -439,12 +433,11 @@
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="section">
+    <section id="contact" class="section" aria-label="Contact">
       <div class="wrap">
         <h2 class="serif reveal">Inquire</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <p class="prose sub reveal">Tell us about your day—date, location, and what matters most to you.</p>
-
         <form name="inquire" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" class="grid reveal" style="max-width:720px">
           <input type="hidden" name="form-name" value="inquire" />
           <p class="sr-only"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
@@ -458,7 +451,7 @@
     </section>
   </main>
 
-  <!-- Socials bar -->
+  <!-- Socials -->
   <div class="socials" aria-label="Follow Dulce Día Cine">
     <a href="https://instagram.com/dulcediacine" target="_blank" rel="noopener" aria-label="Instagram">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -489,16 +482,13 @@
   </footer>
 
   <script>
-    // JS-ready flags
+    // Remove no-js
     document.body.classList.remove('no-js');
 
-    // Current year
-    (function(){
-      var y = document.getElementById('year');
-      if(y) y.textContent = new Date().getFullYear();
-    })();
+    // Year
+    (function(){ var y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear(); })();
 
-    // Mobile menu toggle
+    // Mobile menu
     (function(){
       const btn = document.getElementById('menuBtn');
       const nav = document.getElementById('navLinks');
@@ -530,20 +520,18 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // HERO parallax (video stays in hero; subtle Y-translate on scroll)
+    // HERO parallax
     (function(){
       const hero = document.getElementById('home');
       const vid  = document.getElementById('heroVideo');
       if(!hero || !vid) return;
 
       let ticking = false;
-      const speed = 0.15; // tweak for more/less parallax
+      const speed = 0.15;
 
       function update(){
         const rect = hero.getBoundingClientRect();
         const vh = window.innerHeight || document.documentElement.clientHeight;
-
-        // Only animate while hero is visible
         if(rect.bottom > 0 && rect.top < vh){
           const heroCenter = rect.top + rect.height/2;
           const viewportCenter = vh/2;
@@ -552,15 +540,13 @@
         }
         ticking = false;
       }
-      function onScroll(){
-        if(!ticking){ ticking = true; requestAnimationFrame(update); }
-      }
+      function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
       update();
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onScroll);
     })();
 
-    // Carousel: buttons + click-and-drag support
+    // Carousel
     (function(){
       const vp = document.getElementById('caroViewport');
       const track = document.getElementById('caroTrack');
@@ -575,7 +561,7 @@
         btn.addEventListener('click', ()=> step(parseInt(btn.dataset.dir,10)));
       });
 
-      // Click-and-drag (desktop)
+      // drag to scroll
       let isDown = false, startX = 0, startScroll = 0;
       vp.addEventListener('pointerdown', (e)=>{
         isDown = true; vp.setPointerCapture(e.pointerId);
@@ -589,14 +575,14 @@
       vp.addEventListener('pointerup', ()=>{ isDown = false });
       vp.addEventListener('pointercancel', ()=>{ isDown = false });
 
-      // Keyboard
+      // keyboard
       vp.addEventListener('keydown', (e)=>{
         if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
-        if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+        if(e.key === 'ArrowLeft'){  e.preventDefault(); step(-1); }
       });
     })();
 
-    // Custom cursor logic
+    // Custom cursor
     (function(){
       const c = document.getElementById('cursor');
       if(!c) return;
@@ -604,7 +590,6 @@
       let x = window.innerWidth / 2, y = window.innerHeight / 2;
       let tx = x, ty = y;
       const lerp = (a,b,t)=>a+(b-a)*t;
-      let rafId;
 
       function move(e){
         tx = e.clientX; ty = e.clientY;
@@ -614,7 +599,7 @@
         x = lerp(x, tx, 0.22);
         y = lerp(y, ty, 0.22);
         c.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-        rafId = requestAnimationFrame(loop);
+        requestAnimationFrame(loop);
       }
       function onEnterLink(){ c.classList.add('is-link'); }
       function onLeaveLink(){ c.classList.remove('is-link'); }
@@ -623,7 +608,6 @@
       document.addEventListener('mouseenter', ()=>c.classList.remove('is-hidden'));
       document.addEventListener('mouseleave', ()=>c.classList.add('is-hidden'));
 
-      // Enlarge when hovering interactive elements
       const hoverables = 'a, button, .btn, [role="button"], input, textarea, select, .caro-btn';
       document.querySelectorAll(hoverables).forEach(el=>{
         el.addEventListener('mouseenter', onEnterLink);

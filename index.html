@@ -120,6 +120,60 @@
     .socials a:hover{transform:translateY(-1px);background:#faf9f6}
     .socials svg{width:18px;height:18px;display:block}
     @media (max-width:520px){ .socials{flex-wrap:wrap;gap:10px} .socials a{padding:8px 10px} }
+
+    /* --- Carousel --- */
+    .carousel{position:relative}
+    .caro-viewport{
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      scroll-behavior:smooth;
+      border-radius:var(--r);
+      border:1px solid var(--line);
+      background:#fff;
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    .caro-track{
+      display:grid;
+      grid-auto-flow:column;
+      grid-auto-columns:clamp(220px, 28vw, 380px);
+      gap:16px;
+      list-style:none;
+      margin:0; padding:0;
+    }
+    .caro-slide{scroll-snap-align:center}
+    .caro-card{
+      position:relative;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#000;
+      aspect-ratio:4/5;
+      margin:0;
+    }
+    .caro-card img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      transform:scale(1); transition:transform 220ms ease, filter 220ms ease;
+      will-change:transform;
+    }
+    .caro-card:hover img{ transform:scale(1.03) }
+    @media (pointer:coarse){
+      .caro-card:hover img{ transform:scale(1) }
+    }
+    .caro-btn{
+      position:absolute; top:50%; translate:0 -50%;
+      border:1px solid var(--ink); background:#fff;
+      width:40px; height:40px; border-radius:999px;
+      display:grid; place-items:center; cursor:pointer;
+      box-shadow:var(--shadow);
+    }
+    .caro-btn.prev{ left:-6px }
+    .caro-btn.next{ right:-6px }
+    .caro-btn:hover{ background:var(--ink); color:#fff }
+    @media (max-width:560px){
+      .caro-btn{ display:none }
+    }
   </style>
 </head>
 <body class="no-js">
@@ -133,6 +187,7 @@
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#packages">Packages</a>
+        <a href="#gallery">Gallery</a>
         <a href="#process">Process</a>
         <a href="#contact">Inquire</a>
       </nav>
@@ -242,6 +297,38 @@
               <li>Drone Coverage</li>
             </ul>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY (inserted between PACKAGES and PROCESS) -->
+    <section id="gallery" class="section" aria-label="Photo Gallery">
+      <div class="wrap">
+        <h2 class="serif reveal">Gallery</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+        <div class="carousel reveal" aria-roledescription="carousel">
+          <button class="caro-btn prev" aria-label="Previous" data-dir="-1">‹</button>
+          <div class="caro-viewport" id="caroViewport" tabindex="0">
+            <ul class="caro-track" id="caroTrack">
+              <!-- Replace/extend these with your images named 1.jpg, 2.jpg, 3.jpg, ... -->
+              <li class="caro-slide">
+                <figure class="caro-card">
+                  <img src="/assets/gallery/1.jpg" alt="Gallery image 1" loading="lazy" />
+                </figure>
+              </li>
+              <li class="caro-slide">
+                <figure class="caro-card">
+                  <img src="/assets/gallery/2.jpg" alt="Gallery image 2" loading="lazy" />
+                </figure>
+              </li>
+              <li class="caro-slide">
+                <figure class="caro-card">
+                  <img src="/assets/gallery/3.jpg" alt="Gallery image 3" loading="lazy" />
+                </figure>
+              </li>
+            </ul>
+          </div>
+          <button class="caro-btn next" aria-label="Next" data-dir="1">›</button>
         </div>
       </div>
     </section>
@@ -409,7 +496,41 @@
       onScroll(); addEventListener('scroll', onScroll, {passive:true}); addEventListener('resize', onScroll);
     })();
 
-    // (No Drive autoplay logic; using standard embeds)
+    // Carousel: buttons + click-and-drag support
+    (function(){
+      const vp = document.getElementById('caroViewport');
+      const track = document.getElementById('caroTrack');
+      if(!vp || !track) return;
+
+      function step(dir){
+        const slide = track.querySelector('.caro-slide');
+        const slideW = slide ? slide.getBoundingClientRect().width : 300;
+        vp.scrollBy({ left: dir * (slideW + 16), behavior: 'smooth' });
+      }
+      document.querySelectorAll('.caro-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=> step(parseInt(btn.dataset.dir,10)));
+      });
+
+      // Click-and-drag (desktop)
+      let isDown = false, startX = 0, startScroll = 0;
+      vp.addEventListener('pointerdown', (e)=>{
+        isDown = true; vp.setPointerCapture(e.pointerId);
+        startX = e.clientX; startScroll = vp.scrollLeft;
+      });
+      vp.addEventListener('pointermove', (e)=>{
+        if(!isDown) return;
+        const dx = e.clientX - startX;
+        vp.scrollLeft = startScroll - dx;
+      });
+      vp.addEventListener('pointerup', ()=>{ isDown = false });
+      vp.addEventListener('pointercancel', ()=>{ isDown = false });
+
+      // Keyboard
+      vp.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
+        if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+      });
+    })();
   </script>
 </body>
 </html>

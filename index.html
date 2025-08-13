@@ -20,11 +20,20 @@
       --max:1160px; --r:18px; --shadow:0 20px 40px rgba(0,0,0,.08);
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
+
+      --cursor-size:28px;
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--ink)}
     html{scroll-behavior:smooth}
-    body{font:16px/1.75 Inter, BrandSans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; text-rendering:optimizeLegibility; overflow-x:hidden}
+    body{
+      font:16px/1.75 Inter, BrandSans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      text-rendering:optimizeLegibility; overflow-x:hidden;
+      cursor:none; /* use our custom cursor */
+    }
+    /* Keep native cursor inside form fields so typing feels normal */
+    input, textarea, button { cursor:auto }
+
     .serif{font-family: Playfair Display, BrandSerif, Georgia, "Times New Roman", Times, serif}
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
@@ -53,35 +62,37 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* HERO — full-bleed, fixed (parallax) background video */
+    /* HERO — full-bleed video INSIDE the section with parallax */
     .hero{
       position:relative;
-      min-height:100vh;             /* full screen */
+      min-height:100vh;             /* fills the screen "right away" */
       display:grid; place-items:center;
       color:#fff; text-align:center; overflow:hidden;
-      border-bottom:none;           /* remove window/border */
-      isolation:isolate;            /* ensure overlay stacks above fixed video */
+      border-bottom:none;
+      background:transparent;       /* video provides the look here */
+      isolation:isolate;
     }
     .hero .wrap{position:relative;z-index:1}
     .hero .sub{color:#EEE9E0}
     .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
+
+    /* Video fills the hero only; no border/window */
     .bg-video{
-      position:fixed;               /* stays put while content scrolls */
-      inset:0;
-      width:100vw; height:100vh;
+      position:absolute; inset:0;
+      width:100%; height:100%;
       object-fit:cover;
-      z-index:-1;                   /* sits behind all content */
       filter:brightness(.55) contrast(1.05) saturate(1.04);
-      transform:translateZ(0);
+      transform:translate3d(0,0,0);
       will-change:transform;
       pointer-events:none;
+      z-index:0;
     }
-    /* subtle top/bottom vignettes to improve text contrast on bright shots */
+    /* Soft gradient overlay for readability */
     .hero::after{
       content:"";
-      position:absolute; inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.15) 35%, rgba(0,0,0,.25) 100%);
-      z-index:0;
+      position:absolute; inset:0; z-index:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.30) 0%, rgba(0,0,0,.10) 40%, rgba(0,0,0,.25) 100%);
+      pointer-events:none;
     }
 
     .section{padding:72px 0;background:var(--bg);scroll-margin-top:80px}
@@ -199,10 +210,33 @@
     @media (max-width:560px){
       .caro-btn{ display:none }
     }
+
+    /* --- Custom circular cursor with soft shadow --- */
+    .cursor{
+      position:fixed; left:0; top:0; translate:-50% -50%;
+      width:var(--cursor-size); height:var(--cursor-size);
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.55);
+      background:rgba(255,255,255,.7);
+      box-shadow:0 8px 18px rgba(0,0,0,.18);
+      pointer-events:none; z-index:9999;
+      transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease;
+      will-change:transform;
+      mix-blend-mode:normal;
+    }
+    .cursor.is-hidden{ opacity:0 }
+    .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
+
+    @media (pointer:coarse) {
+      body{ cursor:auto } .cursor{ display:none } /* no custom cursor on touch */
+    }
   </style>
 </head>
 <body class="no-js">
   <a class="sr-only" href="#main">Skip to content</a>
+
+  <!-- custom cursor element -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <header role="banner">
     <div class="wrap nav" aria-label="Main navigation">
@@ -222,7 +256,7 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" id="home" aria-label="Hero">
-      <video class="bg-video" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg">
+      <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg">
         <source src="/assets/hero.webm" type="video/webm" />
         <source src="/assets/hero.mp4" type="video/mp4" />
       </video>
@@ -457,7 +491,6 @@
   <script>
     // JS-ready flags
     document.body.classList.remove('no-js');
-    document.body.classList.add('parallax-ready');
 
     // Current year
     (function(){
@@ -497,7 +530,108 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // NOTE: No JS parallax needed now — video is fixed to the viewport
+    // HERO parallax (video stays in hero; subtle Y-translate on scroll)
+    (function(){
+      const hero = document.getElementById('home');
+      const vid  = document.getElementById('heroVideo');
+      if(!hero || !vid) return;
+
+      let ticking = false;
+      const speed = 0.15; // tweak for more/less parallax
+
+      function update(){
+        const rect = hero.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+
+        // Only animate while hero is visible
+        if(rect.bottom > 0 && rect.top < vh){
+          const heroCenter = rect.top + rect.height/2;
+          const viewportCenter = vh/2;
+          const delta = (heroCenter - viewportCenter);
+          vid.style.transform = 'translate3d(0,' + (-delta * speed).toFixed(2) + 'px,0)';
+        }
+        ticking = false;
+      }
+      function onScroll(){
+        if(!ticking){ ticking = true; requestAnimationFrame(update); }
+      }
+      update();
+      window.addEventListener('scroll', onScroll, {passive:true});
+      window.addEventListener('resize', onScroll);
+    })();
+
+    // Carousel: buttons + click-and-drag support
+    (function(){
+      const vp = document.getElementById('caroViewport');
+      const track = document.getElementById('caroTrack');
+      if(!vp || !track) return;
+
+      function step(dir){
+        const slide = track.querySelector('.caro-slide');
+        const slideW = slide ? slide.getBoundingClientRect().width : 300;
+        vp.scrollBy({ left: dir * (slideW + 16), behavior: 'smooth' });
+      }
+      document.querySelectorAll('.caro-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=> step(parseInt(btn.dataset.dir,10)));
+      });
+
+      // Click-and-drag (desktop)
+      let isDown = false, startX = 0, startScroll = 0;
+      vp.addEventListener('pointerdown', (e)=>{
+        isDown = true; vp.setPointerCapture(e.pointerId);
+        startX = e.clientX; startScroll = vp.scrollLeft;
+      });
+      vp.addEventListener('pointermove', (e)=>{
+        if(!isDown) return;
+        const dx = e.clientX - startX;
+        vp.scrollLeft = startScroll - dx;
+      });
+      vp.addEventListener('pointerup', ()=>{ isDown = false });
+      vp.addEventListener('pointercancel', ()=>{ isDown = false });
+
+      // Keyboard
+      vp.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
+        if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+      });
+    })();
+
+    // Custom cursor logic
+    (function(){
+      const c = document.getElementById('cursor');
+      if(!c) return;
+
+      let x = window.innerWidth / 2, y = window.innerHeight / 2;
+      let tx = x, ty = y;
+      const lerp = (a,b,t)=>a+(b-a)*t;
+      let rafId;
+
+      function move(e){
+        tx = e.clientX; ty = e.clientY;
+        c.classList.remove('is-hidden');
+      }
+      function loop(){
+        x = lerp(x, tx, 0.22);
+        y = lerp(y, ty, 0.22);
+        c.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        rafId = requestAnimationFrame(loop);
+      }
+      function onEnterLink(){ c.classList.add('is-link'); }
+      function onLeaveLink(){ c.classList.remove('is-link'); }
+
+      document.addEventListener('mousemove', move, {passive:true});
+      document.addEventListener('mouseenter', ()=>c.classList.remove('is-hidden'));
+      document.addEventListener('mouseleave', ()=>c.classList.add('is-hidden'));
+
+      // Enlarge when hovering interactive elements
+      const hoverables = 'a, button, .btn, [role="button"], input, textarea, select, .caro-btn';
+      document.querySelectorAll(hoverables).forEach(el=>{
+        el.addEventListener('mouseenter', onEnterLink);
+        el.addEventListener('mouseleave', onLeaveLink);
+      });
+
+      loop();
+    })();
   </script>
 </body>
 </html>

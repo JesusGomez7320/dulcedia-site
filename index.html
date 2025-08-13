@@ -301,7 +301,7 @@
       </div>
     </section>
 
-    <!-- GALLERY (inserted between PACKAGES and PROCESS) -->
+    <!-- GALLERY -->
     <section id="gallery" class="section" aria-label="Photo Gallery">
       <div class="wrap">
         <h2 class="serif reveal">Gallery</h2>
@@ -310,22 +310,16 @@
           <button class="caro-btn prev" aria-label="Previous" data-dir="-1">‹</button>
           <div class="caro-viewport" id="caroViewport" tabindex="0">
             <ul class="caro-track" id="caroTrack">
-              <!-- Replace/extend these with your images named 1.jpg, 2.jpg, 3.jpg, ... -->
-              <li class="caro-slide">
-                <figure class="caro-card">
-                  <img src="/assets/gallery/1.jpg" alt="Gallery image 1" loading="lazy" />
-                </figure>
-              </li>
-              <li class="caro-slide">
-                <figure class="caro-card">
-                  <img src="/assets/gallery/2.jpg" alt="Gallery image 2" loading="lazy" />
-                </figure>
-              </li>
-              <li class="caro-slide">
-                <figure class="caro-card">
-                  <img src="/assets/gallery/3.jpg" alt="Gallery image 3" loading="lazy" />
-                </figure>
-              </li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/1.jpg" alt="Gallery image 1" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/2.jpg" alt="Gallery image 2" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/3.jpg" alt="Gallery image 3" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/4.jpg" alt="Gallery image 4" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/5.jpg" alt="Gallery image 5" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/6.jpg" alt="Gallery image 6" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/7.jpg" alt="Gallery image 7" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/8.jpg" alt="Gallery image 8" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/9.jpg" alt="Gallery image 9" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/10.jpg" alt="Gallery image 10" loading="lazy" /></figure></li>
             </ul>
           </div>
           <button class="caro-btn next" aria-label="Next" data-dir="1">›</button>
@@ -408,7 +402,6 @@
   <!-- Socials bar -->
   <div class="socials" aria-label="Follow Dulce Día Cine">
     <a href="https://instagram.com/dulcediacine" target="_blank" rel="noopener" aria-label="Instagram">
-      <!-- IG icon -->
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
         <rect x="3" y="3" width="18" height="18" rx="5"></rect>
         <circle cx="12" cy="12" r="4.2"></circle>
@@ -417,14 +410,12 @@
       <span>@dulcediacine</span>
     </a>
     <a href="https://www.tiktok.com/@dulcediacine" target="_blank" rel="noopener" aria-label="TikTok">
-      <!-- TikTok icon -->
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M14 3c.3 2.1 1.6 3.8 3.7 4.4A7 7 0 0 0 18 5.1v3.2a9 9 0 0 1-4-1.3v6.5a5 5 0 1 1-5.6-4.9v2.7a2.2 2.2 0 1 0 1.6 2.1V3h3z"/>
       </svg>
       <span>@dulcediacine</span>
     </a>
     <a href="https://www.facebook.com/profile.php?id=61578925093961" target="_blank" rel="noopener" aria-label="Facebook">
-      <!-- FB icon -->
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M13 9h3V6h-3c-1.7 0-3 1.3-3 3v2H8v3h2v7h3v-7h2.6l.4-3H13V9z"/>
       </svg>
@@ -458,7 +449,6 @@
         const open = nav.classList.toggle('open');
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
-      // Close on link click (mobile)
       nav.addEventListener('click', (e)=>{
         if(e.target.tagName === 'A' && nav.classList.contains('open')){
           nav.classList.remove('open'); btn.setAttribute('aria-expanded','false');

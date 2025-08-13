@@ -20,13 +20,7 @@
       --max:1160px; --r:18px; --shadow:0 20px 40px rgba(0,0,0,.08);
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
-
-      /* Custom cursor vars */
-      --cursor-size: 18px;
-      --cursor: var(--ink);
-      --cursor-contrast: #fff; /* change to var(--accent) for brand accent on hover */
     }
-
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--ink)}
     html{scroll-behavior:smooth}
@@ -36,7 +30,7 @@
     .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
 
     /* Header / Nav */
-    header{position:sticky;top:0;z-index:50;background:rgba(247,246,242,.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+    header{position:sticky;top:0;z-index:50;background:rgba(247,246,242,.72);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
     .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
     .brand{font-weight:700;letter-spacing:.04em;white-space:nowrap;flex:0 1 auto}
     .nav a{margin-left:18px;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
@@ -59,44 +53,36 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* ===== Windowed / Sticky Hero ===== */
+    /* HERO — full-bleed, fixed (parallax) background video */
     .hero{
-      padding: 14vh 0;
-      background: transparent;
-      color: #fff;
-      border-bottom: 1px solid var(--line);
-      text-align:center;
+      position:relative;
+      min-height:100vh;             /* full screen */
+      display:grid; place-items:center;
+      color:#fff; text-align:center; overflow:hidden;
+      border-bottom:none;           /* remove window/border */
+      isolation:isolate;            /* ensure overlay stacks above fixed video */
     }
-    .hero .wrap { position: relative; z-index: 2; }
-    .hero .sub{ color:#EEE9E0 }
-    .hero .rule{ background:rgba(255,255,255,.55); margin:14px auto 0 }
-
-    .hero-window{
-      position: sticky;
-      top: 72px; /* keep below sticky header */
-      z-index: 1;
-      display: grid;
-      place-items: center;
-      height: min(72vh, 760px);
-      margin: 0 auto 26px;
+    .hero .wrap{position:relative;z-index:1}
+    .hero .sub{color:#EEE9E0}
+    .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
+    .bg-video{
+      position:fixed;               /* stays put while content scrolls */
+      inset:0;
+      width:100vw; height:100vh;
+      object-fit:cover;
+      z-index:-1;                   /* sits behind all content */
+      filter:brightness(.55) contrast(1.05) saturate(1.04);
+      transform:translateZ(0);
+      will-change:transform;
+      pointer-events:none;
     }
-    .hero-frame{
-      width: min(92vw, 1160px);
-      aspect-ratio: 16/9;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      position: relative;
-      background: #000;
+    /* subtle top/bottom vignettes to improve text contrast on bright shots */
+    .hero::after{
+      content:"";
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.15) 35%, rgba(0,0,0,.25) 100%);
+      z-index:0;
     }
-    .hero-frame video{
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: brightness(.58) contrast(1.06) saturate(1.04);
-    }
-    .hero-head{ margin-top: 10px; }
 
     .section{padding:72px 0;background:var(--bg);scroll-margin-top:80px}
     @media (max-width:560px){ .section{padding:56px 0} }
@@ -213,34 +199,6 @@
     @media (max-width:560px){
       .caro-btn{ display:none }
     }
-
-    /* ===== Custom Circle Cursor ===== */
-    @media (pointer:fine){
-      html, body { cursor: none; }
-      .x-cursor{
-        position: fixed;
-        left: 0; top: 0;
-        width: var(--cursor-size);
-        height: var(--cursor-size);
-        border-radius: 999px;
-        border: 2px solid var(--cursor);
-        box-shadow: 0 6px 16px rgba(0,0,0,.18);
-        transform: translate3d(-100px,-100px,0);
-        pointer-events: none;
-        z-index: 1000;
-        transition: border-color 160ms ease, background-color 160ms ease, transform 90ms ease, box-shadow 160ms ease, opacity 160ms ease;
-        background: transparent;
-        opacity: .9;
-        mix-blend-mode: normal;
-      }
-      .x-cursor.is-hover{
-        background: var(--cursor-contrast);
-        border-color: var(--cursor-contrast);
-        box-shadow: 0 8px 22px rgba(0,0,0,.22);
-        transform: translate3d(var(--mx,0), var(--my,0), 0) scale(1.1);
-      }
-      body.cursor-hidden .x-cursor { opacity:0; }
-    }
   </style>
 </head>
 <body class="no-js">
@@ -262,18 +220,13 @@
   </header>
 
   <main id="main">
-    <!-- HERO (Windowed / Sticky Video) -->
+    <!-- HERO -->
     <section class="hero" id="home" aria-label="Hero">
-      <div class="hero-window">
-        <div class="hero-frame">
-          <video id="heroVideo" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg" aria-label="Hero background video">
-            <source src="/assets/hero.webm" type="video/webm" />
-            <source src="/assets/hero.mp4" type="video/mp4" />
-          </video>
-        </div>
-      </div>
-
-      <div class="wrap hero-head">
+      <video class="bg-video" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg">
+        <source src="/assets/hero.webm" type="video/webm" />
+        <source src="/assets/hero.mp4" type="video/mp4" />
+      </video>
+      <div class="wrap">
         <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
         <h1 class="reveal serif">Capturing Emotions with Cinematic Artistry</h1>
         <div class="rule reveal" aria-hidden="true"></div>
@@ -382,15 +335,15 @@
           <button class="caro-btn prev" aria-label="Previous" data-dir="-1">‹</button>
           <div class="caro-viewport" id="caroViewport" tabindex="0">
             <ul class="caro-track" id="caroTrack">
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/1.jpg" alt="Gallery image 1" loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/2.jpg" alt="Gallery image 2" loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/3.jpg" alt="Gallery image 3" loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/4.jpg" alt="Gallery image 4" loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/5.jpg" alt="Gallery image 5" loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/6.jpg" alt="Gallery image 6" loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/7.jpg" alt="Gallery image 7" loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/8.jpg" alt="Gallery image 8" loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/9.jpg" alt="Gallery image 9" loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/1.jpg"  alt="Gallery image 1"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/2.jpg"  alt="Gallery image 2"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/3.jpg"  alt="Gallery image 3"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/4.jpg"  alt="Gallery image 4"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/5.jpg"  alt="Gallery image 5"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/6.jpg"  alt="Gallery image 6"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/7.jpg"  alt="Gallery image 7"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/8.jpg"  alt="Gallery image 8"  loading="lazy" /></figure></li>
+              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/9.jpg"  alt="Gallery image 9"  loading="lazy" /></figure></li>
               <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/10.jpg" alt="Gallery image 10" loading="lazy" /></figure></li>
             </ul>
           </div>
@@ -544,100 +497,7 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // Hero parallax (disabled because windowed hero uses sticky)
-    (function(){
-      if (window.__HERO_WINDOWED__) return; // guard
-      const vid = document.getElementById('heroVideo'); if(!vid) return;
-      let ticking = false, speed = 0.07;
-      const onScroll = () => {
-        if(ticking) return; ticking = true;
-        requestAnimationFrame(()=>{
-          const rect = vid.getBoundingClientRect(), vc = innerHeight/2, sc = rect.top + rect.height/2, d = sc - vc;
-          vid.style.transform = 'translate3d(0,' + (-d*speed).toFixed(2) + 'px,0)'; ticking = false;
-        });
-      };
-      onScroll(); addEventListener('scroll', onScroll, {passive:true}); addEventListener('resize', onScroll);
-    })();
-
-    // Carousel: buttons + click-and-drag support
-    (function(){
-      const vp = document.getElementById('caroViewport');
-      const track = document.getElementById('caroTrack');
-      if(!vp || !track) return;
-
-      function step(dir){
-        const slide = track.querySelector('.caro-slide');
-        const slideW = slide ? slide.getBoundingClientRect().width : 300;
-        vp.scrollBy({ left: dir * (slideW + 16), behavior: 'smooth' });
-      }
-      document.querySelectorAll('.caro-btn').forEach(btn=>{
-        btn.addEventListener('click', ()=> step(parseInt(btn.dataset.dir,10)));
-      });
-
-      // Click-and-drag (desktop)
-      let isDown = false, startX = 0, startScroll = 0;
-      vp.addEventListener('pointerdown', (e)=>{
-        isDown = true; vp.setPointerCapture(e.pointerId);
-        startX = e.clientX; startScroll = vp.scrollLeft;
-      });
-      vp.addEventListener('pointermove', (e)=>{
-        if(!isDown) return;
-        const dx = e.clientX - startX;
-        vp.scrollLeft = startScroll - dx;
-      });
-      vp.addEventListener('pointerup', ()=>{ isDown = false });
-      vp.addEventListener('pointercancel', ()=>{ isDown = false });
-
-      // Keyboard
-      vp.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
-        if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
-      });
-    })();
-
-    // ===== Enable windowed hero mode (disables old parallax)
-    window.__HERO_WINDOWED__ = true;
-
-    // ===== Custom Circle Cursor (desktop pointers)
-    (function(){
-      if (!matchMedia('(pointer:fine)').matches) return;
-
-      const cursor = document.createElement('div');
-      cursor.className = 'x-cursor';
-      document.body.appendChild(cursor);
-
-      let mx = -100, my = -100, raf = null;
-
-      const hoverSelector = 'a, button, .btn, [role="button"], input, select, textarea, .caro-btn, .pkg, .t-media, .caro-card';
-      let isHover = false;
-
-      const move = (e)=>{
-        const size = parseFloat(getComputedStyle(cursor).width);
-        mx = e.clientX - size/2;
-        my = e.clientY - size/2;
-        if (!raf) raf = requestAnimationFrame(tick);
-
-        const el = document.elementFromPoint(e.clientX, e.clientY);
-        const hovering = el && (el.closest(hoverSelector) !== null);
-        if (hovering !== isHover){
-          isHover = hovering;
-          cursor.classList.toggle('is-hover', isHover);
-        }
-      };
-
-      function tick(){
-        cursor.style.setProperty('--mx', mx+'px');
-        cursor.style.setProperty('--my', my+'px');
-        cursor.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
-        raf = null;
-      }
-
-      window.addEventListener('mousemove', move, {passive:true});
-      window.addEventListener('mouseleave', ()=> document.body.classList.add('cursor-hidden'));
-      window.addEventListener('mouseenter', ()=> document.body.classList.remove('cursor-hidden'));
-      document.addEventListener('mousedown', ()=> cursor.style.transform += ' scale(0.95)');
-      document.addEventListener('mouseup',   ()=> cursor.style.transform = `translate3d(${mx}px, ${my}px, 0)`);
-    })();
+    // NOTE: No JS parallax needed now — video is fixed to the viewport
   </script>
 </body>
 </html>

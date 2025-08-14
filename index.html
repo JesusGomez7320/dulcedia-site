@@ -21,8 +21,8 @@
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
       --cursor-size:28px;
-      --glass-min: .22;
-      --glass-max: .55;
+      --glass-min:.22;
+      --glass-max:.55;
     }
 
     *{box-sizing:border-box}
@@ -95,7 +95,7 @@
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg); position:relative; z-index:1}
     @media (max-width:560px){ .section{padding:56px 0} }
 
-    /* ===== ABOUT: compact, two-up ===== */
+    /* ===== ABOUT: two columns by default ===== */
     #about .columns{
       column-count:2;
       column-gap:1.35rem;
@@ -106,29 +106,30 @@
       font-size:17px;
       line-height:1.75;
     }
-
-    /* >>> Mobile tuning for ~8 words/line in each column <<< */
-    @media (max-width:560px){
-      /* Keep two columns on phones with tighter gap and smaller type */
-      #about .columns{ column-gap:0.9rem; }
-      /* Smaller, fluid size to target ~8 words/line across common phone widths */
-      #about .columns p{
-        font-size:clamp(12.5px, 3.4vw, 14px);
-        line-height:1.6;
-        letter-spacing:0; /* ensure no extra spacing inflates line length */
-      }
-    }
-    /* Only drop to one column on extra-narrow devices for readability */
-    @media (max-width:340px){
-      #about .columns{ column-count:1; }
-      #about .columns p{ font-size:14px; line-height:1.65; }
-    }
-    /* Trim vertical padding for About on small screens */
+    /* >>> Mobile: single centered paragraph (hide 2nd), no columns <<< */
     #about.section{ padding:64px 0; }
     @media (max-width:560px){
+      #about .columns{
+        column-count:1;
+        text-align:center;
+      }
+      #about .columns p:nth-of-type(2){
+        display:none;
+      }
+      #about .columns p{
+        font-size:15px;
+        line-height:1.65;
+        max-width:90%;
+        margin-left:auto;
+        margin-right:auto;
+      }
       #about.section{ padding:44px 0; }
       #about h2{ margin-bottom:6px; }
       #about .rule{ width:96px; margin:10px 0 14px; }
+    }
+    /* Extreme narrow: keep behavior, ensure comfortable size */
+    @media (max-width:340px){
+      #about .columns p{ font-size:14.5px; line-height:1.6; }
     }
 
     .grid{display:grid;gap:22px}
@@ -222,8 +223,8 @@
     }
     .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
 
-    /* >>> Process eyebrow color fix for desktop (keep mobile look) <<< */
-    @media (min-width: 821px){
+    /* Process eyebrow color fix for desktop */
+    @media (min-width:821px){
       #process .glass-panel .eyebrow{ color:#FFFFFF; opacity:.92; }
     }
 
@@ -236,8 +237,6 @@
       position: relative;
       isolation: isolate;
     }
-
-    /* Background photos */
     #experience.bg-photo { background-image: url('/assets/bg_1.jpg'); }
     #process.bg-photo    { background-image: url('/assets/bg_2.jpg'); }
 
@@ -406,7 +405,7 @@
       </div>
     </section>
 
-    <!-- PROCESS -->
+    <!-- PROCESS (glass panel over bg with eyebrow color fix on desktop) -->
     <section id="process" class="section bg-photo" aria-label="Process" data-parallax data-speed="0.20">
       <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">THE PROCESS</h2>

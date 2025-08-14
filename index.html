@@ -66,11 +66,10 @@
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
     /* ====== GLOBAL FIXED BACKGROUND VIDEO ====== */
-    /* This sits under the entire page and never moves. */
     .bg-video{
       position:fixed; inset:0; width:100%; height:100%;
       object-fit:cover; pointer-events:none;
-      z-index:0; /* above body background, below content */
+      z-index:0;
       filter:brightness(.55) contrast(1.05) saturate(1.04);
       transform:translate3d(0,0,0);
     }
@@ -81,7 +80,7 @@
       display:grid; place-items:center;
       color:#fff; text-align:center; overflow:hidden;
       background:transparent; isolation:isolate;
-      z-index:1; /* ensure above the fixed video */
+      z-index:1;
     }
     .hero .wrap{position:relative;z-index:1}
     .hero .sub{color:#EEE9E0}
@@ -96,9 +95,19 @@
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg); position:relative; z-index:1}
     @media (max-width:560px){ .section{padding:56px 0} }
 
-    .columns{column-count:2;column-gap:3rem}
-    .columns p{break-inside:avoid}
-    @media (max-width:900px){ .columns{column-count:1} }
+    /* ===== ABOUT: compact, two-up on mobile ===== */
+    /* Use ID specificity to override the old .columns rule */
+    #about .columns{ column-count:2; column-gap:1.5rem; }
+    #about .columns p{ break-inside:avoid; margin:0 0 12px; }
+    /* Very narrow phones drop to one column */
+    @media (max-width:420px){ #about .columns{ column-count:1; } }
+    /* Trim vertical padding for About on small screens */
+    #about.section{ padding:64px 0; }
+    @media (max-width:560px){
+      #about.section{ padding:44px 0; }
+      #about h2{ margin-bottom:6px; }
+      #about .rule{ width:96px; margin:10px 0 14px; }
+    }
 
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
@@ -191,6 +200,11 @@
     }
     .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
 
+    /* >>> Process eyebrow color fix for desktop (keep mobile look) <<< */
+    @media (min-width: 821px){
+      #process .glass-panel .eyebrow{ color:#FFFFFF; opacity:.92; }
+    }
+
     /* Background photos with parallax */
     #experience.bg-photo, #process.bg-photo{
       background-position: center 0px;
@@ -205,7 +219,7 @@
     #experience.bg-photo { background-image: url('/assets/bg_1.jpg'); }
     #process.bg-photo    { background-image: url('/assets/bg_2.jpg'); }
 
-    /* ---- Socials (fixed giant logos) ---- */
+    /* Socials */
     .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff; position:relative; z-index:1}
     .socials a{
       display:inline-flex; align-items:center; gap:8px;
@@ -222,7 +236,7 @@
   <a class="sr-only" href="#main">Skip to content</a>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
-  <!-- GLOBAL fixed background hero video (Demo 1 style) -->
+  <!-- GLOBAL fixed background hero video -->
   <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="/assets/hero-poster.jpg" aria-hidden="true">
     <source src="/assets/hero.webm" type="video/webm" />
     <source src="/assets/hero.mp4"  type="video/mp4" />
@@ -246,7 +260,6 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" id="home" aria-label="Hero">
-      <!-- No inline <video> here anymore; text sits over the global fixed video -->
       <div class="wrap">
         <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
         <h1 class="reveal serif">Capturing Emotions with Cinematic Artistry</h1>
@@ -255,16 +268,23 @@
       </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- ABOUT (updated copy + compact layout) -->
     <section id="about" class="section" aria-label="About">
       <div class="wrap">
         <h2 class="serif reveal">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
+
         <div class="columns">
-          <p class="reveal">There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
-          <p class="reveal">Before returning to my hometown of San Clemente, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
-          <p class="reveal">Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
-          <p class="reveal">Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
+          <p class="reveal">
+            I film weddings like stories—not staged recaps. After years on Los Angeles film sets,
+            I use light, movement, and sound to capture the mood of your day and preserve what it
+            truly felt like.
+          </p>
+          <p class="reveal">
+            Based in San Clemente and serving Southern California, I collaborate closely to learn
+            your vision. Quiet candids, joyful chaos, editorial polish—your film is crafted to feel
+            like you and to be rewatched for years.
+          </p>
         </div>
       </div>
     </section>
@@ -368,7 +388,7 @@
       </div>
     </section>
 
-    <!-- PROCESS -->
+    <!-- PROCESS (glass panel over bg with eyebrow color fix on desktop) -->
     <section id="process" class="section bg-photo" aria-label="Process" data-parallax data-speed="0.20">
       <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">THE PROCESS</h2>
@@ -376,17 +396,17 @@
         <div class="grid grid-3">
           <div class="step reveal">
             <div class="eyebrow">UNO</div>
-            <h3 class="serif kicker">REACH OUT</h3>
+            <h3 class="serif kicker" style="color:#fff">REACH OUT</h3>
             <p>It all starts with a message — and from there, it’s more than planning. It’s a collaboration. I take time to get to know you, your vibe, and what makes your relationship yours.</p>
           </div>
           <div class="step reveal">
             <div class="eyebrow">DOS</div>
-            <h3 class="serif kicker">CONFIRMATION</h3>
+            <h3 class="serif kicker" style="color:#fff">CONFIRMATION</h3>
             <p>We’ll walk through your options together, talk vision, and choose the collection that fits your day. A couple months out, a quick questionnaire locks in timeline, locations, and priorities. We’ll hop on a call to dial everything in.</p>
           </div>
           <div class="step reveal">
             <div class="eyebrow">TRES</div>
-            <h3 class="serif kicker">FINAL SEND-OFF</h3>
+            <h3 class="serif kicker" style="color:#fff">FINAL SEND-OFF</h3>
             <p>On the day, I arrive early and capture everything smoothly and naturally. I back up footage immediately. A teaser lands within the first week; your final film is delivered within ten weeks via easy streaming and downloads.</p>
           </div>
         </div>
@@ -536,9 +556,7 @@
       loop();
     })();
 
-    // =========================
-    // BG-PHOTO PARALLAX + GLASS OPACITY (experience/process)
-    // =========================
+    // BG-PHOTO PARALLAX + GLASS OPACITY
     (function(){
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const sections = Array.from(document.querySelectorAll('[data-parallax].bg-photo'));

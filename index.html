@@ -127,7 +127,6 @@
       #about h2{ margin-bottom:6px; }
       #about .rule{ width:96px; margin:10px 0 14px; }
     }
-    /* Extreme narrow: keep behavior, ensure comfortable size */
     @media (max-width:340px){
       #about .columns p{ font-size:14.5px; line-height:1.6; }
     }
@@ -176,56 +175,79 @@
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
 
-    /* Carousel */
-    .carousel{position:relative}
-    .caro-viewport{
-      overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scroll-behavior:smooth;
-      border-radius:var(--r); border:1px solid var(--line); background:#fff; box-shadow:var(--shadow); padding:16px;
+    /* ======== NEW: PORTFOLIO STILLS (center-scale scroller) ======== */
+    #folio{ padding-top:28px; padding-bottom:72px; }
+    #folio .folio-head{
+      position:relative; height:0;
     }
-    .caro-track{
-      display:grid; grid-auto-flow:column; grid-auto-columns:clamp(220px, 28vw, 380px);
-      gap:16px; list-style:none; margin:0; padding:0;
+    #folio .folio-title{
+      position:relative;
+      z-index:2;
+      display:inline-block;
+      margin-left:22px;
+      translate:0 -22px; /* sits slightly over the scroller below */
+      padding:6px 10px;
+      background:rgba(255,255,255,.75);
+      backdrop-filter:blur(4px);
+      border:1px solid var(--line);
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      font-family: Playfair Display, BrandSerif, Georgia, serif;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:clamp(16px,2vw,20px);
     }
-    .caro-slide{scroll-snap-align:center}
-    .caro-card{position:relative; overflow:hidden; border-radius:14px; border:1px solid var(--line); background:#000; aspect-ratio:4/5; margin:0}
-    .caro-card img{width:100%; height:100%; object-fit:cover; display:block; transform:scale(1); transition:transform 220ms ease, filter 220ms ease; will-change:transform}
-    .caro-card:hover img{ transform:scale(1.03) }
-    @media (pointer:coarse){ .caro-card:hover img{ transform:scale(1) } }
-    .caro-btn{
-      position:absolute; top:50%; translate:0 -50%;
-      border:1px solid var(--ink); background:#fff; width:40px; height:40px; border-radius:999px;
-      display:grid; place-items:center; cursor:pointer; box-shadow:var(--shadow);
+    #folio .vp{
+      position:relative; z-index:1;
+      overflow-x:auto; overflow-y:hidden;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      scroll-behavior:smooth;
+      padding:18px 22px 8px 22px;
+      border-radius:var(--r);
+      border:1px solid var(--line);
+      background:#fff;
+      box-shadow:var(--shadow);
     }
-    .caro-btn.prev{ left:-6px } .caro-btn.next{ right:-6px }
-    .caro-btn:hover{ background:var(--ink); color:#fff }
-    @media (max-width:560px){ .caro-btn{ display:none } }
+    /* Hide scrollbar */
+    #folio .vp::-webkit-scrollbar{ display:none }
+    #folio .vp{ scrollbar-width:none }
 
-    /* Custom cursor */
-    .cursor{
-      position:fixed; left:0; top:0; translate:-50% -50%;
-      width:var(--cursor-size); height:var(--cursor-size);
-      border-radius:999px; border:1px solid rgba(0,0,0,.55);
-      background:rgba(255,255,255,.7); box-shadow:0 8px 18px rgba(0,0,0,.18);
-      pointer-events:none; z-index:9999; transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease;
-      will-change:transform; mix-blend-mode:normal;
+    #folio .track{
+      display:grid;
+      grid-auto-flow:column;
+      grid-auto-columns:clamp(220px, 30vw, 420px);
+      gap:16px;
+      list-style:none; margin:0; padding:0;
     }
-    .cursor.is-hidden{ opacity:0 }
-    .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
-    @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
-
-    /* Glass panel styling (dynamic opacity) */
-    .glass-panel{
-      --glassA: var(--glass-max);
-      background: rgba(20, 20, 20, var(--glassA));
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      border-radius: var(--r); padding: 32px; box-shadow: var(--shadow);
-      transition: background 200ms linear;
+    #folio .slide{
+      scroll-snap-align:center;
+      position:relative;
+      transition:transform 260ms ease, filter 260ms ease, z-index 260ms ease, opacity 260ms ease;
+      transform-origin:center center;
+      will-change:transform, filter;
     }
-    .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
+    #folio .card{
+      position:relative; overflow:hidden; margin:0;
+      border-radius:14px; border:1px solid var(--line);
+      background:#000; aspect-ratio:4/5;
+    }
+    #folio .card img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      transform:scale(1); transition:transform 260ms ease;
+      will-change:transform;
+    }
 
-    /* Process eyebrow color fix for desktop */
-    @media (min-width:821px){
-      #process .glass-panel .eyebrow{ color:#FFFFFF; opacity:.92; }
+    /* Scale states driven by JS (closest to center gets .is-active) */
+    #folio .slide{ transform:scale(.94); opacity:.92; }
+    #folio .slide.is-near{ transform:scale(.985); }
+    #folio .slide.is-active{ transform:scale(1.08); z-index:3; }
+    #folio .slide.is-active .card img{ transform:scale(1.03); }
+
+    /* Small screens: tighter overlay & column width */
+    @media (max-width:560px){
+      #folio .folio-title{ translate:0 -16px; margin-left:14px; }
+      #folio .track{ grid-auto-columns:clamp(200px, 72vw, 340px); }
     }
 
     /* Background photos with parallax */
@@ -240,6 +262,21 @@
     #experience.bg-photo { background-image: url('/assets/bg_1.jpg'); }
     #process.bg-photo    { background-image: url('/assets/bg_2.jpg'); }
 
+    /* Process eyebrow color fix for desktop */
+    @media (min-width:821px){
+      #process .glass-panel .eyebrow{ color:#FFFFFF; opacity:.92; }
+    }
+
+    /* Glass panel styling (dynamic opacity) */
+    .glass-panel{
+      --glassA: var(--glass-max);
+      background: rgba(20, 20, 20, var(--glassA));
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-radius: var(--r); padding: 32px; box-shadow: var(--shadow);
+      transition: background 200ms linear;
+    }
+    .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
+
     /* Socials */
     .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff; position:relative; z-index:1}
     .socials a{
@@ -251,6 +288,19 @@
     .socials a svg{width:18px !important;height:18px !important;display:inline-block;flex:none}
     .socials a span{display:inline-block}
     @media (max-width:520px){ .socials{flex-wrap:wrap;gap:10px} .socials a{padding:8px 10px} }
+
+    /* Custom cursor */
+    .cursor{
+      position:fixed; left:0; top:0; translate:-50% -50%;
+      width:var(--cursor-size); height:var(--cursor-size);
+      border-radius:999px; border:1px solid rgba(0,0,0,.55);
+      background:rgba(255,255,255,.7); box-shadow:0 8px 18px rgba(0,0,0,.18);
+      pointer-events:none; z-index:9999; transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease;
+      will-change:transform; mix-blend-mode:normal;
+    }
+    .cursor.is-hidden{ opacity:0 }
+    .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
+    @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
   </style>
 </head>
 <body class="no-js">
@@ -269,9 +319,9 @@
       <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <nav id="navLinks" class="nav-links">
         <a href="#about">About</a>
+        <a href="#folio">Portfolio</a>
         <a href="#experience">Experience</a>
         <a href="#packages">Packages</a>
-        <a href="#gallery">Gallery</a>
         <a href="#process">Process</a>
         <a href="#contact">Inquire</a>
       </nav>
@@ -302,6 +352,50 @@
           <p class="reveal">
             Now back in my hometown of San Clemente, I bring that Hollywood-crafted eye to weddings across Southern California. I take time to know each couple, your vision, and the atmosphere you want to create — whether it’s an elegant celebration beneath glowing string lights or an intimate elopement on the coast. Your story is one of a kind, and your film should be too — a keepsake that lets you relive the joy, love, and magic of your day, again and again.
           </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== NEW: PORTFOLIO STILLS (moved directly under ABOUT) ===== -->
+    <section id="folio" class="section" aria-label="Portfolio Stills">
+      <div class="wrap">
+        <div class="folio-head" aria-hidden="true">
+          <span class="folio-title serif">Portfolio Stills</span>
+        </div>
+
+        <div class="vp" id="folioVP" tabindex="0" aria-roledescription="carousel" aria-label="Portfolio stills">
+          <ul class="track" id="folioTrack">
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/1.jpg"  alt="Portfolio still 1"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/2.jpg"  alt="Portfolio still 2"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/3.jpg"  alt="Portfolio still 3"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/4.jpg"  alt="Portfolio still 4"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/5.jpg"  alt="Portfolio still 5"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/6.jpg"  alt="Portfolio still 6"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/7.jpg"  alt="Portfolio still 7"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/8.jpg"  alt="Portfolio still 8"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/9.jpg"  alt="Portfolio still 9"  loading="lazy"/></figure>
+            </li>
+            <li class="slide">
+              <figure class="card"><img src="/assets/gallery/10.jpg" alt="Portfolio still 10" loading="lazy"/></figure>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -379,33 +473,7 @@
       </div>
     </section>
 
-    <!-- GALLERY -->
-    <section id="gallery" class="section" aria-label="Photo Gallery">
-      <div class="wrap">
-        <h2 class="serif reveal">Gallery</h2>
-        <div class="rule reveal" aria-hidden="true"></div>
-        <div class="carousel reveal" aria-roledescription="carousel">
-          <button class="caro-btn prev" aria-label="Previous" data-dir="-1">‹</button>
-          <div class="caro-viewport" id="caroViewport" tabindex="0">
-            <ul class="caro-track" id="caroTrack">
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/1.jpg"  alt="Gallery image 1"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/2.jpg"  alt="Gallery image 2"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/3.jpg"  alt="Gallery image 3"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/4.jpg"  alt="Gallery image 4"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/5.jpg"  alt="Gallery image 5"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/6.jpg"  alt="Gallery image 6"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/7.jpg"  alt="Gallery image 7"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/8.jpg"  alt="Gallery image 8"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/9.jpg"  alt="Gallery image 9"  loading="lazy" /></figure></li>
-              <li class="caro-slide"><figure class="caro-card"><img src="/assets/gallery/10.jpg" alt="Gallery image 10" loading="lazy" /></figure></li>
-            </ul>
-          </div>
-          <button class="caro-btn next" aria-label="Next" data-dir="1">›</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROCESS (glass panel over bg with eyebrow color fix on desktop) -->
+    <!-- PROCESS -->
     <section id="process" class="section bg-photo" aria-label="Process" data-parallax data-speed="0.20">
       <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">THE PROCESS</h2>
@@ -535,27 +603,89 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // Carousel
+    // ======= NEW: Portfolio Stills center-scale logic (no visible UI) =======
     (function(){
-      const vp = document.getElementById('caroViewport');
-      const track = document.getElementById('caroTrack');
+      const vp = document.getElementById('folioVP');
+      const track = document.getElementById('folioTrack');
       if(!vp || !track) return;
-      function step(dir){
-        const slide = track.querySelector('.caro-slide');
-        const slideW = slide ? slide.getBoundingClientRect().width : 300;
-        vp.scrollBy({ left: dir * (slideW + 16), behavior: 'smooth' });
-      }
-      document.querySelectorAll('.caro-btn').forEach(btn=>{
-        btn.addEventListener('click', ()=> step(parseInt(btn.dataset.dir,10)));
-      });
-      // drag to scroll
+
+      // Drag to scroll
       let isDown = false, startX = 0, startScroll = 0;
       vp.addEventListener('pointerdown', (e)=>{ isDown = true; vp.setPointerCapture(e.pointerId); startX = e.clientX; startScroll = vp.scrollLeft; });
       vp.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx = e.clientX - startX; vp.scrollLeft = startScroll - dx; });
       vp.addEventListener('pointerup', ()=>{ isDown = false }); vp.addEventListener('pointercancel', ()=>{ isDown = false });
-      // keyboard
-      vp.addEventListener('keydown', (e)=>{ if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); } if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); } });
+
+      // Keyboard arrows
+      function step(dir){
+        const slide = track.querySelector('.slide');
+        const slideW = slide ? slide.getBoundingClientRect().width : 300;
+        vp.scrollBy({ left: dir * (slideW + 16), behavior:'smooth' });
+      }
+      vp.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
+        if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+      });
+
+      const slides = Array.from(track.children);
+
+      function updateActive(){
+        const vpRect = vp.getBoundingClientRect();
+        const center = vpRect.left + vpRect.width/2;
+
+        let best = null, bestDist = Infinity;
+        slides.forEach(sl=>{
+          const r = sl.getBoundingClientRect();
+          const c = r.left + r.width/2;
+          const dist = Math.abs(c - center);
+          sl.classList.remove('is-active','is-near');
+          if(dist < bestDist){ bestDist = dist; best = sl; }
+        });
+
+        slides.forEach(sl=>{
+          const r = sl.getBoundingClientRect();
+          const c = r.left + r.width/2;
+          const dist = Math.abs(c - center);
+          if(dist < (vpRect.width * 0.18)) sl.classList.add('is-active');
+          else if(dist < (vpRect.width * 0.32)) sl.classList.add('is-near');
+        });
+      }
+
+      // Snap the closest slide to center on scroll end
+      let scrollTO = null;
+      function onScroll(){
+        updateActive();
+        if(scrollTO) cancelAnimationFrame(scrollTO);
+        scrollTO = requestAnimationFrame(()=>{
+          clearTimeout(onScroll._t);
+          onScroll._t = setTimeout(()=>{
+            // find closest
+            const vpRect = vp.getBoundingClientRect();
+            const center = vpRect.left + vpRect.width/2;
+            let target = null, bestDist = Infinity;
+            slides.forEach(sl=>{
+              const r = sl.getBoundingClientRect();
+              const c = r.left + r.width/2;
+              const dist = Math.abs(c - center);
+              if(dist < bestDist){ bestDist = dist; target = sl; }
+            });
+            if(target){
+              const r = target.getBoundingClientRect();
+              const delta = (r.left + r.width/2) - center;
+              vp.scrollBy({ left: delta, behavior:'smooth' });
+            }
+          }, 80);
+        });
+      }
+
+      // Init states
+      updateActive();
+      vp.addEventListener('scroll', onScroll, { passive:true });
+      window.addEventListener('resize', updateActive);
+      // After fonts load, re-center scaling
+      if(document.fonts && document.fonts.ready){ document.fonts.ready.then(updateActive); }
     })();
+
+    // Carousel (legacy gallery removed) — nothing else to do here
 
     // Custom cursor
     (function(){
@@ -568,7 +698,7 @@
       document.addEventListener('mousemove', move, {passive:true});
       document.addEventListener('mouseenter', ()=>c.classList.remove('is-hidden'));
       document.addEventListener('mouseleave', ()=>c.classList.add('is-hidden'));
-      document.querySelectorAll('a, button, .btn, [role="button"], input, textarea, select, .caro-btn')
+      document.querySelectorAll('a, button, .btn, [role="button"], input, textarea, select')
         .forEach(el=>{ el.addEventListener('mouseenter', onEnter); el.addEventListener('mouseleave', onLeave); });
       loop();
     })();

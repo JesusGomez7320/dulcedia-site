@@ -20,7 +20,7 @@
       --max:1160px; --r:18px; --shadow:0 20px 40px rgba(0,0,0,.08);
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
-      --cursor-size:28px;
+      --cursor-size:28px; --cursor-size-hover:36px;
       --glass-min:.22; --glass-max:.55;
     }
 
@@ -174,11 +174,11 @@
       width:var(--cursor-size); height:var(--cursor-size);
       border-radius:999px; border:1px solid rgba(0,0,0,.55);
       background:rgba(255,255,255,.7); box-shadow:0 8px 18px rgba(0,0,0,.18);
-      pointer-events:none; z-index:9999; transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease;
+      pointer-events:none; z-index:9999; transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
       will-change:transform; mix-blend-mode:normal;
     }
     .cursor.is-hidden{ opacity:0 }
-    .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
+    .cursor.is-link{ width:var(--cursor-size-hover); height:var(--cursor-size-hover); background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
     @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
 
     /* Glass panel styling (dynamic opacity) */
@@ -220,9 +220,9 @@
   <a class="sr-only" href="#main">Skip to content</a>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
-  <!-- DEMO 1: Fixed background video under the entire page (no border) -->
-  <video class="site-bg-video" playsinline muted autoplay loop preload="auto" poster="./assets/hero-poster.jpg" aria-hidden="true">
-    <source src="./assets/hero.webm" type="video/webm" />
+  <!-- Site-wide fixed background video (Demo 1) -->
+  <video class="site-bg-video" playsinline muted autoplay loop preload="auto" poster="./assets/tn_1.jpg" aria-hidden="true">
+    <!-- If you also have WEBM, add it above MP4 for Chrome: <source src="./assets/hero.webm" type="video/webm" /> -->
     <source src="./assets/hero.mp4"  type="video/mp4" />
   </video>
 
@@ -242,26 +242,26 @@
   </header>
 
   <main id="main">
-    <!-- HERO (content overlays the fixed video) -->
+    <!-- HERO -->
     <section class="hero" id="home" aria-label="Hero">
       <div class="wrap">
-        <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
-        <h1 class="reveal serif">Capturing Emotions with Cinematic Artistry</h1>
-        <div class="rule reveal" aria-hidden="true"></div>
-        <p class="sub prose reveal">Documentary approach, organic feel, editorial polish. Serving Southern California.</p>
+        <p class="sub serif">From Hollywood Sets to Wedding Vows</p>
+        <h1 class="serif">Capturing Emotions with Cinematic Artistry</h1>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="sub prose">Documentary approach, organic feel, editorial polish. Serving Southern California.</p>
       </div>
     </section>
 
     <!-- ABOUT -->
     <section id="about" class="section" aria-label="About">
       <div class="wrap">
-        <h2 class="serif reveal">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
-        <div class="rule reveal" aria-hidden="true"></div>
+        <h2 class="serif">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
+        <div class="rule" aria-hidden="true"></div>
         <div class="columns">
-          <p class="reveal">There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
-          <p class="reveal">Before returning to my hometown of San Clemente, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
-          <p class="reveal">Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
-          <p class="reveal">Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
+          <p>There’s an immense joy in capturing love — not just as a witness, but as a storyteller. For me, wedding videography isn’t about documentation; it’s about crafting a visual narrative that reflects the depth, beauty, and emotion of one of life’s most meaningful chapters.</p>
+          <p>Before returning to my hometown of San Clemente, I spent 8 years immersed in the film industry after graduating from film school in Los Angeles. That chapter of my life taught me how to shape mood with light, movement, and sound — and how to turn fleeting moments into timeless scenes.</p>
+          <p>Today, I bring that cinematic sensibility to every wedding I film across Southern California. I work closely with each couple, getting to know your vision, your dynamic, and the atmosphere you want to create. Whether it’s an elegant celebration beneath string lights or a spontaneous elopement on the coast, my approach is intentional, flexible, and deeply personal.</p>
+          <p>Every couple’s story is unique — and your film should be too. My goal is to create something that not only reflects your day, but makes you feel it all over again, every time you watch.</p>
         </div>
       </div>
     </section>
@@ -269,7 +269,7 @@
     <!-- DARK FEATURE (Drive 16:9 with TN_1) -->
     <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
-        <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día">
+        <div class="t-media drive ratio-16x9" aria-label="Make It a Dulce Día">
           <img class="drive-thumb" src="./assets/tn_1.jpg" alt="" aria-hidden="true" />
           <iframe
             src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
@@ -279,23 +279,23 @@
             title="Make It a Dulce Día"></iframe>
         </div>
         <div class="t-copy">
-          <div class="eyebrow serif reveal">Feature</div>
-          <h2 class="serif reveal">Make It a Dulce Día</h2>
-          <blockquote class="reveal">Turn your day into a film you’ll feel forever.</blockquote>
-          <p class="body reveal">A short, cinematic piece that blends honest moments with elegant composition—the way your day actually felt. Shot documentary-style with an editorial finish, this film invites you back to every glance, every cheer, every breath before “I do.”</p>
+          <div class="eyebrow serif">Feature</div>
+          <h2 class="serif">Make It a Dulce Día</h2>
+          <blockquote>Turn your day into a film you’ll feel forever.</blockquote>
+          <p class="body">A short, cinematic piece that blends honest moments with elegant composition—the way your day actually felt. Shot documentary-style with an editorial finish, this film invites you back to every glance, every cheer, every breath before “I do.”</p>
         </div>
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
+    <!-- EXPERIENCE (parallax bg + glass panel) -->
     <section id="experience" class="section bg-photo" aria-label="Experience" data-parallax data-speed="0.22">
       <div class="wrap glass-panel" data-glass>
-        <h2 class="serif reveal">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
-        <div class="rule reveal" aria-hidden="true"></div>
+        <h2 class="serif">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
+        <div class="rule" aria-hidden="true"></div>
         <div class="grid grid-3">
-          <div class="reveal"><p>Your wedding day is one of the most meaningful stories you’ll ever live — and I’m here to help you relive it, beautifully.</p></div>
-          <div class="reveal"><p>From our first conversation to the final delivery, I work closely with you to bring your vision to life. I focus on the details, capture the in-between moments, and craft a film that feels like you.</p></div>
-          <div class="reveal"><p>My goal is simple: to go above and beyond so your wedding is remembered not just clearly — but emotionally.</p></div>
+          <div><p>Your wedding day is one of the most meaningful stories you’ll ever live — and I’m here to help you relive it, beautifully.</p></div>
+          <div><p>From our first conversation to the final delivery, I work closely with you to bring your vision to life. I focus on the details, capture the in-between moments, and craft a film that feels like you.</p></div>
+          <div><p>My goal is simple: to go above and beyond so your wedding is remembered not just clearly — but emotionally.</p></div>
         </div>
       </div>
     </section>
@@ -303,10 +303,10 @@
     <!-- PACKAGES -->
     <section id="packages" class="section" aria-label="Packages">
       <div class="wrap">
-        <h2 class="serif reveal">PACKAGES</h2>
-        <div class="rule reveal" aria-hidden="true"></div>
+        <h2 class="serif">PACKAGES</h2>
+        <div class="rule" aria-hidden="true"></div>
         <div class="pkgs">
-          <article class="pkg reveal">
+          <article class="pkg">
             <h3 class="serif">DULCE INICIO (SWEET BEGINNING)</h3>
             <p class="price">$1,800</p>
             <ul>
@@ -317,7 +317,7 @@
             </ul>
             <p><strong>Book through August 31st</strong> and receive an extra videographer and drone coverage.</p>
           </article>
-          <article class="pkg reveal">
+          <article class="pkg">
             <h3 class="serif">DULCE RECUERDO (SWEET MEMORY)</h3>
             <p class="price">$2,500</p>
             <ul>
@@ -328,7 +328,7 @@
               <li>Drone Coverage</li>
             </ul>
           </article>
-          <article class="pkg reveal">
+          <article class="pkg">
             <h3 class="serif">DULCE ETERNIDAD (SWEET ETERNITY)</h3>
             <p class="price">$3,200</p>
             <ul>
@@ -347,9 +347,9 @@
     <!-- GALLERY -->
     <section id="gallery" class="section" aria-label="Photo Gallery">
       <div class="wrap">
-        <h2 class="serif reveal">Gallery</h2>
-        <div class="rule reveal" aria-hidden="true"></div>
-        <div class="carousel reveal" aria-roledescription="carousel">
+        <h2 class="serif">Gallery</h2>
+        <div class="rule" aria-hidden="true"></div>
+        <div class="carousel" aria-roledescription="carousel">
           <button class="caro-btn prev" aria-label="Previous" data-dir="-1">‹</button>
           <div class="caro-viewport" id="caroViewport" tabindex="0">
             <ul class="caro-track" id="caroTrack">
@@ -373,20 +373,20 @@
     <!-- PROCESS -->
     <section id="process" class="section bg-photo" aria-label="Process" data-parallax data-speed="0.20">
       <div class="wrap glass-panel" data-glass>
-        <h2 class="serif reveal">THE PROCESS</h2>
-        <div class="rule reveal" aria-hidden="true"></div>
+        <h2 class="serif">THE PROCESS</h2>
+        <div class="rule" aria-hidden="true"></div>
         <div class="grid grid-3">
-          <div class="step reveal">
+          <div class="step">
             <div class="eyebrow">UNO</div>
             <h3 class="serif kicker">REACH OUT</h3>
             <p>It all starts with a message — and from there, it’s more than planning. It’s a collaboration. I take time to get to know you, your vibe, and what makes your relationship yours.</p>
           </div>
-          <div class="step reveal">
+          <div class="step">
             <div class="eyebrow">DOS</div>
             <h3 class="serif kicker">CONFIRMATION</h3>
             <p>We’ll walk through your options together, talk vision, and choose the collection that fits your day. A couple months out, a quick questionnaire locks in timeline, locations, and priorities. We’ll hop on a call to dial everything in.</p>
           </div>
-          <div class="step reveal">
+          <div class="step">
             <div class="eyebrow">TRES</div>
             <h3 class="serif kicker">FINAL SEND-OFF</h3>
             <p>On the day, I arrive early and capture everything smoothly and naturally. I back up footage immediately. A teaser lands within the first week; your final film is delivered within ten weeks via easy streaming and downloads.</p>
@@ -398,10 +398,10 @@
     <!-- TESTIMONIAL (Drive 4:5 with TN_2) -->
     <section id="testimonials" class="section dark" aria-label="Testimonial">
       <div class="wrap">
-        <h2 class="serif reveal">TESTIMONIAL</h2>
-        <div class="rule reveal" aria-hidden="true"></div>
+        <h2 class="serif">TESTIMONIAL</h2>
+        <div class="rule" aria-hidden="true"></div>
         <div class="testimonial">
-          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
+          <div class="t-media drive ratio-4x5" aria-label="Meet Pags &amp; Gunner">
             <img class="drive-thumb" src="./assets/tn_2.jpg" alt="" aria-hidden="true" />
             <iframe
               src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
@@ -411,10 +411,10 @@
               title="Meet Pags &amp; Gunner (4x5)"></iframe>
           </div>
           <div class="t-copy">
-            <div class="eyebrow serif reveal">Client Story</div>
-            <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
-            <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
-            <p class="body reveal">This short marks the opening note of their journey—a goofy, romantic look at the little moments that say everything. Shot on-location with natural sound and gentle direction, it’s an inviting preview of the full story to come.</p>
+            <div class="eyebrow serif">Client Story</div>
+            <h3 class="serif">Meet Pags &amp; Gunner</h3>
+            <blockquote>A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
+            <p class="body">This short marks the opening note of their journey—a goofy, romantic look at the little moments that say everything. Shot on-location with natural sound and gentle direction, it’s an inviting preview of the full story to come.</p>
           </div>
         </div>
       </div>
@@ -423,10 +423,10 @@
     <!-- CONTACT -->
     <section id="contact" class="section" aria-label="Contact">
       <div class="wrap">
-        <h2 class="serif reveal">Inquire</h2>
-        <div class="rule reveal" aria-hidden="true"></div>
-        <p class="prose sub reveal">Tell us about your day—date, location, and what matters most to you.</p>
-        <form name="inquire" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" class="grid reveal" style="max-width:720px">
+        <h2 class="serif">Inquire</h2>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="prose sub">Tell us about your day—date, location, and what matters most to you.</p>
+        <form name="inquire" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" class="grid" style="max-width:720px">
           <input type="hidden" name="form-name" value="inquire" />
           <p class="sr-only"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
           <input name="name" aria-label="Name" placeholder="Name" required style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
@@ -576,6 +576,31 @@
           const parent = frame.closest('.t-media.drive');
           if(parent){ parent.classList.add('is-loaded'); }
         });
+      });
+    })();
+
+    // Circle Cursor behavior
+    (function(){
+      const cursor = document.getElementById('cursor');
+      if(!cursor) return;
+      let rafId = null;
+      let targetX = 0, targetY = 0, x = 0, y = 0;
+
+      function lerp(a,b,t){ return a + (b-a)*t; }
+      function loop(){ x = lerp(x,targetX,0.22); y = lerp(y,targetY,0.22); cursor.style.transform = `translate(${x}px, ${y}px)`; rafId = requestAnimationFrame(loop); }
+      loop();
+
+      document.addEventListener('mousemove', (e)=>{ targetX = e.clientX; targetY = e.clientY; cursor.classList.remove('is-hidden'); }, {passive:true});
+      document.addEventListener('mouseleave', ()=> cursor.classList.add('is-hidden'));
+
+      // Grow over interactive elements via event delegation
+      document.addEventListener('mouseover', (e)=>{
+        const t = e.target.closest('a, button, [role="button"], input, textarea, select');
+        if(t){ cursor.classList.add('is-link'); }
+      });
+      document.addEventListener('mouseout', (e)=>{
+        const t = e.target.closest('a, button, [role="button"], input, textarea, select');
+        if(t){ cursor.classList.remove('is-link'); }
       });
     })();
   </script>

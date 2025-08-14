@@ -62,27 +62,32 @@
     .sub{color:var(--muted)}
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
-    /* HERO (parallax video) */
+    /* ***************************
+       DEMO 1 IMPLEMENTATION
+       Fixed background video sits under the entire page (no border).
+       Sections naturally cover it as you scroll.
+    *************************** */
+    .site-bg-video{
+      position:fixed; inset:0; width:100vw; height:100vh; object-fit:cover; object-position:center;
+      z-index:-1; filter:brightness(.55) contrast(1.05) saturate(1.04);
+    }
+
+    /* HERO (overlayed on top of the fixed background video) */
     .hero{
-      position:relative; min-height:100vh;
-      display:grid; place-items:center;
-      color:#fff; text-align:center; overflow:hidden;
+      position:relative; min-height:100vh; display:grid; place-items:center; color:#fff; text-align:center; overflow:hidden;
       background:transparent; isolation:isolate;
     }
     .hero .wrap{position:relative;z-index:1}
     .hero .sub{color:#EEE9E0}
     .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
-    .bg-video{
-      position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-      filter:brightness(.55) contrast(1.05) saturate(1.04);
-      transform:translate3d(0,0,0); will-change:transform; pointer-events:none; z-index:0;
-    }
+    /* Soft gradient veil only over the hero content area */
     .hero::after{
       content:""; position:absolute; inset:0; z-index:0;
       background:linear-gradient(180deg, rgba(0,0,0,.30) 0%, rgba(0,0,0,.10) 40%, rgba(0,0,0,.25) 100%);
       pointer-events:none;
     }
 
+    /* Sections */
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg)}
     @media (max-width:560px){ .section{padding:56px 0} }
 
@@ -215,6 +220,12 @@
   <a class="sr-only" href="#main">Skip to content</a>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
+  <!-- DEMO 1: Fixed background video under the entire page (no border) -->
+  <video class="site-bg-video" playsinline muted autoplay loop preload="auto" poster="./assets/hero-poster.jpg" aria-hidden="true">
+    <source src="./assets/hero.webm" type="video/webm" />
+    <source src="./assets/hero.mp4"  type="video/mp4" />
+  </video>
+
   <header role="banner">
     <div class="wrap nav" aria-label="Main navigation">
       <div class="brand">Dulce Día Cine</div>
@@ -231,12 +242,8 @@
   </header>
 
   <main id="main">
-    <!-- HERO -->
+    <!-- HERO (content overlays the fixed video) -->
     <section class="hero" id="home" aria-label="Hero">
-      <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="./assets/hero-poster.jpg">
-        <source src="./assets/hero.webm" type="video/webm" />
-        <source src="./assets/hero.mp4"  type="video/mp4" />
-      </video>
       <div class="wrap">
         <p class="sub reveal serif">From Hollywood Sets to Wedding Vows</p>
         <h1 class="reveal serif">Capturing Emotions with Cinematic Artistry</h1>
@@ -496,25 +503,6 @@
         });
       }, {root:null, rootMargin:'0px 0px -10% 0px', threshold:0.1});
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
-    })();
-
-    // HERO subtle parallax
-    (function(){
-      const hero = document.getElementById('home');
-      const vid  = document.getElementById('heroVideo');
-      if(!hero || !vid) return;
-      let ticking = false; const speed = 0.15;
-      function update(){
-        const rect = hero.getBoundingClientRect();
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-        if(rect.bottom > 0 && rect.top < vh){
-          const delta = (rect.top + rect.height/2) - (vh/2);
-          vid.style.transform = 'translate3d(0,' + (-delta * speed).toFixed(2) + 'px,0)';
-        }
-        ticking = false;
-      }
-      function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
-      update(); window.addEventListener('scroll', onScroll, {passive:true}); window.addEventListener('resize', onScroll);
     })();
 
     // Carousel

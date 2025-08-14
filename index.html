@@ -95,41 +95,19 @@
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg); position:relative; z-index:1}
     @media (max-width:560px){ .section{padding:56px 0} }
 
-    /* ===== ABOUT: two columns by default ===== */
-    #about .columns{
-      column-count:2;
-      column-gap:1.35rem;
-    }
-    #about .columns p{
-      break-inside:avoid;
-      margin:0 0 12px;
-      font-size:17px;
-      line-height:1.75;
-    }
-    /* >>> Mobile: single centered paragraph (hide 2nd), no columns <<< */
+    /* ===== ABOUT ===== */
+    #about .columns{ column-count:2; column-gap:1.35rem; }
+    #about .columns p{ break-inside:avoid; margin:0 0 12px; font-size:17px; line-height:1.75; }
     #about.section{ padding:64px 0; }
     @media (max-width:560px){
-      #about .columns{
-        column-count:1;
-        text-align:center;
-      }
-      #about .columns p:nth-of-type(2){
-        display:none;
-      }
-      #about .columns p{
-        font-size:15px;
-        line-height:1.65;
-        max-width:90%;
-        margin-left:auto;
-        margin-right:auto;
-      }
+      #about .columns{ column-count:1; text-align:center; }
+      #about .columns p:nth-of-type(2){ display:none; }
+      #about .columns p{ font-size:15px; line-height:1.65; max-width:90%; margin-left:auto; margin-right:auto; }
       #about.section{ padding:44px 0; }
       #about h2{ margin-bottom:6px; }
       #about .rule{ width:96px; margin:10px 0 14px; }
     }
-    @media (max-width:340px){
-      #about .columns p{ font-size:14.5px; line-height:1.6; }
-    }
+    @media (max-width:340px){ #about .columns p{ font-size:14.5px; line-height:1.6; } }
 
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
@@ -175,39 +153,31 @@
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
 
-    /* ======== NEW: PORTFOLIO STILLS (center-scale scroller) ======== */
+    /* ======== PORTFOLIO STILLS (seamless) ======== */
     #folio{ padding-top:28px; padding-bottom:72px; }
     #folio .folio-head{
-      position:relative; height:0;
+      text-align:center; position:relative; margin-bottom:6px;
     }
     #folio .folio-title{
-      position:relative;
-      z-index:2;
       display:inline-block;
-      margin-left:22px;
-      translate:0 -22px; /* sits slightly over the scroller below */
-      padding:6px 10px;
-      background:rgba(255,255,255,.75);
-      backdrop-filter:blur(4px);
-      border:1px solid var(--line);
-      border-radius:12px;
-      box-shadow:var(--shadow);
       font-family: Playfair Display, BrandSerif, Georgia, serif;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      font-size:clamp(16px,2vw,20px);
+      letter-spacing:.20em; text-transform:uppercase;
+      font-size:clamp(22px,3.2vw,36px);
+      line-height:1.1;
+      /* seamless: no background bubble */
+      padding:0; margin:0;
+      color:var(--ink);
+      translate:0 -8px; /* slight overlap over scroller */
     }
     #folio .vp{
-      position:relative; z-index:1;
+      position:relative;
       overflow-x:auto; overflow-y:hidden;
       scroll-snap-type:x mandatory;
       -webkit-overflow-scrolling:touch;
       scroll-behavior:smooth;
-      padding:18px 22px 8px 22px;
-      border-radius:var(--r);
-      border:1px solid var(--line);
-      background:#fff;
-      box-shadow:var(--shadow);
+      /* seamless container: remove white bg, border, shadow */
+      padding:12px 0 4px 0;
+      background:transparent; border:none; box-shadow:none;
     }
     /* Hide scrollbar */
     #folio .vp::-webkit-scrollbar{ display:none }
@@ -217,8 +187,7 @@
       display:grid;
       grid-auto-flow:column;
       grid-auto-columns:clamp(220px, 30vw, 420px);
-      gap:16px;
-      list-style:none; margin:0; padding:0;
+      gap:16px; list-style:none; margin:0; padding:0 22px;
     }
     #folio .slide{
       scroll-snap-align:center;
@@ -238,17 +207,26 @@
       will-change:transform;
     }
 
-    /* Scale states driven by JS (closest to center gets .is-active) */
+    /* Scale states driven by JS */
     #folio .slide{ transform:scale(.94); opacity:.92; }
     #folio .slide.is-near{ transform:scale(.985); }
     #folio .slide.is-active{ transform:scale(1.08); z-index:3; }
     #folio .slide.is-active .card img{ transform:scale(1.03); }
 
-    /* Small screens: tighter overlay & column width */
-    @media (max-width:560px){
-      #folio .folio-title{ translate:0 -16px; margin-left:14px; }
-      #folio .track{ grid-auto-columns:clamp(200px, 72vw, 340px); }
+    /* Desktop nav arrows (thin line) */
+    .folio-arrow{
+      position:absolute; top:50%; translate:0 -50%;
+      width:40px; height:40px; border-radius:999px;
+      border:1px solid var(--line); background:transparent;
+      display:grid; place-items:center; cursor:pointer;
+      transition:background .15s ease, transform .15s ease, border-color .15s ease;
+      z-index:3;
     }
+    .folio-arrow:hover{ background:rgba(0,0,0,.03); transform:translateY(-50%) scale(1.03); border-color:#DCD9D2; }
+    .folio-arrow svg{ width:18px; height:18px; }
+    .folio-arrow.prev{ left:6px; }
+    .folio-arrow.next{ right:6px; }
+    @media (max-width:560px){ .folio-arrow{ display:none } }
 
     /* Background photos with parallax */
     #experience.bg-photo, #process.bg-photo{
@@ -356,45 +334,37 @@
       </div>
     </section>
 
-    <!-- ===== NEW: PORTFOLIO STILLS (moved directly under ABOUT) ===== -->
+    <!-- PORTFOLIO STILLS -->
     <section id="folio" class="section" aria-label="Portfolio Stills">
-      <div class="wrap">
-        <div class="folio-head" aria-hidden="true">
-          <span class="folio-title serif">Portfolio Stills</span>
+      <div class="wrap" style="position:relative">
+        <div class="folio-head">
+          <h2 class="folio-title serif">Portfolio Stills</h2>
         </div>
+
+        <!-- desktop arrows -->
+        <button class="folio-arrow prev" id="folioPrev" aria-label="Scroll left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6"/>
+          </svg>
+        </button>
+        <button class="folio-arrow next" id="folioNext" aria-label="Scroll right">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 6l6 6-6 6"/>
+          </svg>
+        </button>
 
         <div class="vp" id="folioVP" tabindex="0" aria-roledescription="carousel" aria-label="Portfolio stills">
           <ul class="track" id="folioTrack">
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/1.jpg"  alt="Portfolio still 1"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/2.jpg"  alt="Portfolio still 2"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/3.jpg"  alt="Portfolio still 3"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/4.jpg"  alt="Portfolio still 4"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/5.jpg"  alt="Portfolio still 5"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/6.jpg"  alt="Portfolio still 6"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/7.jpg"  alt="Portfolio still 7"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/8.jpg"  alt="Portfolio still 8"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/9.jpg"  alt="Portfolio still 9"  loading="lazy"/></figure>
-            </li>
-            <li class="slide">
-              <figure class="card"><img src="/assets/gallery/10.jpg" alt="Portfolio still 10" loading="lazy"/></figure>
-            </li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/1.jpg"  alt="Portfolio still 1"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/2.jpg"  alt="Portfolio still 2"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/3.jpg"  alt="Portfolio still 3"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/4.jpg"  alt="Portfolio still 4"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/5.jpg"  alt="Portfolio still 5"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/6.jpg"  alt="Portfolio still 6"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/7.jpg"  alt="Portfolio still 7"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/8.jpg"  alt="Portfolio still 8"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/9.jpg"  alt="Portfolio still 9"  loading="lazy"/></figure></li>
+            <li class="slide"><figure class="card"><img src="/assets/gallery/10.jpg" alt="Portfolio still 10" loading="lazy"/></figure></li>
           </ul>
         </div>
       </div>
@@ -603,43 +573,40 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // ======= NEW: Portfolio Stills center-scale logic (no visible UI) =======
+    // Portfolio Stills: center-scale + arrows
     (function(){
       const vp = document.getElementById('folioVP');
       const track = document.getElementById('folioTrack');
+      const prev = document.getElementById('folioPrev');
+      const next = document.getElementById('folioNext');
       if(!vp || !track) return;
 
       // Drag to scroll
       let isDown = false, startX = 0, startScroll = 0;
       vp.addEventListener('pointerdown', (e)=>{ isDown = true; vp.setPointerCapture(e.pointerId); startX = e.clientX; startScroll = vp.scrollLeft; });
       vp.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx = e.clientX - startX; vp.scrollLeft = startScroll - dx; });
-      vp.addEventListener('pointerup', ()=>{ isDown = false }); vp.addEventListener('pointercancel', ()=>{ isDown = false });
+      ['pointerup','pointercancel','pointerleave'].forEach(ev=>vp.addEventListener(ev, ()=>{ isDown=false; }));
 
-      // Keyboard arrows
+      // Arrow helpers
       function step(dir){
         const slide = track.querySelector('.slide');
         const slideW = slide ? slide.getBoundingClientRect().width : 300;
         vp.scrollBy({ left: dir * (slideW + 16), behavior:'smooth' });
       }
+      if(prev) prev.addEventListener('click', ()=>step(-1));
+      if(next) next.addEventListener('click', ()=>step(1));
+
+      // Keyboard arrows
       vp.addEventListener('keydown', (e)=>{
         if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
         if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
       });
 
       const slides = Array.from(track.children);
-
       function updateActive(){
         const vpRect = vp.getBoundingClientRect();
         const center = vpRect.left + vpRect.width/2;
-
-        let best = null, bestDist = Infinity;
-        slides.forEach(sl=>{
-          const r = sl.getBoundingClientRect();
-          const c = r.left + r.width/2;
-          const dist = Math.abs(c - center);
-          sl.classList.remove('is-active','is-near');
-          if(dist < bestDist){ bestDist = dist; best = sl; }
-        });
+        slides.forEach(sl=>sl.classList.remove('is-active','is-near'));
 
         slides.forEach(sl=>{
           const r = sl.getBoundingClientRect();
@@ -650,23 +617,22 @@
         });
       }
 
-      // Snap the closest slide to center on scroll end
-      let scrollTO = null;
+      // Snap to closest on scroll end
+      let rafId = null;
       function onScroll(){
         updateActive();
-        if(scrollTO) cancelAnimationFrame(scrollTO);
-        scrollTO = requestAnimationFrame(()=>{
+        if(rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(()=>{
           clearTimeout(onScroll._t);
           onScroll._t = setTimeout(()=>{
-            // find closest
             const vpRect = vp.getBoundingClientRect();
             const center = vpRect.left + vpRect.width/2;
             let target = null, bestDist = Infinity;
             slides.forEach(sl=>{
               const r = sl.getBoundingClientRect();
               const c = r.left + r.width/2;
-              const dist = Math.abs(c - center);
-              if(dist < bestDist){ bestDist = dist; target = sl; }
+              const d = Math.abs(c - center);
+              if(d < bestDist){ bestDist = d; target = sl; }
             });
             if(target){
               const r = target.getBoundingClientRect();
@@ -677,15 +643,12 @@
         });
       }
 
-      // Init states
+      // Init
       updateActive();
       vp.addEventListener('scroll', onScroll, { passive:true });
       window.addEventListener('resize', updateActive);
-      // After fonts load, re-center scaling
       if(document.fonts && document.fonts.ready){ document.fonts.ready.then(updateActive); }
     })();
-
-    // Carousel (legacy gallery removed) — nothing else to do here
 
     // Custom cursor
     (function(){

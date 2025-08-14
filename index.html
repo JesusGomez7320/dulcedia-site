@@ -95,7 +95,7 @@
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg); position:relative; z-index:1}
     @media (max-width:560px){ .section{padding:56px 0} }
 
-    /* ===== ABOUT (updated to media-left layout) ===== */
+    /* ===== ABOUT (media-left, fade-in, hover pause) ===== */
     #about.section{ padding:64px 0; }
     #about .about-layout{
       display:grid;
@@ -110,16 +110,23 @@
       box-shadow:var(--shadow);
       background:#000;
       border:1px solid var(--line);
-      aspect-ratio: 4/5; /* keeps a steady footprint as it loads */
+      aspect-ratio: 4/5;
     }
     #about .about-media video, 
     #about .about-media img{
       width:100%; height:100%; object-fit:cover; display:block;
     }
+    /* Fade-in for the about video */
+    #about .about-media video{
+      opacity:0;
+      transition: opacity .6s ease .05s, filter .2s ease;
+    }
+    #about .about-media video.is-visible{ opacity:1; }
+    #about .about-media video.paused{ filter:brightness(.85); }
+
     #about .about-copy{ text-align:left; }
     #about .about-copy p{ font-size:17px; line-height:1.75; margin:0 0 12px; }
 
-    /* Mobile: stack media on top, keep two paragraphs stacked under it */
     @media (max-width:900px){
       #about .about-layout{ grid-template-columns:1fr; }
       #about .about-media{ aspect-ratio:auto; }
@@ -314,7 +321,7 @@
       </div>
     </section>
 
-    <!-- ABOUT (MEDIA LEFT) -->
+    <!-- ABOUT (MEDIA LEFT with fade-in + hover-pause) -->
     <section id="about" class="section" aria-label="About">
       <div class="wrap">
         <h2 class="serif reveal">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
@@ -323,16 +330,15 @@
         <div class="about-layout">
           <!-- Left media -->
           <figure class="about-media reveal" aria-label="Behind the scenes clip">
-            <!-- If you only have a WebM/MP4 clip, keep the <video>. If you truly have an animated .webp only, replace this <video> with <img src="/assets/ss_1.webp"> -->
-            <video playsinline muted autoplay loop preload="metadata" poster="/assets/ss_1_poster.jpg" aria-hidden="true">
+            <video id="aboutVideo" playsinline muted autoplay loop preload="metadata" poster="/assets/tn_1.jpg">
               <source src="/assets/ss_1.webm" type="video/webm" />
-              <source src="/assets/ss_1.mp4"  type="video/mp4" />
-              <!-- fallback if video not supported -->
-              <img src="/assets/ss_1.webp" alt="Cinematic still" />
+              <source src="/assets/ss_1.mp4" type="video/mp4" />
+              <!-- Fallback image -->
+              <img src="/assets/tn_1.jpg" alt="Cinematic behind-the-scenes" />
             </video>
           </figure>
 
-          <!-- Right copy: two stacked paragraphs, left-justified -->
+          <!-- Right copy -->
           <div class="about-copy">
             <p class="reveal">
               Capturing love is more than filming a wedding — it’s preserving the heartbeat of your story. Every glance, every laugh, every unspoken moment becomes part of a cinematic narrative that reflects the beauty and emotion of one of life’s most cherished days. After graduating from film school in Los Angeles, I spent eight years in the film industry mastering the art of mood, movement, and sound — turning fleeting moments into scenes that feel timeless.
@@ -584,7 +590,7 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // Portfolio Stills interactions
+    // Portfolio Stills: center-scale + arrows
     (function(){
       const vp = document.getElementById('folioVP');
       const track = document.getElementById('folioTrack');
@@ -607,7 +613,7 @@
       if(prev) prev.addEventListener('click', ()=>step(-1));
       if(next) next.addEventListener('click', ()=>step(1));
 
-      // Keyboard
+      // Keyboard arrows
       vp.addEventListener('keydown', (e)=>{
         if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
         if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
@@ -628,6 +634,7 @@
         });
       }
 
+      // Snap to closest on scroll end
       let rafId = null;
       function onScroll(){
         updateActive();
@@ -653,6 +660,7 @@
         });
       }
 
+      // Init
       updateActive();
       vp.addEventListener('scroll', onScroll, { passive:true });
       window.addEventListener('resize', updateActive);
@@ -717,6 +725,32 @@
       function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(()=>{ update(); ticking = false; }); } }
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onScroll);
+    })();
+
+    // ABOUT video: fade-in when ready + pause on hover (desktop)
+    (function(){
+      const video = document.getElementById('aboutVideo');
+      if(!video) return;
+
+      // Fade in when the video can play (first frame ready)
+      const reveal = () => video.classList.add('is-visible');
+      if (video.readyState >= 2) { // HAVE_CURRENT_DATA
+        reveal();
+      } else {
+        video.addEventListener('loadeddata', reveal, { once:true });
+      }
+
+      // Hover pause only when hover is supported
+      if (window.matchMedia('(hover: hover)').matches) {
+        video.addEventListener('mouseenter', () => {
+          video.pause();
+          video.classList.add('paused');
+        });
+        video.addEventListener('mouseleave', () => {
+          video.play();
+          video.classList.remove('paused');
+        });
+      }
     })();
   </script>
 </body>

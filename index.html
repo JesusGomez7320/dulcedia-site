@@ -95,19 +95,40 @@
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg); position:relative; z-index:1}
     @media (max-width:560px){ .section{padding:56px 0} }
 
-    /* ===== ABOUT ===== */
-    #about .columns{ column-count:2; column-gap:1.35rem; }
-    #about .columns p{ break-inside:avoid; margin:0 0 12px; font-size:17px; line-height:1.75; }
+    /* ===== ABOUT (updated to media-left layout) ===== */
     #about.section{ padding:64px 0; }
-    @media (max-width:560px){
-      #about .columns{ column-count:1; text-align:center; }
-      #about .columns p:nth-of-type(2){ display:none; }
-      #about .columns p{ font-size:15px; line-height:1.65; max-width:90%; margin-left:auto; margin-right:auto; }
+    #about .about-layout{
+      display:grid;
+      grid-template-columns: minmax(280px,480px) 1fr;
+      gap:28px;
+      align-items:start;
+    }
+    #about .about-media{
+      position:relative;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      background:#000;
+      border:1px solid var(--line);
+      aspect-ratio: 4/5; /* keeps a steady footprint as it loads */
+    }
+    #about .about-media video, 
+    #about .about-media img{
+      width:100%; height:100%; object-fit:cover; display:block;
+    }
+    #about .about-copy{ text-align:left; }
+    #about .about-copy p{ font-size:17px; line-height:1.75; margin:0 0 12px; }
+
+    /* Mobile: stack media on top, keep two paragraphs stacked under it */
+    @media (max-width:900px){
+      #about .about-layout{ grid-template-columns:1fr; }
+      #about .about-media{ aspect-ratio:auto; }
+      #about .about-copy p{ font-size:15px; line-height:1.65; }
       #about.section{ padding:44px 0; }
       #about h2{ margin-bottom:6px; }
       #about .rule{ width:96px; margin:10px 0 14px; }
     }
-    @media (max-width:340px){ #about .columns p{ font-size:14.5px; line-height:1.6; } }
+    @media (max-width:340px){ #about .about-copy p{ font-size:14.5px; line-height:1.6; } }
 
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
@@ -155,19 +176,15 @@
 
     /* ======== PORTFOLIO STILLS (seamless) ======== */
     #folio{ padding-top:28px; padding-bottom:72px; }
-    #folio .folio-head{
-      text-align:center; position:relative; margin-bottom:6px;
-    }
+    #folio .folio-head{ text-align:center; position:relative; margin-bottom:6px; }
     #folio .folio-title{
       display:inline-block;
       font-family: Playfair Display, BrandSerif, Georgia, serif;
       letter-spacing:.20em; text-transform:uppercase;
       font-size:clamp(22px,3.2vw,36px);
       line-height:1.1;
-      /* seamless: no background bubble */
-      padding:0; margin:0;
-      color:var(--ink);
-      translate:0 -8px; /* slight overlap over scroller */
+      padding:0; margin:0; color:var(--ink);
+      translate:0 -8px;
     }
     #folio .vp{
       position:relative;
@@ -175,45 +192,25 @@
       scroll-snap-type:x mandatory;
       -webkit-overflow-scrolling:touch;
       scroll-behavior:smooth;
-      /* seamless container: remove white bg, border, shadow */
       padding:12px 0 4px 0;
       background:transparent; border:none; box-shadow:none;
     }
-    /* Hide scrollbar */
     #folio .vp::-webkit-scrollbar{ display:none }
     #folio .vp{ scrollbar-width:none }
-
     #folio .track{
       display:grid;
       grid-auto-flow:column;
       grid-auto-columns:clamp(220px, 30vw, 420px);
       gap:16px; list-style:none; margin:0; padding:0 22px;
     }
-    #folio .slide{
-      scroll-snap-align:center;
-      position:relative;
-      transition:transform 260ms ease, filter 260ms ease, z-index 260ms ease, opacity 260ms ease;
-      transform-origin:center center;
-      will-change:transform, filter;
-    }
-    #folio .card{
-      position:relative; overflow:hidden; margin:0;
-      border-radius:14px; border:1px solid var(--line);
-      background:#000; aspect-ratio:4/5;
-    }
-    #folio .card img{
-      width:100%; height:100%; object-fit:cover; display:block;
-      transform:scale(1); transition:transform 260ms ease;
-      will-change:transform;
-    }
-
-    /* Scale states driven by JS */
+    #folio .slide{ scroll-snap-align:center; position:relative; transition:transform 260ms ease, filter 260ms ease, z-index 260ms ease, opacity 260ms ease; transform-origin:center center; will-change:transform, filter; }
+    #folio .card{ position:relative; overflow:hidden; margin:0; border-radius:14px; border:1px solid var(--line); background:#000; aspect-ratio:4/5; }
+    #folio .card img{ width:100%; height:100%; object-fit:cover; display:block; transform:scale(1); transition:transform 260ms ease; will-change:transform; }
     #folio .slide{ transform:scale(.94); opacity:.92; }
     #folio .slide.is-near{ transform:scale(.985); }
     #folio .slide.is-active{ transform:scale(1.08); z-index:3; }
     #folio .slide.is-active .card img{ transform:scale(1.03); }
 
-    /* Desktop nav arrows (thin line) */
     .folio-arrow{
       position:absolute; top:50%; translate:0 -50%;
       width:40px; height:40px; border-radius:999px;
@@ -250,7 +247,7 @@
       --glassA: var(--glass-max);
       background: rgba(20, 20, 20, var(--glassA));
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      border-radius: var(--r); padding: 32px; box-shadow: var(--shadow);
+      border-radius: var(--r); padding: 32px; box-shadow:var(--shadow);
       transition: background 200ms linear;
     }
     .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
@@ -317,19 +314,33 @@
       </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- ABOUT (MEDIA LEFT) -->
     <section id="about" class="section" aria-label="About">
       <div class="wrap">
         <h2 class="serif reveal">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
 
-        <div class="columns">
-          <p class="reveal">
-            Capturing love is more than filming a wedding — it’s preserving the heartbeat of your story. Every glance, every laugh, every unspoken moment becomes part of a cinematic narrative that reflects the beauty and emotion of one of life’s most cherished days. After graduating from film school in Los Angeles, I spent eight years in the film industry mastering the art of mood, movement, and sound — turning fleeting moments into scenes that feel timeless.
-          </p>
-          <p class="reveal">
-            Now back in my hometown of San Clemente, I bring that Hollywood-crafted eye to weddings across Southern California. I take time to know each couple, your vision, and the atmosphere you want to create — whether it’s an elegant celebration beneath glowing string lights or an intimate elopement on the coast. Your story is one of a kind, and your film should be too — a keepsake that lets you relive the joy, love, and magic of your day, again and again.
-          </p>
+        <div class="about-layout">
+          <!-- Left media -->
+          <figure class="about-media reveal" aria-label="Behind the scenes clip">
+            <!-- If you only have a WebM/MP4 clip, keep the <video>. If you truly have an animated .webp only, replace this <video> with <img src="/assets/ss_1.webp"> -->
+            <video playsinline muted autoplay loop preload="metadata" poster="/assets/ss_1_poster.jpg" aria-hidden="true">
+              <source src="/assets/ss_1.webm" type="video/webm" />
+              <source src="/assets/ss_1.mp4"  type="video/mp4" />
+              <!-- fallback if video not supported -->
+              <img src="/assets/ss_1.webp" alt="Cinematic still" />
+            </video>
+          </figure>
+
+          <!-- Right copy: two stacked paragraphs, left-justified -->
+          <div class="about-copy">
+            <p class="reveal">
+              Capturing love is more than filming a wedding — it’s preserving the heartbeat of your story. Every glance, every laugh, every unspoken moment becomes part of a cinematic narrative that reflects the beauty and emotion of one of life’s most cherished days. After graduating from film school in Los Angeles, I spent eight years in the film industry mastering the art of mood, movement, and sound — turning fleeting moments into scenes that feel timeless.
+            </p>
+            <p class="reveal">
+              Now back in my hometown of San Clemente, I bring that Hollywood-crafted eye to weddings across Southern California. I take time to know each couple, your vision, and the atmosphere you want to create — whether it’s an elegant celebration beneath glowing string lights or an intimate elopement on the coast. Your story is one of a kind, and your film should be too — a keepsake that lets you relive the joy, love, and magic of your day, again and again.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -573,7 +584,7 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // Portfolio Stills: center-scale + arrows
+    // Portfolio Stills interactions
     (function(){
       const vp = document.getElementById('folioVP');
       const track = document.getElementById('folioTrack');
@@ -596,7 +607,7 @@
       if(prev) prev.addEventListener('click', ()=>step(-1));
       if(next) next.addEventListener('click', ()=>step(1));
 
-      // Keyboard arrows
+      // Keyboard
       vp.addEventListener('keydown', (e)=>{
         if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
         if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
@@ -617,7 +628,6 @@
         });
       }
 
-      // Snap to closest on scroll end
       let rafId = null;
       function onScroll(){
         updateActive();
@@ -643,7 +653,6 @@
         });
       }
 
-      // Init
       updateActive();
       vp.addEventListener('scroll', onScroll, { passive:true });
       window.addEventListener('resize', updateActive);

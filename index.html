@@ -718,31 +718,63 @@
 
     // ===== Click-to-Play (Drive iframes) — tn_1 -> 16:9, tn_2 -> 4:5 =====
     (function(){
-      const toAutoplay = (url) => url + (url.includes('?') ? '&' : '?') + 'autoplay=1&mute=1';
+      // Convert either style of Drive link to the "uc?export=preview" form, which behaves better across browsers/privacy modes.
+      function toPreviewSrc(url){
+        const m = url.match(/\/file\/d\/([^/]+)\//) || url.match(/[?&]id=([^&]+)/);
+        const id = m ? m[1] : null;
+        if(!id) return url;
+        return `https://drive.google.com/uc?export=preview&id=${id}`;
+      }
 
       function mountDrive(container){
-        const src = container.getAttribute('data-src');
-        if(!src) return;
+        const orig = container.getAttribute('data-src');
+        if(!orig) return;
+        const src = toPreviewSrc(orig);
+
         container.setAttribute('aria-busy','true');
 
         const iframe = document.createElement('iframe');
-        iframe.src = toAutoplay(src);
-        iframe.setAttribute('allow','autoplay; fullscreen');
+        // Autoplay flag is included; user click usually grants audio.
+        iframe.src = src + (src.includes('?') ? '&' : '?') + 'autoplay=1';
+        iframe.setAttribute('title','Google Drive video');
+        iframe.setAttribute('allow','autoplay; fullscreen; picture-in-picture; clipboard-write');
+        iframe.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-popups allow-presentation');
         iframe.setAttribute('allowfullscreen','');
-        iframe.setAttribute('loading','eager');            // make sure it actually starts
+        iframe.setAttribute('loading','eager');
         iframe.setAttribute('referrerpolicy','no-referrer-when-downgrade');
-        iframe.style.position = 'absolute';
-        iframe.style.inset = '0';
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = '0';
+        Object.assign(iframe.style, { position:'absolute', inset:'0', width:'100%', height:'100%', border:'0' });
 
         // Clear thumb immediately so it "disappears" on click
         container.innerHTML = '';
         container.appendChild(iframe);
         container.removeAttribute('role');
         container.removeAttribute('tabindex');
-        container.setAttribute('aria-busy','false');
+
+        // If the Drive viewer can't start (e.g., strict cookie blockers), show a graceful inline fallback.
+        let settled = false;
+        const done = ()=>{ if(!settled){ settled = true; container.setAttribute('aria-busy','false'); } };
+        iframe.addEventListener('load', done);
+
+        // Watchdog: if nothing happened after ~4s, offer an inline fallback link (still Google-hosted).
+        setTimeout(()=>{
+          if(settled) return;
+          settled = true;
+          container.setAttribute('aria-busy','false');
+          container.innerHTML = `
+            <div style="position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.4);">
+              <a href="${orig}" style="
+                display:inline-flex;align-items:center;gap:10px;
+                padding:12px 16px;border-radius:999px;
+                border:1px solid rgba(255,255,255,.85);
+                background:rgba(0,0,0,.55);color:#fff;letter-spacing:.12em;text-transform:uppercase;font-size:12px;
+                text-decoration:none;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                  <polygon points="9,7 19,12 9,17"></polygon>
+                </svg>
+                Open on Google Drive
+              </a>
+            </div>`;
+        }, 4000);
       }
 
       document.querySelectorAll('.embed[data-src]').forEach(box=>{

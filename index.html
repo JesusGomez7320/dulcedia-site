@@ -168,6 +168,7 @@
     .t-copy .body{color:var(--dark-sub)}
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
+    .ratio-9x16{aspect-ratio:9/16} /* NEW: true vertical, no crop */
 
     /* Portfolio scroller */
     #folio{ padding-top:28px; padding-bottom:72px; }
@@ -250,9 +251,7 @@
     .embed[aria-busy="true"]::after{ opacity:1; }
     @keyframes sh{ to{ translate:100% 0 } }
 
-    /* === YouTube 4:5 fill (no side bars) ===
-       We keep a true 16:9 player inside the 4:5 box and scale/center it so the 4:5 appears fully filled.
-       This crops the player edges cleanly (no left/right black bars). */
+    /* === YouTube 4:5 fill (no side bars) === */
     .yt-16x9{
       position:absolute; left:50%; top:50%;
       translate:-50% -50%;
@@ -479,19 +478,19 @@
       </div>
     </section>
 
-    <!-- TESTIMONIAL (4:5) — tn_2.jpg -> YouTube Shorts aBauHVpOA3A (no side bars) -->
+    <!-- TESTIMONIAL (9:16) — tn_2.jpg -> YouTube Shorts aBauHVpOA3A (no crop) -->
     <section id="testimonials" class="section dark" aria-label="Testimonial">
       <div class="wrap">
         <h2 class="serif reveal">TESTIMONIAL</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="testimonial">
-          <div class="t-media ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
+          <div class="t-media ratio-9x16 reveal" aria-label="Meet Pags &amp; Gunner">
             <div
               class="embed"
               data-provider="youtube"
               data-id="aBauHVpOA3A"
-              data-aspect="4x5"
-              role="button" aria-label="Play Testimonial video (4:5)" tabindex="0">
+              data-aspect="9x16"
+              role="button" aria-label="Play Testimonial video (9:16)" tabindex="0">
               <img class="thumb" src="/assets/tn_2.jpg" alt="Play Testimonial video" />
               <div class="playbtn" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
@@ -733,7 +732,7 @@
       }
     })();
 
-    // ===== Click-to-Play (YouTube) for tn_1 (16:9) and tn_2 (4:5 fill) =====
+    // ===== Click-to-Play (YouTube) for tn_1 (16:9) and tn_2 (9:16 no crop) =====
     (function(){
       function ytUrl(id){
         // nocookie domain reduces tracking; rel=0 limits unrelated suggestions
@@ -748,7 +747,7 @@
         const src = ytUrl(id);
         container.setAttribute('aria-busy','true');
 
-        // For 4:5, create a 16:9 wrapper we can scale; for 16:9, iframe can go directly.
+        // For 4:5 we scale a 16:9 wrapper to avoid pillarboxes (cropped fill).
         if(aspect === '4x5'){
           const box = document.createElement('div');
           box.className = 'yt-16x9';
@@ -763,6 +762,7 @@
           container.innerHTML = '';
           container.appendChild(box);
         }else{
+          // For 16:9 and 9:16 we just mount the standard iframe (no crop)
           const iframe = document.createElement('iframe');
           iframe.src = src;
           iframe.setAttribute('title','YouTube video');

@@ -54,18 +54,15 @@
       transform:translate3d(0,0,0);
     }
 
-    /* ===== Transparent Header (no bar on desktop) ===== */
+    /* ===== Transparent Header ===== */
     header{
       position:fixed; top:0; left:0; right:0; z-index:60;
       display:flex; align-items:center; justify-content:space-between;
       height:72px; padding:0 16px;
-      background:transparent; color:#fff; /* light over hero */
+      background:transparent; color:#fff;
       transition:color .25s ease, background .25s ease, border-color .25s ease;
     }
-    /* Auto-contrast: switch text color when scrolled past hero */
     header.is-solid{ color:var(--ink); }
-
-    /* On MOBILE ONLY we add a subtle glass bg for readability */
     @media (max-width:820px){
       header.is-solid{
         background:rgba(247,246,242,.9);
@@ -73,7 +70,6 @@
         border-bottom:1px solid var(--line);
       }
     }
-
     .brand-logo{display:inline-flex;align-items:center;gap:10px;height:52px}
     .brand-logo .logo-inline{display:block;height:40px;width:auto;color:currentColor}
     .brand-logo img{height:40px;width:auto;display:block}
@@ -81,10 +77,8 @@
     .nav-links{display:flex;align-items:center;gap:18px}
     .nav-links a{margin:0;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
 
-    /* Mobile hamburger */
     .menu-btn{display:none;background:none;border:none;padding:10px;cursor:pointer;color:currentColor}
     .menu-btn .bar{width:22px;height:2px;background:currentColor;display:block;margin:4px 0}
-
     @media (max-width:820px){
       .menu-btn{display:inline-block}
       .nav-links{
@@ -97,23 +91,23 @@
       .nav-links.open{display:flex}
     }
 
-    /* HERO (transparent section over the fixed video) */
+    /* HERO */
     .hero{
       position:relative; min-height:100vh;
       display:grid; place-items:center;
       color:#fff; text-align:center; overflow:hidden;
       background:transparent; isolation:isolate;
       z-index:1;
-      padding-top:72px; /* keep content clear of header */
+      padding-top:72px;
     }
     .hero .wrap{position:relative;z-index:1}
     .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
 
-    /* Regular content sections paint over the video */
+    /* Sections */
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg); position:relative; z-index:1}
     @media (max-width:560px){ .section{padding:56px 0} }
 
-    /* ===== ABOUT (media-left, fade-in, hover pause) ===== */
+    /* ===== ABOUT ===== */
     #about.section{ padding:64px 0; }
     #about .about-layout{
       display:grid;
@@ -154,6 +148,7 @@
     }
     @media (max-width:340px){ #about .about-copy p{ font-size:14.5px; line-height:1.6; } }
 
+    /* Grids & cards */
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
     @media (max-width:980px){ .grid-3{grid-template-columns:1fr} }
@@ -187,14 +182,10 @@
     .testimonial{display:grid;grid-template-columns:1.1fr 1.4fr;gap:36px;align-items:start}
     @media (max-width:980px){.testimonial{grid-template-columns:1fr}}
     .t-media{position:relative;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
-    .t-media video{width:100%;height:100%;display:block;object-fit:cover}
-    .t-controls{position:absolute;right:10px;bottom:10px;display:flex;gap:8px}
-    .control-btn{border:1px solid rgba(255,255,255,.7);background:rgba(0,0,0,.35);color:#fff;padding:8px 10px;border-radius:10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(4px);cursor:pointer}
-    .control-btn:focus{outline:2px solid #fff;outline-offset:2px}
+    .t-media video, .t-media iframe{width:100%;height:100%;display:block;object-fit:cover}
     .t-copy .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--dark-sub);margin-bottom:8px}
     .t-copy blockquote{margin:0 0 14px;font-size:clamp(18px,2.1vw,24px);line-height:1.5;font-family:Playfair Display,BrandSerif,Georgia,serif}
     .t-copy .body{color:var(--dark-sub)}
-    .t-media.drive iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
 
@@ -300,6 +291,28 @@
     .cursor.is-hidden{ opacity:0 }
     .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
     @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
+
+    /* ====== Click-to-Play Embeds ====== */
+    .embed{
+      position:relative; width:100%; height:100%; overflow:hidden; background:#000;
+    }
+    .embed img.thumb{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
+    }
+    .embed .playbtn{
+      position:absolute; inset:auto 0 0 0; margin:auto;
+      top:50%; translate:0 -50%;
+      width:64px; height:64px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.7);
+      background:rgba(0,0,0,.35);
+      display:grid; place-items:center; cursor:pointer;
+      transition:transform .15s ease, background .15s ease, border-color .15s ease;
+      z-index:2;
+    }
+    .embed .playbtn:hover{ transform:translateY(-1px) scale(1.03); background:rgba(0,0,0,.45) }
+    .embed .playbtn svg{ width:22px; height:22px; color:#fff }
+    .embed button.playbtn{ all:unset; }
+    .embed[aria-busy="true"] .thumb, .embed[aria-busy="true"] .playbtn { opacity:0; pointer-events:none; }
   </style>
 </head>
 <body class="no-js">
@@ -315,7 +328,6 @@
   <!-- Transparent Header with logo -->
   <header id="siteHeader" role="banner">
     <a href="#home" class="brand-logo" aria-label="Dulce Día Cine">
-      <!-- Inline SVG gets injected here; PNG fallback is below for no-JS / failure -->
       <img src="/assets/logo_1.png" alt="Dulce Día Cine logo" class="logo-fallback" style="display:none;height:40px" />
     </a>
 
@@ -339,31 +351,30 @@
     <!-- HERO -->
     <section class="hero" id="home" aria-label="Hero">
       <div class="wrap">
-        <!-- Removed the 'From Hollywood Sets to Wedding Vows' line -->
         <h1 class="reveal serif">Capturing Emotions with Cinematic Artistry</h1>
         <div class="rule reveal" aria-hidden="true"></div>
         <p class="sub prose reveal">Documentary approach, organic feel, editorial polish. Serving Southern California &amp; destinations worldwide.</p>
       </div>
     </section>
 
-    <!-- ABOUT (MEDIA LEFT with fade-in + hover-pause) -->
+    <!-- ABOUT -->
     <section id="about" class="section" aria-label="About">
       <div class="wrap">
         <h2 class="serif reveal">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
 
         <div class="about-layout">
-          <!-- Left media -->
+          <!-- Media (4:5 native player with poster already) -->
           <figure class="about-media reveal" aria-label="Behind the scenes clip">
-            <video id="aboutVideo" playsinline muted autoplay loop preload="metadata" poster="/assets/tn_1.jpg">
+            <video id="aboutVideo" playsinline muted autoplay loop preload="metadata" poster="/assets/tn_2.jpg">
+              <!-- NOTE: tn_2 is visually aligned to this 4:5 video format -->
               <source src="/assets/ss_1.webm" type="video/webm" />
               <source src="/assets/ss_1.mp4" type="video/mp4" />
-              <!-- Fallback image -->
-              <img src="/assets/tn_1.jpg" alt="Cinematic behind-the-scenes" />
+              <img src="/assets/tn_2.jpg" alt="Cinematic behind-the-scenes" />
             </video>
           </figure>
 
-          <!-- Right copy -->
+          <!-- Copy -->
           <div class="about-copy">
             <p class="reveal">
               <strong>Filming</strong> love is more than filming a wedding — it’s preserving the heartbeat of your story. Every glance, every laugh, every unspoken moment becomes part of a cinematic narrative that reflects the beauty and emotion of one of life’s most cherished days. After graduating from film school in Los Angeles, I spent eight years in the film industry mastering the art of mood, movement, and sound — turning fleeting moments into scenes that feel timeless.
@@ -412,12 +423,19 @@
       </div>
     </section>
 
-    <!-- DARK FEATURE (Drive 16:9) -->
+    <!-- DARK FEATURE (16:9) — tn_1.jpg triggers this -->
     <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
-        <div class="t-media drive ratio-16x9 reveal" aria-label="Make It a Dulce Día">
-          <iframe src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
-                  allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Make It a Dulce Día"></iframe>
+        <!-- Click-to-Play (16:9) using tn_1 -->
+        <div class="t-media ratio-16x9 reveal">
+          <div class="embed" data-src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview" data-ratio="16x9" role="button" aria-label="Play Feature video" tabindex="0">
+            <img class="thumb" src="/assets/tn_1.jpg" alt="Play Feature video (16:9)" />
+            <button class="playbtn" aria-label="Play">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="9,7 19,12 9,17" fill="currentColor"></polygon>
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="t-copy">
           <div class="eyebrow serif reveal">Feature</div>
@@ -510,15 +528,21 @@
       </div>
     </section>
 
-    <!-- TESTIMONIAL (Drive 4:5) -->
+    <!-- TESTIMONIAL (4:5) — tn_2.jpg triggers this -->
     <section id="testimonials" class="section dark" aria-label="Testimonial">
       <div class="wrap">
         <h2 class="serif reveal">TESTIMONIAL</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="testimonial">
-          <div class="t-media drive ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
-            <iframe src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
-                    allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Meet Pags &amp; Gunner (4x5)"></iframe>
+          <div class="t-media ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
+            <div class="embed" data-src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview" data-ratio="4x5" role="button" aria-label="Play Testimonial video" tabindex="0">
+              <img class="thumb" src="/assets/tn_2.jpg" alt="Play Testimonial video (4:5)" />
+              <button class="playbtn" aria-label="Play">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="9,7 19,12 9,17" fill="currentColor"></polygon>
+                </svg>
+              </button>
+            </div>
           </div>
           <div class="t-copy">
             <div class="eyebrow serif reveal">Client Story</div>
@@ -585,7 +609,7 @@
     // Year
     (function(){ var y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear(); })();
 
-    // Inject SVG logo inline and force currentColor
+    // Inline SVG logo (colorize to currentColor)
     (async function inlineLogo(){
       const container = document.querySelector('.brand-logo');
       const pngFallback = container.querySelector('.logo-fallback');
@@ -593,31 +617,21 @@
         const res = await fetch('/assets/logo_1.svg', {cache:'no-cache'});
         if(!res.ok) throw new Error('SVG fetch failed');
         const svgText = await res.text();
-
-        // Parse and sanitize -> set fill/stroke to currentColor where appropriate
         const parser = new DOMParser();
         const doc = parser.parseFromString(svgText, 'image/svg+xml');
         const svg = doc.querySelector('svg');
-        if(!svg) throw new Error('No <svg> root found');
-
-        // Normalize size and class
+        if(!svg) throw new Error('No <svg> found');
         svg.setAttribute('class','logo-inline');
-        svg.removeAttribute('width');
-        svg.removeAttribute('height');
+        svg.removeAttribute('width'); svg.removeAttribute('height');
         svg.setAttribute('preserveAspectRatio', svg.getAttribute('preserveAspectRatio') || 'xMidYMid meet');
-
-        // Walk through and set currentColor for fills/strokes unless explicitly none/transparent/url()
         const WALK = (node)=>{
           if(node.nodeType!==1) return;
           const el = node;
           const fill = (el.getAttribute('fill')||'').trim().toLowerCase();
           const stroke = (el.getAttribute('stroke')||'').trim().toLowerCase();
           const isNone = v => v==='none' || v==='transparent' || v.startsWith('url(');
-
           if(!fill || (!isNone(fill) && fill !== 'currentcolor')) el.setAttribute('fill','currentColor');
           if(stroke && !isNone(stroke) && stroke !== 'currentcolor') el.setAttribute('stroke','currentColor');
-
-          // Remove hardcoded color styles in style attr
           const style = el.getAttribute('style');
           if(style){
             const cleaned = style
@@ -625,16 +639,12 @@
               .replace(/stroke\s*:\s*[^;]+/gi,'stroke:currentColor');
             el.setAttribute('style', cleaned);
           }
-
           Array.from(el.children).forEach(WALK);
         };
         WALK(svg);
-
-        // Insert and hide fallback
         container.insertBefore(svg, pngFallback);
         if(pngFallback) pngFallback.style.display = 'none';
       }catch(err){
-        // If anything fails, show PNG fallback
         if(pngFallback) pngFallback.style.display = 'block';
       }
     })();
@@ -648,7 +658,6 @@
         const open = nav.classList.toggle('open');
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
-      // Close after clicking a link
       nav.addEventListener('click', (e)=>{
         if(e.target.tagName === 'A' && nav.classList.contains('open')){
           nav.classList.remove('open'); btn.setAttribute('aria-expanded','false');
@@ -656,12 +665,11 @@
       });
     })();
 
-    // Auto-contrast header (text only on desktop; glass on mobile via CSS)
+    // Auto-contrast header
     (function(){
       const header = document.getElementById('siteHeader');
       const hero = document.getElementById('home');
       if(!header || !hero) return;
-
       const update = () => {
         const heroBottom = hero.getBoundingClientRect().bottom;
         if (heroBottom <= 72) header.classList.add('is-solid');
@@ -686,7 +694,7 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // Portfolio Stills: center-scale + arrows + drag
+    // Portfolio Stills behavior
     (function(){
       const vp = document.getElementById('folioVP');
       const track = document.getElementById('folioTrack');
@@ -694,7 +702,6 @@
       const next = document.getElementById('folioNext');
       if(!vp || !track) return;
 
-      // Drag to scroll
       let isDown = false, startX = 0, startScroll = 0;
       vp.addEventListener('pointerdown', (e)=>{ isDown = true; vp.setPointerCapture(e.pointerId); startX = e.clientX; startScroll = vp.scrollLeft; });
       vp.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx = e.clientX - startX; vp.scrollLeft = startScroll - dx; });
@@ -718,7 +725,6 @@
         const vpRect = vp.getBoundingClientRect();
         const center = vpRect.left + vpRect.width/2;
         slides.forEach(sl=>sl.classList.remove('is-active','is-near'));
-
         slides.forEach(sl=>{
           const r = sl.getBoundingClientRect();
           const c = r.left + r.width/2;
@@ -727,7 +733,6 @@
           else if(dist < (vpRect.width * 0.32)) sl.classList.add('is-near');
         });
       }
-
       let rafId = null;
       function onScroll(){
         updateActive();
@@ -752,7 +757,6 @@
           }, 80);
         });
       }
-
       updateActive();
       vp.addEventListener('scroll', onScroll, { passive:true });
       window.addEventListener('resize', updateActive);
@@ -763,15 +767,49 @@
     (function(){
       const video = document.getElementById('aboutVideo');
       if(!video) return;
-
       const reveal = () => video.classList.add('is-visible');
       if (video.readyState >= 2) { reveal(); }
       else { video.addEventListener('loadeddata', reveal, { once:true }); }
-
       if (window.matchMedia('(hover: hover)').matches) {
         video.addEventListener('mouseenter', () => { video.pause(); video.classList.add('paused'); });
         video.addEventListener('mouseleave', () => { video.play(); video.classList.remove('paused'); });
       }
+    })();
+
+    // ===== Click-to-Play for Google Drive iframes (tn_1 -> 16:9, tn_2 -> 4:5) =====
+    (function(){
+      function toAutoplayURL(u){
+        if(!u) return u;
+        // Append autoplay + muted to ensure it starts immediately on click
+        return u + (u.includes('?') ? '&' : '?') + 'autoplay=1&mute=1';
+        // (Drive honors autoplay on user-gesture; mute helps pass autoplay policies)
+      }
+      function mountIframe(container){
+        const src = container.getAttribute('data-src');
+        if(!src) return;
+        container.setAttribute('aria-busy','true');
+        const iframe = document.createElement('iframe');
+        iframe.src = toAutoplayURL(src);
+        iframe.setAttribute('allow','autoplay; fullscreen');
+        iframe.setAttribute('allowfullscreen','');
+        iframe.setAttribute('loading','lazy');
+        iframe.style.position = 'absolute';
+        iframe.style.inset = '0';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = '0';
+        // Clear out thumb + button immediately (so thumb "disappears" on click)
+        container.innerHTML = '';
+        container.appendChild(iframe);
+        container.removeAttribute('role');
+        container.removeAttribute('tabindex');
+        container.setAttribute('aria-busy','false');
+      }
+      document.querySelectorAll('.embed[data-src]').forEach(box=>{
+        const click = (e)=>{ e.preventDefault(); mountIframe(box); };
+        box.addEventListener('click', click);
+        box.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); mountIframe(box); }});
+      });
     })();
 
     // Basic custom cursor follow

@@ -111,7 +111,7 @@
     .hero h1{
       font-size:clamp(36px, 6.8vw, 80px);
       line-height:1.06;
-      font-weight:600; /* uses Playfair 600 that we already load */
+      font-weight:600;
       text-shadow:0 4px 22px rgba(0,0,0,.42), 0 1px 0 rgba(0,0,0,.35);
     }
     .hero .sub{color:rgba(255,255,255,.92)}
@@ -180,7 +180,7 @@
     .t-copy .body{color:var(--dark-sub)}
     .ratio-16x9{aspect-ratio:16/9}
     .ratio-4x5{aspect-ratio:4/5}
-    .ratio-9x16{aspect-ratio:9/16} /* NEW: true vertical, no crop */
+    .ratio-9x16{aspect-ratio:9/16}
 
     /* Portfolio scroller */
     #folio{ padding-top:28px; padding-bottom:72px; }
@@ -202,13 +202,22 @@
     .folio-arrow.prev{ left:6px } .folio-arrow.next{ right:6px }
     @media (max-width:560px){ .folio-arrow{ display:none } }
 
-    /* Parallax bg sections */
+    /* Parallax bg sections (images) */
     #experience.bg-photo, #process.bg-photo{
       background-position:center 0px; background-size:cover; background-repeat:no-repeat;
-      will-change:background-position; position:relative; isolation:isolate;
+      position:relative; isolation:isolate;
     }
-    #experience.bg-photo { background-image:url('/assets/bg_1.jpg'); }
-    #process.bg-photo    { background-image:url('/assets/bg_2.jpg'); }
+    /* Desktop: fixed background to mimic hero's fixed feel */
+    @media (min-width:981px){
+      #experience.bg-photo, #process.bg-photo{
+        background-attachment: fixed;
+      }
+    }
+    /* Hero-like overlay for legibility */
+    #experience.bg-photo::before, #process.bg-photo::before{
+      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+      background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,.10), rgba(0,0,0,.38) 58%, rgba(0,0,0,.48) 100%);
+    }
 
     /* Glass panel */
     .glass-panel{
@@ -217,6 +226,7 @@
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border-radius: var(--r); padding: 32px; box-shadow:var(--shadow);
       transition: background 200ms linear;
+      position:relative; z-index:1;
     }
     .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
 
@@ -271,7 +281,6 @@
       aspect-ratio:16/9;
       transform-origin:center center;
     }
-    /* Scale factor to make a 16:9 fill a 4:5 without pillarboxes: (5/4) / (9/16) = 20/9 ≈ 2.222 */
     .ratio-4x5 .yt-16x9{ transform:translate(-50%, -50%) scale(2.222); }
     .yt-16x9 iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
   </style>
@@ -296,7 +305,6 @@
       <span class="bar"></span><span class="bar"></span><span class="bar"></span>
     </button>
 
-    <!-- Reordered nav to match new section order -->
     <nav id="navLinks" class="nav-links" aria-label="Main navigation">
       <a href="#about">About</a>
       <a href="#folio">Portfolio</a>
@@ -336,7 +344,7 @@
           <!-- Copy -->
           <div class="about-copy">
             <p class="reveal">
-              Filming love is more than filming a wedding — it’s preserving the heartbeat of your story. Every glance, every laugh, every unspoken moment becomes part of a cinematic narrative that reflects the beauty and emotion of one of life’s most cherished days. After graduating from film school in Los Angeles, I spent eight years in the film industry mastering the art of mood, movement, and sound — turning fleeting moments into scenes that feel timeless.
+              Filming love is more than capturing a wedding — it’s preserving the heartbeat of your story. Every glance, every laugh, every unspoken moment becomes part of a cinematic narrative that reflects the beauty and emotion of one of life’s most cherished days. After graduating from film school in Los Angeles, I spent eight years in the film industry mastering the art of mood, movement, and sound — turning fleeting moments into scenes that feel timeless.
             </p>
             <p class="reveal">
               Now back in my hometown of San Clemente, I bring that Hollywood-crafted eye to weddings across Southern California. I take time to know each couple, your vision, and the atmosphere you want to create — whether it’s an elegant celebration beneath glowing string lights or an intimate elopement on the coast. Your story is one of a kind, and your film should be too — a keepsake that lets you relive the joy, love, and magic of your day, again and again.
@@ -381,8 +389,8 @@
       </div>
     </section>
 
-    <!-- ===== MOVED: EXPERIENCE now above the Feature section ===== -->
-    <section id="experience" class="section bg-photo" aria-label="Experience" data-parallax data-speed="0.22">
+    <!-- EXPERIENCE (parallax) -->
+    <section id="experience" class="section bg-photo" aria-label="Experience" data-parallax data-speed="0.22" style="background-image:url('/assets/bg_1.jpg');">
       <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
         <div class="rule reveal" aria-hidden="true"></div>
@@ -422,8 +430,8 @@
       </div>
     </section>
 
-    <!-- ===== MOVED: PROCESS now above PACKAGES ===== -->
-    <section id="process" class="section bg-photo" aria-label="Process" data-parallax data-speed="0.20">
+    <!-- PROCESS (parallax) -->
+    <section id="process" class="section bg-photo" aria-label="Process" data-parallax data-speed="0.20" style="background-image:url('/assets/bg_2.jpg');">
       <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">THE PROCESS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
@@ -491,7 +499,7 @@
       </div>
     </section>
 
-    <!-- TESTIMONIAL (9:16) — tn_2.jpg -> YouTube Shorts aBauHVpOA3A (no crop) -->
+    <!-- TESTIMONIAL (9:16) -->
     <section id="testimonials" class="section dark" aria-label="Testimonial">
       <div class="wrap">
         <h2 class="serif reveal">TESTIMONIAL</h2>
@@ -748,19 +756,15 @@
     // ===== Click-to-Play (YouTube) for tn_1 (16:9) and tn_2 (9:16 no crop) =====
     (function(){
       function ytUrl(id){
-        // nocookie domain reduces tracking; rel=0 limits unrelated suggestions
         return `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
       }
-
       function mount(container){
         const id = container.getAttribute('data-id');
         if(!id) return;
-
         const aspect = (container.getAttribute('data-aspect')||'16x9').toLowerCase();
         const src = ytUrl(id);
         container.setAttribute('aria-busy','true');
 
-        // For 4:5 we scale a 16:9 wrapper to avoid pillarboxes (cropped fill).
         if(aspect === '4x5'){
           const box = document.createElement('div');
           box.className = 'yt-16x9';
@@ -775,7 +779,6 @@
           container.innerHTML = '';
           container.appendChild(box);
         }else{
-          // For 16:9 and 9:16 we just mount the standard iframe (no crop)
           const iframe = document.createElement('iframe');
           iframe.src = src;
           iframe.setAttribute('title','YouTube video');
@@ -792,7 +795,6 @@
         container.removeAttribute('tabindex');
         container.setAttribute('aria-busy','false');
       }
-
       document.querySelectorAll('.embed[data-provider="youtube"]').forEach(box=>{
         const activate = (e)=>{ e.preventDefault(); mount(box); };
         box.addEventListener('click', activate);
@@ -814,6 +816,63 @@
       document.querySelectorAll('a, button, .btn, [role="button"], input, textarea, select')
         .forEach(el=>{ el.addEventListener('mouseenter', onEnter); el.addEventListener('mouseleave', onLeave); });
       loop();
+    })();
+
+    // ===== Parallax (mobile JS) + Glass intensity =====
+    (function(){
+      const sections = Array.from(document.querySelectorAll('[data-parallax]'));
+      if(!sections.length) return;
+
+      let useJsParallax = window.matchMedia('(max-width:980px)').matches; // mobile/tablet widths
+      let ticking = false;
+
+      function update(){
+        ticking = false;
+        const viewportH = window.innerHeight || document.documentElement.clientHeight;
+
+        sections.forEach(sec=>{
+          const speed = parseFloat(sec.getAttribute('data-speed')) || 0.2;
+          const rect = sec.getBoundingClientRect();
+          const offsetTop = rect.top + window.scrollY;
+          const scrolled = window.scrollY - (offsetTop - viewportH);
+          // JS parallax only on mobile to restore effect
+          if(useJsParallax){
+            const y = Math.round(scrolled * speed * 0.5); // subtle
+            sec.style.backgroundPosition = `center ${y}px`;
+          }else{
+            // desktop uses background-attachment: fixed; keep centered
+            sec.style.backgroundPosition = 'center 0px';
+          }
+        });
+      }
+
+      function onScroll(){
+        if(!ticking){ requestAnimationFrame(update); ticking = true; }
+      }
+
+      function onResize(){
+        useJsParallax = window.matchMedia('(max-width:980px)').matches;
+        update();
+      }
+
+      window.addEventListener('scroll', onScroll, {passive:true});
+      window.addEventListener('resize', onResize, {passive:true});
+      update();
+
+      // Glass panel subtle dynamic opacity based on intersection
+      const glassEls = Array.from(document.querySelectorAll('[data-glass]'));
+      if('IntersectionObserver' in window && glassEls.length){
+        const io = new IntersectionObserver((entries)=>{
+          entries.forEach(entry=>{
+            const ratio = Math.max(0, Math.min(1, entry.intersectionRatio));
+            const min = parseFloat(getComputedStyle(entry.target).getPropertyValue('--glass-min')) || 0.22;
+            const max = parseFloat(getComputedStyle(entry.target).getPropertyValue('--glass-max')) || 0.55;
+            const val = (min + (max - min) * (0.4 + 0.6 * ratio)).toFixed(3); // a bit more opaque in-view
+            entry.target.style.setProperty('--glassA', val);
+          });
+        }, { threshold: [0, .25, .5, .75, 1]});
+        glassEls.forEach(el=>io.observe(el));
+      }
     })();
   </script>
 </body>

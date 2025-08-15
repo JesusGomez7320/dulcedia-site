@@ -283,6 +283,44 @@
     }
     .ratio-4x5 .yt-16x9{ transform:translate(-50%, -50%) scale(2.222); }
     .yt-16x9 iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+    /* ===== Stylized Inquire section ===== */
+    #contact.section{
+      background:
+        radial-gradient(1000px 600px at 20% -10%, rgba(201,187,166,.20), transparent 60%),
+        radial-gradient(900px 520px at 120% 110%, rgba(14,15,18,.06), transparent 55%),
+        var(--bg);
+    }
+    .contact-shell{
+      display:grid; grid-template-columns:1.1fr 1fr; gap:26px; align-items:start;
+      border:1px solid var(--line); border-radius:var(--r); background:#fff; box-shadow:var(--shadow); padding:26px;
+    }
+    @media (max-width:980px){ .contact-shell{ grid-template-columns:1fr; } }
+    .contact-cta h2{ margin:0; }
+    .contact-cta .lede{
+      font-size:clamp(16px, 2.1vw, 18px); color:var(--muted);
+    }
+    .contact-badges{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;
+    }
+    .contact-badge{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
+      border:1px dashed var(--line); border-radius:999px; font-size:14px; line-height:1;
+      transition:transform .15s ease, background .15s ease, border-color .15s ease;
+      background:#faf9f6;
+    }
+    .contact-badge:hover{ transform:translateY(-1px); background:#f5f3ee; border-color:#ddd7cd; }
+    .contact-form{
+      background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px;
+    }
+    .contact-form .row{
+      display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;
+    }
+    @media (max-width:600px){ .contact-form .row{ grid-template-columns:1fr; } }
+    .contact-form input, .contact-form textarea{
+      padding:12px; border:1px solid var(--line); border-radius:12px; background:#fff; width:100%;
+    }
+    .contact-smallprint{ font-size:13px; color:var(--muted); margin-top:8px; }
   </style>
 </head>
 <body class="no-js">
@@ -311,6 +349,7 @@
       <a href="#experience">Experience</a>
       <a href="#process">Process</a>
       <a href="#packages">Packages</a>
+      <a href="#proposals">Proposals &amp; Engagements</a>
       <a href="#contact">Inquire</a>
     </nav>
   </header>
@@ -553,21 +592,49 @@
       </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- CONTACT (Stylized Inquire) -->
     <section id="contact" class="section" aria-label="Contact">
       <div class="wrap">
         <h2 class="serif reveal">Inquire</h2>
         <div class="rule reveal" aria-hidden="true"></div>
-        <p class="prose sub reveal">Tell us about your day—date, location, and what matters most to you.</p>
-        <form name="inquire" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" class="grid reveal" style="max-width:720px">
-          <input type="hidden" name="form-name" value="inquire" />
-          <p class="sr-only"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
-          <input name="name" aria-label="Name" placeholder="Name" required style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
-          <input name="email" aria-label="Email" placeholder="Email" type="email" required style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
-          <input name="date" aria-label="Date" placeholder="Wedding Date" type="text" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"/>
-          <textarea name="message" aria-label="Message" placeholder="Message" rows="5" style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff"></textarea>
-          <button class="btn" type="submit">Send</button>
-        </form>
+
+        <div class="contact-shell reveal">
+          <!-- Left: friendly invite + social tags -->
+          <div class="contact-cta">
+            <h3 class="serif">Have questions or ready to get booked?</h3>
+            <p class="lede">Whether you’re still exploring or you already know we’re the right fit, we’d love to hear from you. Tell us about your date, location, and what matters most — we’ll build something that feels like <em>you</em>.</p>
+            <p class="sub">Prefer DMs first? Tap a tag and say hello — we share new films, behind-the-scenes, and tips for planning a stress-free, cinematic day.</p>
+
+            <div class="contact-badges" aria-label="Social tags">
+              <a class="contact-badge" href="https://instagram.com/dulcediacine" target="_blank" rel="noopener" aria-label="Instagram">@dulcediacine</a>
+              <a class="contact-badge" href="https://www.tiktok.com/@dulcediacine" target="_blank" rel="noopener" aria-label="TikTok">@dulcediacine</a>
+              <a class="contact-badge" href="https://www.facebook.com/profile.php?id=61578925093961" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
+            </div>
+
+            <p class="contact-smallprint">Average reply time: within 24 hours. Weekends are often shoot days — thanks for your patience!</p>
+          </div>
+
+          <!-- Right: form -->
+          <form name="inquire" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" class="contact-form" aria-label="Inquiry form">
+            <input type="hidden" name="form-name" value="inquire" />
+            <p class="sr-only"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
+
+            <div class="row">
+              <input name="name" aria-label="Name" placeholder="Name" required />
+              <input name="email" aria-label="Email" placeholder="Email" type="email" required />
+            </div>
+            <div class="row">
+              <input name="date" aria-label="Wedding Date" placeholder="Wedding Date" type="text" />
+              <input name="location" aria-label="Location" placeholder="Location / Venue" type="text" />
+            </div>
+            <textarea name="message" aria-label="Message" placeholder="Tell us about your vision, vibe, and any must-capture moments." rows="6"></textarea>
+            <div style="display:flex; gap:10px; align-items:center; margin-top:10px">
+              <button class="btn" type="submit">Send Inquiry</button>
+              <a class="btn" href="mailto:gomezchiropractic949@gmail.com" aria-label="Email us directly">Email Us</a>
+            </div>
+            <p class="contact-smallprint">By submitting, you agree to be contacted about your inquiry. No spam — ever.</p>
+          </form>
+        </div>
       </div>
     </section>
   </main>

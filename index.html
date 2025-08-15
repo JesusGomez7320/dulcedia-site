@@ -203,18 +203,18 @@
     @media (max-width:560px){ .folio-arrow{ display:none } }
 
     /* Parallax bg sections (images) */
-    #experience.bg-photo, #process.bg-photo{
+    #experience.bg-photo, #process.bg-photo, #proposals.bg-photo{
       background-position:center 0px; background-size:cover; background-repeat:no-repeat;
       position:relative; isolation:isolate;
     }
     /* Desktop: fixed background to mimic hero's fixed feel */
     @media (min-width:981px){
-      #experience.bg-photo, #process.bg-photo{
+      #experience.bg-photo, #process.bg-photo, #proposals.bg-photo{
         background-attachment: fixed;
       }
     }
     /* Hero-like overlay for legibility */
-    #experience.bg-photo::before, #process.bg-photo::before{
+    #experience.bg-photo::before, #process.bg-photo::before, #proposals.bg-photo::before{
       content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
       background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,.10), rgba(0,0,0,.38) 58%, rgba(0,0,0,.48) 100%);
     }
@@ -424,8 +424,8 @@
         <div class="t-copy">
           <div class="eyebrow serif reveal">Feature</div>
           <h2 class="serif reveal">Make It a Dulce Día</h2>
-          <blockquote class="reveal">Turn your day into a film you’ll feel forever.</blockquote>
-          <p class="body reveal">A short, cinematic piece that blends honest moments with elegant composition—the way your day actually felt. Shot documentary-style with an editorial finish, this film invites you back to every glance, every cheer, every breath before “I do.”</p>
+          <blockquote class="reveal">What We Do</blockquote>
+          <p class="body reveal">We’re wedding filmmakers who turn real moments into refined, cinematic stories. In this trailer, you’ll see our approach: honest coverage, subtle direction, and thoughtful editing that preserves the day you actually lived. The result is a film that feels timeless, textured, and true.</p>
         </div>
       </div>
     </section>
@@ -455,10 +455,10 @@
       </div>
     </section>
 
-    <!-- PACKAGES -->
+    <!-- WEDDING PACKAGES -->
     <section id="packages" class="section" aria-label="Packages">
       <div class="wrap">
-        <h2 class="serif reveal">PACKAGES</h2>
+        <h2 class="serif reveal">WEDDING PACKAGES</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="pkgs">
           <article class="pkg reveal">
@@ -471,6 +471,7 @@
               <li>Highlight Reel Video</li>
             </ul>
             <p><strong>Book through August 31st</strong> and receive an extra videographer and drone coverage.</p>
+            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $800. Please reach out for details.</em></p>
           </article>
           <article class="pkg reveal">
             <h3 class="serif">DULCE RECUERDO (SWEET MEMORY)</h3>
@@ -482,6 +483,7 @@
               <li>1 Shortform Vertical Highlight Reel</li>
               <li>Drone Coverage</li>
             </ul>
+            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $1,000. Please reach out for details.</em></p>
           </article>
           <article class="pkg reveal">
             <h3 class="serif">DULCE ETERNIDAD (SWEET ETERNITY)</h3>
@@ -494,6 +496,7 @@
               <li>3 Shortform Vertical Highlight Reels</li>
               <li>Drone Coverage</li>
             </ul>
+            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $1,200. Please reach out for details.</em></p>
           </article>
         </div>
       </div>
@@ -525,7 +528,26 @@
             <div class="eyebrow serif reveal">Client Story</div>
             <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
             <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
-            <p class="body reveal">This short marks the opening note of their journey—a goofy, romantic look at the little moments that say everything. Shot on-location with natural sound and gentle direction, it’s an inviting preview of the full story to come.</p>
+            <p class="body reveal">We hired Dulce Día to capture our wedding announcement and engagement photos and video, and we couldn’t be happier with the experience. From the very beginning, they made us feel so comfortable in front of the camera. They were quick to respond, easy to work with, and genuinely took the time to get to know us. It was clear they understood who we are as a couple, and they beautifully captured our fun, playful, and loving relationship in both the photos and the video. We’ll cherish these memories.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROPOSALS & ENGAGEMENTS (parallax) -->
+    <section id="proposals" class="section bg-photo" aria-label="Proposals & Engagements" data-parallax data-speed="0.20" style="background-image:url('/assets/bg_3.jpg');">
+      <div class="wrap glass-panel" data-glass>
+        <h2 class="serif reveal">PROPOSALS &amp; ENGAGEMENTS</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+        <div class="grid grid-3">
+          <div class="reveal">
+            <p>Make the moment unforgettable with a cinematic keepsake tailored to your plans.</p>
+          </div>
+          <div class="reveal">
+            <p>Packages start at <strong>$300–$500</strong> and include a <strong>1–2 minute highlight film</strong> that captures the surprise, the joy, and the details that matter.</p>
+          </div>
+          <div class="reveal">
+            <p><em>Optional:</em> Add a dedicated photographer for <strong>$300–$500</strong> depending on hours booked. <a href="#contact" class="btn" style="margin-top:6px">Request Details</a></p>
           </div>
         </div>
       </div>

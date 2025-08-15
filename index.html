@@ -75,8 +75,8 @@
     }
 
     .brand-logo{display:inline-flex;align-items:center;gap:10px;height:52px}
-    .brand-logo img,.brand-logo svg{height:40px;width:auto;display:block}
-    .brand-logo svg{color:currentColor}
+    .brand-logo .logo-inline{display:block;height:40px;width:auto;color:currentColor}
+    .brand-logo img{height:40px;width:auto;display:block}
 
     .nav-links{display:flex;align-items:center;gap:18px}
     .nav-links a{margin:0;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
@@ -315,8 +315,8 @@
   <!-- Transparent Header with logo -->
   <header id="siteHeader" role="banner">
     <a href="#home" class="brand-logo" aria-label="Dulce Día Cine">
-      <!-- Try SVG first; JS will swap to PNG if it fails -->
-      <img src="/assets/logo_1.svg" data-fallback="/assets/logo_1.png" alt="Dulce Día Cine logo" height="40" />
+      <!-- Inline SVG gets injected here; PNG fallback is below for no-JS / failure -->
+      <img src="/assets/logo_1.png" alt="Dulce Día Cine logo" class="logo-fallback" style="display:none;height:40px" />
     </a>
 
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="Menu">
@@ -585,14 +585,58 @@
     // Year
     (function(){ var y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear(); })();
 
-    // Swap to PNG if SVG fails
-    (function(){
-      const logo = document.querySelector('.brand-logo img');
-      if(!logo) return;
-      logo.addEventListener('error', () => {
-        const fb = logo.getAttribute('data-fallback');
-        if (fb && logo.src.indexOf(fb) === -1) logo.src = fb;
-      }, { once:true });
+    // Inject SVG logo inline and force currentColor
+    (async function inlineLogo(){
+      const container = document.querySelector('.brand-logo');
+      const pngFallback = container.querySelector('.logo-fallback');
+      try{
+        const res = await fetch('/assets/logo_1.svg', {cache:'no-cache'});
+        if(!res.ok) throw new Error('SVG fetch failed');
+        const svgText = await res.text();
+
+        // Parse and sanitize -> set fill/stroke to currentColor where appropriate
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgText, 'image/svg+xml');
+        const svg = doc.querySelector('svg');
+        if(!svg) throw new Error('No <svg> root found');
+
+        // Normalize size and class
+        svg.setAttribute('class','logo-inline');
+        svg.removeAttribute('width');
+        svg.removeAttribute('height');
+        svg.setAttribute('preserveAspectRatio', svg.getAttribute('preserveAspectRatio') || 'xMidYMid meet');
+
+        // Walk through and set currentColor for fills/strokes unless explicitly none/transparent/url()
+        const WALK = (node)=>{
+          if(node.nodeType!==1) return;
+          const el = node;
+          const fill = (el.getAttribute('fill')||'').trim().toLowerCase();
+          const stroke = (el.getAttribute('stroke')||'').trim().toLowerCase();
+          const isNone = v => v==='none' || v==='transparent' || v.startsWith('url(');
+
+          if(!fill || (!isNone(fill) && fill !== 'currentcolor')) el.setAttribute('fill','currentColor');
+          if(stroke && !isNone(stroke) && stroke !== 'currentcolor') el.setAttribute('stroke','currentColor');
+
+          // Remove hardcoded color styles in style attr
+          const style = el.getAttribute('style');
+          if(style){
+            const cleaned = style
+              .replace(/fill\s*:\s*[^;]+/gi,'fill:currentColor')
+              .replace(/stroke\s*:\s*[^;]+/gi,'stroke:currentColor');
+            el.setAttribute('style', cleaned);
+          }
+
+          Array.from(el.children).forEach(WALK);
+        };
+        WALK(svg);
+
+        // Insert and hide fallback
+        container.insertBefore(svg, pngFallback);
+        if(pngFallback) pngFallback.style.display = 'none';
+      }catch(err){
+        // If anything fails, show PNG fallback
+        if(pngFallback) pngFallback.style.display = 'block';
+      }
     })();
 
     // Mobile menu
@@ -715,7 +759,22 @@
       if(document.fonts && document.fonts.ready){ document.fonts.ready.then(updateActive); }
     })();
 
-    // Custom cursor
+    // ABOUT video: fade-in when ready + pause on hover (desktop)
+    (function(){
+      const video = document.getElementById('aboutVideo');
+      if(!video) return;
+
+      const reveal = () => video.classList.add('is-visible');
+      if (video.readyState >= 2) { reveal(); }
+      else { video.addEventListener('loadeddata', reveal, { once:true }); }
+
+      if (window.matchMedia('(hover: hover)').matches) {
+        video.addEventListener('mouseenter', () => { video.pause(); video.classList.add('paused'); });
+        video.addEventListener('mouseleave', () => { video.play(); video.classList.remove('paused'); });
+      }
+    })();
+
+    // Basic custom cursor follow
     (function(){
       const c = document.getElementById('cursor'); if(!c) return;
       let x = innerWidth/2, y = innerHeight/2, tx = x, ty = y;
@@ -729,76 +788,6 @@
       document.querySelectorAll('a, button, .btn, [role="button"], input, textarea, select')
         .forEach(el=>{ el.addEventListener('mouseenter', onEnter); el.addEventListener('mouseleave', onLeave); });
       loop();
-    })();
-
-    // BG-PHOTO PARALLAX + GLASS OPACITY
-    (function(){
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const sections = Array.from(document.querySelectorAll('[data-parallax].bg-photo'));
-      if(!sections.length) return;
-
-      const clamp = (v, min, max)=> Math.max(min, Math.min(max, v));
-
-      function update(){
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-        const centerY = vh / 2;
-
-        sections.forEach(sec=>{
-          const rect = sec.getBoundingClientRect();
-          if(!prefersReduced){
-            const speed = parseFloat(sec.getAttribute('data-speed')) || 0.2;
-            const offsetY = -(rect.top * speed);
-            sec.style.backgroundPosition = `center ${offsetY.toFixed(1)}px`;
-          }
-
-          const panel = sec.querySelector('[data-glass]');
-          if(panel){
-            const secCenter = rect.top + rect.height/2;
-            const dist = Math.abs(secCenter - centerY);
-            const falloff = 0.9 * vh;
-            const f = 1 - clamp(dist / falloff, 0, 1);
-
-            const root = getComputedStyle(document.documentElement);
-            const maxA = parseFloat(root.getPropertyValue('--glass-max')) || 0.55;
-            const minA = parseFloat(root.getPropertyValue('--glass-min')) || 0.22;
-
-            const a = minA + f * (maxA - minA);
-            panel.style.setProperty('--glassA', a.toFixed(3));
-          }
-        });
-      }
-
-      update();
-      let ticking = false;
-      function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(()=>{ update(); ticking = false; }); } }
-      window.addEventListener('scroll', onScroll, {passive:true});
-      window.addEventListener('resize', onScroll);
-    })();
-
-    // ABOUT video: fade-in when ready + pause on hover (desktop)
-    (function(){
-      const video = document.getElementById('aboutVideo');
-      if(!video) return;
-
-      // Fade in when the video can play (first frame ready)
-      const reveal = () => video.classList.add('is-visible');
-      if (video.readyState >= 2) { // HAVE_CURRENT_DATA
-        reveal();
-      } else {
-        video.addEventListener('loadeddata', reveal, { once:true });
-      }
-
-      // Hover pause only when hover is supported
-      if (window.matchMedia('(hover: hover)').matches) {
-        video.addEventListener('mouseenter', () => {
-          video.pause();
-          video.classList.add('paused');
-        });
-        video.addEventListener('mouseleave', () => {
-          video.play();
-          video.classList.remove('paused');
-        });
-      }
     })();
   </script>
 </body>

@@ -54,7 +54,7 @@
       transform:translate3d(0,0,0);
     }
 
-    /* ===== Transparent Header ===== */
+    /* ===== Transparent Header (no bar on desktop) ===== */
     header{
       position:fixed; top:0; left:0; right:0; z-index:60;
       display:flex; align-items:center; justify-content:space-between;
@@ -70,6 +70,7 @@
         border-bottom:1px solid var(--line);
       }
     }
+
     .brand-logo{display:inline-flex;align-items:center;gap:10px;height:52px}
     .brand-logo .logo-inline{display:block;height:40px;width:auto;color:currentColor}
     .brand-logo img{height:40px;width:auto;display:block}
@@ -79,6 +80,7 @@
 
     .menu-btn{display:none;background:none;border:none;padding:10px;cursor:pointer;color:currentColor}
     .menu-btn .bar{width:22px;height:2px;background:currentColor;display:block;margin:4px 0}
+
     @media (max-width:820px){
       .menu-btn{display:inline-block}
       .nav-links{
@@ -103,11 +105,11 @@
     .hero .wrap{position:relative;z-index:1}
     .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
 
-    /* Sections */
+    /* Regular content sections */
     .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg); position:relative; z-index:1}
     @media (max-width:560px){ .section{padding:56px 0} }
 
-    /* ===== ABOUT ===== */
+    /* ===== ABOUT (media-left) ===== */
     #about.section{ padding:64px 0; }
     #about .about-layout{
       display:grid;
@@ -148,7 +150,7 @@
     }
     @media (max-width:340px){ #about .about-copy p{ font-size:14.5px; line-height:1.6; } }
 
-    /* Grids & cards */
+    /* Generic grids, packages, etc. */
     .grid{display:grid;gap:22px}
     .grid-3{grid-template-columns:repeat(3,1fr)}
     @media (max-width:980px){ .grid-3{grid-template-columns:1fr} }
@@ -182,7 +184,6 @@
     .testimonial{display:grid;grid-template-columns:1.1fr 1.4fr;gap:36px;align-items:start}
     @media (max-width:980px){.testimonial{grid-template-columns:1fr}}
     .t-media{position:relative;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
-    .t-media video, .t-media iframe{width:100%;height:100%;display:block;object-fit:cover}
     .t-copy .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--dark-sub);margin-bottom:8px}
     .t-copy blockquote{margin:0 0 14px;font-size:clamp(18px,2.1vw,24px);line-height:1.5;font-family:Playfair Display,BrandSerif,Georgia,serif}
     .t-copy .body{color:var(--dark-sub)}
@@ -286,13 +287,12 @@
       border-radius:999px; border:1px solid rgba(0,0,0,.55);
       background:rgba(255,255,255,.7); box-shadow:0 8px 18px rgba(0,0,0,.18);
       pointer-events:none; z-index:9999; transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease;
-      will-change:transform; mix-blend-mode:normal;
     }
     .cursor.is-hidden{ opacity:0 }
     .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
     @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
 
-    /* ====== Click-to-Play Embeds ====== */
+    /* ====== Click-to-Play blocks (thumbnail overlay) ====== */
     .embed{
       position:relative; width:100%; height:100%; overflow:hidden; background:#000;
     }
@@ -300,8 +300,7 @@
       position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
     }
     .embed .playbtn{
-      position:absolute; inset:auto 0 0 0; margin:auto;
-      top:50%; translate:0 -50%;
+      position:absolute; top:50%; left:50%; translate:-50% -50%;
       width:64px; height:64px; border-radius:999px;
       border:1px solid rgba(255,255,255,.7);
       background:rgba(0,0,0,.35);
@@ -309,9 +308,11 @@
       transition:transform .15s ease, background .15s ease, border-color .15s ease;
       z-index:2;
     }
-    .embed .playbtn:hover{ transform:translateY(-1px) scale(1.03); background:rgba(0,0,0,.45) }
+    .embed .playbtn:hover{ transform:translate(-50%, -50%) scale(1.03); background:rgba(0,0,0,.45) }
     .embed .playbtn svg{ width:22px; height:22px; color:#fff }
-    .embed button.playbtn{ all:unset; }
+    .embed button.playbtn{ all:unset; position:absolute; top:50%; left:50%; translate:-50% -50%; width:64px; height:64px; border-radius:999px; border:1px solid rgba(255,255,255,.7); background:rgba(0,0,0,.35); display:grid; place-items:center; cursor:pointer; }
+
+    /* Loading state hides thumb as we inject the player instantly */
     .embed[aria-busy="true"] .thumb, .embed[aria-busy="true"] .playbtn { opacity:0; pointer-events:none; }
   </style>
 </head>
@@ -332,9 +333,7 @@
     </a>
 
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="Menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
     </button>
 
     <nav id="navLinks" class="nav-links" aria-label="Main navigation">
@@ -357,24 +356,21 @@
       </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- ABOUT (native video with its own poster) -->
     <section id="about" class="section" aria-label="About">
       <div class="wrap">
         <h2 class="serif reveal">FROM HOLLYWOOD SETS TO WEDDING VOWS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
 
         <div class="about-layout">
-          <!-- Media (4:5 native player with poster already) -->
           <figure class="about-media reveal" aria-label="Behind the scenes clip">
             <video id="aboutVideo" playsinline muted autoplay loop preload="metadata" poster="/assets/tn_2.jpg">
-              <!-- NOTE: tn_2 is visually aligned to this 4:5 video format -->
               <source src="/assets/ss_1.webm" type="video/webm" />
               <source src="/assets/ss_1.mp4" type="video/mp4" />
               <img src="/assets/tn_2.jpg" alt="Cinematic behind-the-scenes" />
             </video>
           </figure>
 
-          <!-- Copy -->
           <div class="about-copy">
             <p class="reveal">
               <strong>Filming</strong> love is more than filming a wedding — it’s preserving the heartbeat of your story. Every glance, every laugh, every unspoken moment becomes part of a cinematic narrative that reflects the beauty and emotion of one of life’s most cherished days. After graduating from film school in Los Angeles, I spent eight years in the film industry mastering the art of mood, movement, and sound — turning fleeting moments into scenes that feel timeless.
@@ -423,12 +419,17 @@
       </div>
     </section>
 
-    <!-- DARK FEATURE (16:9) — tn_1.jpg triggers this -->
+    <!-- DARK FEATURE (16:9) — tn_1.jpg triggers native video if available -->
     <section class="section dark" id="testimonial-intro" aria-label="Feature Film">
       <div class="wrap testimonial">
-        <!-- Click-to-Play (16:9) using tn_1 -->
         <div class="t-media ratio-16x9 reveal">
-          <div class="embed" data-src="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview" data-ratio="16x9" role="button" aria-label="Play Feature video" tabindex="0">
+          <div
+            class="embed"
+            data-ratio="16x9"
+            data-webm="/assets/feature_16x9.webm"
+            data-mp4="/assets/feature_16x9.mp4"
+            data-drive="https://drive.google.com/file/d/1c0BAHCVh8PNzoFP1vyZfInlgDlAT372t/preview"
+            role="button" aria-label="Play Feature video" tabindex="0">
             <img class="thumb" src="/assets/tn_1.jpg" alt="Play Feature video (16:9)" />
             <button class="playbtn" aria-label="Play">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
@@ -528,14 +529,20 @@
       </div>
     </section>
 
-    <!-- TESTIMONIAL (4:5) — tn_2.jpg triggers this -->
+    <!-- TESTIMONIAL (4:5) — tn_2.jpg triggers native video if available -->
     <section id="testimonials" class="section dark" aria-label="Testimonial">
       <div class="wrap">
         <h2 class="serif reveal">TESTIMONIAL</h2>
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="testimonial">
           <div class="t-media ratio-4x5 reveal" aria-label="Meet Pags &amp; Gunner">
-            <div class="embed" data-src="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview" data-ratio="4x5" role="button" aria-label="Play Testimonial video" tabindex="0">
+            <div
+              class="embed"
+              data-ratio="4x5"
+              data-webm="/assets/testimonial_4x5.webm"
+              data-mp4="/assets/testimonial_4x5.mp4"
+              data-drive="https://drive.google.com/file/d/1vRCfCWrLo84yDTYMVAtmq-vZWATtnlIM/preview"
+              role="button" aria-label="Play Testimonial video" tabindex="0">
               <img class="thumb" src="/assets/tn_2.jpg" alt="Play Testimonial video (4:5)" />
               <button class="playbtn" aria-label="Play">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
@@ -776,39 +783,79 @@
       }
     })();
 
-    // ===== Click-to-Play for Google Drive iframes (tn_1 -> 16:9, tn_2 -> 4:5) =====
+    // ===== Click-to-Play: prefer native <video>, fallback to Drive iframe =====
     (function(){
+      function mountNative(container, webm, mp4){
+        container.setAttribute('aria-busy','true');
+        const vid = document.createElement('video');
+        vid.setAttribute('playsinline','');
+        vid.setAttribute('muted','');
+        vid.muted = true; // iOS requires property too
+        vid.setAttribute('autoplay','');
+        vid.setAttribute('controls','');
+        vid.style.position = 'absolute';
+        vid.style.inset = '0';
+        vid.style.width = '100%';
+        vid.style.height = '100%';
+        vid.style.objectFit = 'cover';
+        if(webm){ const s = document.createElement('source'); s.src = webm; s.type = 'video/webm'; vid.appendChild(s); }
+        if(mp4){  const s2 = document.createElement('source'); s2.src = mp4;  s2.type = 'video/mp4';  vid.appendChild(s2); }
+
+        // Clear instantly so thumb disappears
+        container.innerHTML = '';
+        container.appendChild(vid);
+        container.removeAttribute('role'); container.removeAttribute('tabindex');
+        container.setAttribute('aria-busy','false');
+
+        // Try play (user gesture already happened)
+        const tryPlay = () => { vid.play().catch(()=>{}); };
+        tryPlay();
+
+        // If first frame takes a moment, show controls so user sees progress
+        const showControlsSoon = setTimeout(()=>{ vid.setAttribute('controls',''); }, 500);
+        vid.addEventListener('playing', ()=> clearTimeout(showControlsSoon), {once:true});
+      }
+
       function toAutoplayURL(u){
         if(!u) return u;
-        // Append autoplay + muted to ensure it starts immediately on click
         return u + (u.includes('?') ? '&' : '?') + 'autoplay=1&mute=1';
-        // (Drive honors autoplay on user-gesture; mute helps pass autoplay policies)
       }
-      function mountIframe(container){
-        const src = container.getAttribute('data-src');
-        if(!src) return;
+      function mountDrive(container, driveURL){
         container.setAttribute('aria-busy','true');
         const iframe = document.createElement('iframe');
-        iframe.src = toAutoplayURL(src);
+        iframe.src = toAutoplayURL(driveURL);
         iframe.setAttribute('allow','autoplay; fullscreen');
         iframe.setAttribute('allowfullscreen','');
-        iframe.setAttribute('loading','lazy');
+        iframe.setAttribute('loading','eager'); // eager so it actually starts
+        iframe.setAttribute('referrerpolicy','no-referrer-when-downgrade');
         iframe.style.position = 'absolute';
         iframe.style.inset = '0';
         iframe.style.width = '100%';
         iframe.style.height = '100%';
         iframe.style.border = '0';
-        // Clear out thumb + button immediately (so thumb "disappears" on click)
+
         container.innerHTML = '';
         container.appendChild(iframe);
-        container.removeAttribute('role');
-        container.removeAttribute('tabindex');
+        container.removeAttribute('role'); container.removeAttribute('tabindex');
         container.setAttribute('aria-busy','false');
       }
-      document.querySelectorAll('.embed[data-src]').forEach(box=>{
-        const click = (e)=>{ e.preventDefault(); mountIframe(box); };
-        box.addEventListener('click', click);
-        box.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); mountIframe(box); }});
+
+      document.querySelectorAll('.embed').forEach(box=>{
+        const onActivate = (e)=>{
+          e.preventDefault();
+          const webm = box.getAttribute('data-webm');
+          const mp4  = box.getAttribute('data-mp4');
+          const drv  = box.getAttribute('data-drive');
+
+          if (webm || mp4) {
+            mountNative(box, webm, mp4);
+          } else if (drv) {
+            // Only use Drive if no local sources provided
+            mountDrive(box, drv);
+          }
+        };
+        box.addEventListener('click', onActivate);
+        box.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ onActivate(e); }});
       });
     })();
 

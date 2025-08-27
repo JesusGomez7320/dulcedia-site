@@ -13,6 +13,9 @@
   <link rel="preconnect" href="https://www.youtube-nocookie.com">
   <link rel="preconnect" href="https://i.ytimg.com">
 
+  <!-- Preload ring cursor SVG -->
+  <link rel="preload" as="image" href="/assets/ring.svg">
+
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
@@ -24,7 +27,8 @@
       --max:1160px; --r:18px; --shadow:0 20px 40px rgba(0,0,0,.08);
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
-      --cursor-size:28px;
+      --cursor-size:28px;          /* default circle */
+      --cursor-link-size:32px;     /* size when over interactive */
       --glass-min:.22; --glass-max:.55;
     }
 
@@ -36,9 +40,11 @@
       color:var(--ink);
       font:16px/1.75 BrandSans, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       text-rendering:optimizeLegibility; overflow-x:hidden;
-      cursor:none;
+      cursor:none; /* hide OS cursor globally */
     }
-    input, textarea, button { cursor:auto }
+    /* Keep using the custom cursor everywhere, including inputs */
+    a, button, .btn, [role="button"], input, textarea, select { cursor:none }
+
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
 
@@ -80,7 +86,7 @@
     .nav-links{display:flex;align-items:center;gap:18px}
     .nav-links a{margin:0;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
 
-    .menu-btn{display:none;background:none;border:none;padding:10px;cursor:pointer;color:currentColor}
+    .menu-btn{display:none;background:none;border:none;padding:10px;cursor:none;color:currentColor}
     .menu-btn .bar{width:22px;height:2px;background:currentColor;display:block;margin:4px 0}
     @media (max-width:820px){
       .menu-btn{display:inline-block}
@@ -197,7 +203,7 @@
     #folio .card{ overflow:hidden; margin:0; border-radius:14px; border:1px solid var(--line); background:#000; aspect-ratio:4/5; }
     #folio .card img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 260ms ease; }
 
-    .folio-arrow{ position:absolute; top:50%; translate:0 -50%; width:40px; height:40px; border-radius:999px; border:1px solid var(--line); background:transparent; display:grid; place-items:center; cursor:pointer; transition:background .15s ease, transform .15s ease, border-color .15s ease; z-index:3; }
+    .folio-arrow{ position:absolute; top:50%; translate:0 -50%; width:40px; height:40px; border-radius:999px; border:1px solid var(--line); background:transparent; display:grid; place-items:center; cursor:none; transition:background .15s ease, transform .15s ease, border-color .15s ease; z-index:3; }
     .folio-arrow:hover{ background:rgba(0,0,0,.03); transform:translateY(-50%) scale(1.03); border-color:#DCD9D2; }
     .folio-arrow.prev{ left:6px } .folio-arrow.next{ right:6px }
     @media (max-width:560px){ .folio-arrow{ display:none } }
@@ -236,17 +242,43 @@
     .socials a:hover{transform:translateY(-1px);background:#faf9f6}
     .socials a svg{width:18px;height:18px;display:inline-block;flex:none}
 
-    /* Custom cursor */
+    /* ========= Custom cursor ========= */
     .cursor{
       position:fixed; left:0; top:0; translate:-50% -50%;
       width:var(--cursor-size); height:var(--cursor-size);
-      border-radius:999px; border:1px solid rgba(0,0,0,.55);
-      background:rgba(255,255,255,.7); box-shadow:0 8px 18px rgba(0,0,0,.18);
-      pointer-events:none; z-index:9999; transition:width .15s ease, height .15s ease, background .15s ease, border-color .15s ease;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.55);
+      background:rgba(255,255,255,.75);
+      box-shadow:0 8px 18px rgba(0,0,0,.18);
+      pointer-events:none; z-index:9999;
+      transition:
+        width .15s ease,
+        height .15s ease,
+        background-color .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease,
+        filter .15s ease,
+        background-image .0s ease; /* swap instantly */
+      will-change: transform;
     }
     .cursor.is-hidden{ opacity:0 }
-    .cursor.is-link{ width:36px; height:36px; background:rgba(255,255,255,.9); border-color:rgba(0,0,0,.7) }
+
+    /* When hovering interactive elements, swap to SVG ring cursor */
+    .cursor.is-link{
+      width:var(--cursor-link-size);
+      height:var(--cursor-link-size);
+      border:none;
+      background-color:transparent;
+      background-image:url('/assets/ring.svg');
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size:contain;
+      box-shadow:none; /* replace with subtle drop shadow via filter for crisp SVG */
+      filter:drop-shadow(0 2px 2px rgba(0,0,0,.22));
+    }
+
     @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
+    /* ========= End custom cursor ========= */
 
     /* ===== Click-to-Play (thumb -> iframe) ===== */
     .embed{ position:relative; width:100%; height:100%; overflow:hidden; background:#000; }
@@ -258,7 +290,7 @@
       border:1px solid rgba(255,255,255,.75);
       background:rgba(0,0,0,.38);
       color:#fff; letter-spacing:.12em; text-transform:uppercase; font-size:12px;
-      cursor:pointer; z-index:2; transition:transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
+      cursor:none; z-index:2; transition:transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
       user-select:none;
     }
     .embed .playbtn:hover{ transform:translate(-50%,-50%) scale(1.03); background:rgba(0,0,0,.48); }
@@ -315,6 +347,7 @@
       display:inline-flex; gap:8px; align-items:center;
       padding:8px 12px; border:1px solid var(--line); border-radius:999px;
       background:#fff; font-size:14px; line-height:1; transition:transform .18s ease, background .18s ease;
+      cursor:none;
     }
     #contact .chip:hover{ transform:translateY(-1px); background:#faf9f6; }
     #contact form input, #contact form textarea{
@@ -908,19 +941,32 @@
       });
     })();
 
-    // Custom cursor follow
+    // ===== Custom cursor follow + interactive state swap to ring.svg =====
     (function(){
       const c = document.getElementById('cursor'); if(!c) return;
       let x = innerWidth/2, y = innerHeight/2, tx = x, ty = y;
       const lerp = (a,b,t)=>a+(b-a)*t;
+
       function move(e){ tx = e.clientX; ty = e.clientY; c.classList.remove('is-hidden'); }
       function loop(){ x = lerp(x, tx, 0.22); y = lerp(y, ty, 0.22); c.style.transform = `translate3d(${x}px, ${y}px, 0)`; requestAnimationFrame(loop); }
-      function onEnter(){ c.classList.add('is-link'); } function onLeave(){ c.classList.remove('is-link'); }
+      function onEnter(){ c.classList.add('is-link'); }
+      function onLeave(){ c.classList.remove('is-link'); }
+
       document.addEventListener('mousemove', move, {passive:true});
       document.addEventListener('mouseenter', ()=>c.classList.remove('is-hidden'));
       document.addEventListener('mouseleave', ()=>c.classList.add('is-hidden'));
-      document.querySelectorAll('a, button, .btn, [role="button"], input, textarea, select')
-        .forEach(el=>{ el.addEventListener('mouseenter', onEnter); el.addEventListener('mouseleave', onLeave); });
+
+      // Elements considered "interactive"
+      const INTERACTIVE = 'a, button, .btn, [role="button"], input, textarea, select, .folio-arrow, .embed';
+      document.querySelectorAll(INTERACTIVE)
+        .forEach(el=>{
+          el.addEventListener('mouseenter', onEnter);
+          el.addEventListener('mouseleave', onLeave);
+          // Also handle focus/blur for keyboard users
+          el.addEventListener('focus', onEnter);
+          el.addEventListener('blur', onLeave);
+        });
+
       loop();
     })();
 

@@ -28,7 +28,7 @@
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
       --cursor-size:28px;          /* default circle */
-      --cursor-link-size:32px;     /* size when over interactive */
+      --cursor-link-size:44px;     /* size when over interactive */
       --glass-min:.22; --glass-max:.55;
     }
 
@@ -358,19 +358,20 @@
     /* ===== NEW: Testimonials grid wrapper for multiple cards ===== */
     .testimonial-grid{ display:grid; grid-template-columns:1fr; gap:48px; }
     @media (max-width:980px){ .testimonial-grid{ grid-template-columns:1fr; gap:36px; } }
-    .testimonial.reverse{ grid-template-columns:1.4fr 1.1fr; }
-    /* Mobile: stack video and text even for reverse layout */
-    @media (max-width:980px){
-      .testimonial.reverse{ grid-template-columns:1fr; }
-    }
+    /* Assign grid areas to testimonial media and copy */
+    .testimonial .t-media{ grid-area: media; }
+    .testimonial .t-copy{ grid-area: copy; }
 
-    /* Adjust order on mobile: show video above text for reverse testimonials */
+    /* Layout for reverse testimonials on desktop: text first then media */
+    .testimonial.reverse{
+      grid-template-columns:1.4fr 1.1fr;
+      grid-template-areas:'copy media';
+    }
+    /* On mobile: stack media above copy for reverse layouts */
     @media (max-width:980px){
-      .testimonial.reverse .t-media{
-        order:1;
-      }
-      .testimonial.reverse .t-copy{
-        order:2;
+      .testimonial.reverse{
+        grid-template-columns:1fr;
+        grid-template-areas:'media' 'copy';
       }
     }
 
@@ -646,7 +647,7 @@
               <div class="eyebrow serif reveal">Client Story</div>
               <h3 class="serif reveal">Chris &amp; Dani</h3>
               <blockquote class="reveal">“We absolutely love our video—it’s the cutest, most amazing thing we’ve ever seen! Dani was crying watching it, and it truly means so much to us. You captured our love perfectly, and we’re so grateful for the time and care you put into making it so special. We couldn’t be happier.”</blockquote>
-              <!-- Additional paragraph styled like Pags & Gunner -->
+              <p class="body reveal">Because your wedding isn’t the only Dulce Día… Maternity, family, and all the milestones in between — we capture them in photo and video, so every sweet chapter gets the spotlight it deserves.</p>
               <p class="body reveal">Because your wedding isn’t the only Dulce Día… Maternity, family, and all the milestones in between — we capture them in photo and video, so every sweet chapter gets the spotlight it deserves.</p>
             </div>
             <div class="t-media ratio-9x16 reveal" aria-label="Chris &amp; Dani">
@@ -835,11 +836,11 @@
       const btn = document.getElementById('menuBtn');
       const nav = document.getElementById('navLinks');
       if(!btn || !nav) return;
-      btn.addEventListener('click', () =>{
+      btn.addEventListener('click', ()=>{
         const open = nav.classList.toggle('open');
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
-      nav.addEventListener('click', (e) =>{
+      nav.addEventListener('click', (e)=>{
         if(e.target.tagName === 'A' && nav.classList.contains('open')){
           nav.classList.remove('open'); btn.setAttribute('aria-expanded','false');
         }
@@ -867,7 +868,7 @@
       const items = Array.from(document.querySelectorAll('.reveal'));
       items.forEach(el => el.classList.add('js-init'));
       if (prefersReduced || !('IntersectionObserver' in window)) { items.forEach(el => el.classList.add('is-revealed')); return; }
-      const io = new IntersectionObserver((entries) =>{
+      const io = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
           if(entry.isIntersecting){ entry.target.classList.add('is-revealed'); io.unobserve(entry.target); }
         });

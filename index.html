@@ -354,6 +354,10 @@
       padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;width:100%;
     }
     #contact .fineprint{ font-size:13px; color:var(--muted); margin-top:8px; }
+
+    /* ===== NEW: Testimonials grid wrapper for multiple cards ===== */
+    .testimonial-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:48px; }
+    @media (max-width:980px){ .testimonial-grid{ grid-template-columns:1fr; gap:36px; } }
   </style>
 </head>
 <body class="no-js">
@@ -573,33 +577,62 @@
       </div>
     </section>
 
-    <!-- TESTIMONIAL (9:16) -->
-    <section id="testimonials" class="section dark" aria-label="Testimonial">
+    <!-- TESTIMONIALS (two cards, responsive) -->
+    <section id="testimonials" class="section dark" aria-label="Testimonials">
       <div class="wrap">
-        <h2 class="serif reveal">TESTIMONIAL</h2>
+        <h2 class="serif reveal">TESTIMONIALS</h2>
         <div class="rule reveal" aria-hidden="true"></div>
-        <div class="testimonial">
-          <div class="t-media ratio-9x16 reveal" aria-label="Meet Pags &amp; Gunner">
-            <div
-              class="embed"
-              data-provider="youtube"
-              data-id="aBauHVpOA3A"
-              data-aspect="9x16"
-              role="button" aria-label="Play Testimonial video (9:16)" tabindex="0">
-              <img class="thumb" src="/assets/tn_2.jpg" alt="Play Testimonial video" />
-              <div class="playbtn" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="9,7 19,12 9,17" fill="currentColor"></polygon>
-                </svg>
-                <span>Play</span>
+
+        <div class="testimonial-grid">
+          <!-- Existing Testimonial -->
+          <div class="testimonial">
+            <div class="t-media ratio-9x16 reveal" aria-label="Meet Pags &amp; Gunner">
+              <div
+                class="embed"
+                data-provider="youtube"
+                data-id="aBauHVpOA3A"
+                data-aspect="9x16"
+                role="button" aria-label="Play Testimonial video (9:16)" tabindex="0">
+                <img class="thumb" src="/assets/tn_2.jpg" alt="Play Testimonial video" />
+                <div class="playbtn" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="9,7 19,12 9,17" fill="currentColor"></polygon>
+                  </svg>
+                  <span>Play</span>
+                </div>
               </div>
             </div>
+            <div class="t-copy">
+              <div class="eyebrow serif reveal">Client Story</div>
+              <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
+              <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
+              <p class="body reveal">We hired Dulce Día to capture our wedding announcement and engagement photos and video, and we couldn’t be happier with the experience. From the very beginning, they made us feel so comfortable in front of the camera. They were quick to respond, easy to work with, and genuinely took the time to get to know us. It was clear they understood who we are as a couple, and they beautifully captured our fun, playful, and loving relationship in both the photos and the video. We’ll cherish these memories.</p>
+            </div>
           </div>
-          <div class="t-copy">
-            <div class="eyebrow serif reveal">Client Story</div>
-            <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
-            <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
-            <p class="body reveal">We hired Dulce Día to capture our wedding announcement and engagement photos and video, and we couldn’t be happier with the experience. From the very beginning, they made us feel so comfortable in front of the camera. They were quick to respond, easy to work with, and genuinely took the time to get to know us. It was clear they understood who we are as a couple, and they beautifully captured our fun, playful, and loving relationship in both the photos and the video. We’ll cherish these memories.</p>
+
+          <!-- New Testimonial: Chris & Dani -->
+          <div class="testimonial">
+            <div class="t-media ratio-9x16 reveal" aria-label="Chris &amp; Dani">
+              <div
+                class="embed"
+                data-provider="youtube"
+                data-id="Ul4ay1cxLYo"
+                data-aspect="9x16"
+                role="button" aria-label="Play Testimonial video (9:16)" tabindex="0">
+                <img class="thumb" src="/assets/tn_3.jpg" alt="Play Chris & Dani Testimonial video" />
+                <div class="playbtn" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="9,7 19,12 9,17" fill="currentColor"></polygon>
+                  </svg>
+                  <span>Play</span>
+                </div>
+              </div>
+            </div>
+            <div class="t-copy">
+              <div class="eyebrow serif reveal">Client Story</div>
+              <h3 class="serif reveal">Chris &amp; Dani</h3>
+              <blockquote class="reveal">“We absolutely love our video—it’s the cutest, most amazing thing we’ve ever seen! Dani was crying watching it, and it truly means so much to us. You captured our love perfectly, and we’re so grateful for the time and care you put into making it so special. We couldn’t be happier.”</blockquote>
+            </div>
           </div>
         </div>
       </div>
@@ -892,7 +925,7 @@
       }
     })();
 
-    // ===== Click-to-Play (YouTube) for tn_1 (16:9) and tn_2 (9:16 no crop) =====
+    // ===== Click-to-Play (YouTube) for tn_1 (16:9) and tn_2/3 (9:16 no crop) =====
     (function(){
       function ytUrl(id){
         return `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;

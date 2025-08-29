@@ -360,6 +360,11 @@
     @media (max-width:980px){ .testimonial-grid{ grid-template-columns:1fr; gap:36px; } }
     .testimonial.reverse{ grid-template-columns:1.4fr 1.1fr; }
 
+    /* Mobile: stack video and text even for reverse layout */
+    @media (max-width:980px){
+      .testimonial.reverse{ grid-template-columns:1fr; }
+    }
+
     /* ===== Extra block for package promotion and customisation ===== */
     .packages-extra{
       background:#fff;

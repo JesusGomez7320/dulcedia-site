@@ -634,8 +634,19 @@
               <blockquote class="reveal">“We absolutely love our video—it’s the cutest, most amazing thing we’ve ever seen! Dani was crying watching it, and it truly means so much to us. You captured our love perfectly, and we’re so grateful for the time and care you put into making it so special. We couldn’t be happier.”</blockquote>
             </div>
             <div class="t-media ratio-9x16 reveal" aria-label="Chris &amp; Dani">
-              <div class="embed" aria-busy="false">
-                <iframe src="https://player.vimeo.com/video/1114311102?title=0&amp;byline=0&amp;portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>
+              <div
+                class="embed"
+                data-provider="vimeo"
+                data-id="1114311102"
+                data-aspect="9x16"
+                role="button" aria-label="Play Testimonial video (9:16)" tabindex="0">
+                <img class="thumb" src="/assets/tn_3.jpg" alt="Play Chris &amp; Dani Testimonial video" />
+                <div class="playbtn" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="9,7 19,12 9,17" fill="currentColor"></polygon>
+                  </svg>
+                  <span>Play</span>
+                </div>
               </div>
             </div>
           </div>
@@ -974,6 +985,53 @@
       }
       document.querySelectorAll('.embed[data-provider="youtube"]').forEach(box=>{
         const activate = (e)=>{ e.preventDefault(); mount(box); };
+        box.addEventListener('click', activate);
+        box.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ activate(e); }});
+      });
+    })();
+
+    // ===== Click-to-Play (Vimeo) for tn_3 (9:16) =====
+    (function(){
+      function vimeoUrl(id){
+        return `https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0&playsinline=1`;
+      }
+      function mountVimeo(container){
+        const id = container.getAttribute('data-id');
+        if(!id) return;
+        const aspect = (container.getAttribute('data-aspect')||'16x9').toLowerCase();
+        const src = vimeoUrl(id);
+        container.setAttribute('aria-busy','true');
+        if(aspect === '4x5'){
+          const box = document.createElement('div');
+          box.className = 'yt-16x9';
+          const iframe = document.createElement('iframe');
+          iframe.src = src;
+          iframe.setAttribute('title','Vimeo video');
+          iframe.setAttribute('allow','autoplay; fullscreen; picture-in-picture');
+          iframe.setAttribute('allowfullscreen','');
+          iframe.setAttribute('loading','eager');
+          iframe.setAttribute('referrerpolicy','no-referrer-when-downgrade');
+          box.appendChild(iframe);
+          container.innerHTML = '';
+          container.appendChild(box);
+        } else {
+          const iframe = document.createElement('iframe');
+          iframe.src = src;
+          iframe.setAttribute('title','Vimeo video');
+          iframe.setAttribute('allow','autoplay; fullscreen; picture-in-picture');
+          iframe.setAttribute('allowfullscreen','');
+          iframe.setAttribute('loading','eager');
+          iframe.setAttribute('referrerpolicy','no-referrer-when-downgrade');
+          Object.assign(iframe.style, { position:'absolute', inset:'0', width:'100%', height:'100%', border:'0' });
+          container.innerHTML = '';
+          container.appendChild(iframe);
+        }
+        container.removeAttribute('role');
+        container.removeAttribute('tabindex');
+        container.setAttribute('aria-busy','false');
+      }
+      document.querySelectorAll('.embed[data-provider="vimeo"]').forEach(box=>{
+        const activate = (e)=>{ e.preventDefault(); mountVimeo(box); };
         box.addEventListener('click', activate);
         box.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ activate(e); }});
       });

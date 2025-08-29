@@ -358,11 +358,21 @@
     /* ===== NEW: Testimonials grid wrapper for multiple cards ===== */
     .testimonial-grid{ display:grid; grid-template-columns:1fr; gap:48px; }
     @media (max-width:980px){ .testimonial-grid{ grid-template-columns:1fr; gap:36px; } }
-    .testimonial.reverse{ grid-template-columns:1.4fr 1.1fr; }
+    /* Assign grid areas to testimonial media and copy */
+    .testimonial .t-media{ grid-area: media; }
+    .testimonial .t-copy{ grid-area: copy; }
 
-    /* Mobile: stack video and text even for reverse layout */
+    /* Layout for reverse testimonials on desktop: text first then media */
+    .testimonial.reverse{
+      grid-template-columns:1.4fr 1.1fr;
+      grid-template-areas:'copy media';
+    }
+    /* On mobile: stack media above copy for reverse layouts */
     @media (max-width:980px){
-      .testimonial.reverse{ grid-template-columns:1fr; }
+      .testimonial.reverse{
+        grid-template-columns:1fr;
+        grid-template-areas:'media' 'copy';
+      }
     }
 
     /* ===== Extra block for package promotion and customisation ===== */
@@ -637,6 +647,8 @@
               <div class="eyebrow serif reveal">Client Story</div>
               <h3 class="serif reveal">Chris &amp; Dani</h3>
               <blockquote class="reveal">“We absolutely love our video—it’s the cutest, most amazing thing we’ve ever seen! Dani was crying watching it, and it truly means so much to us. You captured our love perfectly, and we’re so grateful for the time and care you put into making it so special. We couldn’t be happier.”</blockquote>
+              <p class="body reveal">Because your wedding isn’t the only Dulce Día… Maternity, family, and all the milestones in between — we capture them in photo and video, so every sweet chapter gets the spotlight it deserves.</p>
+              <p class="body reveal">Because your wedding isn’t the only Dulce Día… Maternity, family, and all the milestones in between — we capture them in photo and video, so every sweet chapter gets the spotlight it deserves.</p>
             </div>
             <div class="t-media ratio-9x16 reveal" aria-label="Chris &amp; Dani">
               <div

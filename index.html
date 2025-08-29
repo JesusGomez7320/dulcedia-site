@@ -28,7 +28,9 @@
       --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
       --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
       --cursor-size:28px;          /* default circle */
-      --cursor-link-size:44px;     /* size when over interactive */
+      --cursor-link-size:32px;     /* size when over interactive */
+      /* NEW: small gutter so the SVG never touches/clips the edges */
+      --cursor-link-pad:6px;
       --glass-min:.22; --glass-max:.55;
     }
 
@@ -251,6 +253,8 @@
       background:rgba(255,255,255,.75);
       box-shadow:0 8px 18px rgba(0,0,0,.18);
       pointer-events:none; z-index:9999;
+      /* NEW: ensure padding (when applied in link state) doesn't shrink the art area */
+      box-sizing:content-box;
       transition:
         width .15s ease,
         height .15s ease,
@@ -263,17 +267,25 @@
     }
     .cursor.is-hidden{ opacity:0 }
 
-    /* When hovering interactive elements, swap to SVG ring cursor */
+    /* When hovering interactive elements, swap to SVG hand/ring cursor WITHOUT clipping */
     .cursor.is-link{
       width:var(--cursor-link-size);
       height:var(--cursor-link-size);
+      /* remove circular mask so SVG edges don't get cropped */
+      border-radius:0;
       border:none;
+      /* add a tiny gutter so artwork never touches the edges */
+      padding:var(--cursor-link-pad);
       background-color:transparent;
       background-image:url('/assets/ring.svg');
       background-repeat:no-repeat;
       background-position:center;
-      background-size:contain;
-      box-shadow:none; /* replace with subtle drop shadow via filter for crisp SVG */
+      /* draw the background inside the padded content box */
+      background-origin:content-box;
+      background-clip:content-box;
+      /* fill the inner box (inside the padding) */
+      background-size:100% 100%;
+      box-shadow:none;
       filter:drop-shadow(0 2px 2px rgba(0,0,0,.22));
     }
 
@@ -358,20 +370,19 @@
     /* ===== NEW: Testimonials grid wrapper for multiple cards ===== */
     .testimonial-grid{ display:grid; grid-template-columns:1fr; gap:48px; }
     @media (max-width:980px){ .testimonial-grid{ grid-template-columns:1fr; gap:36px; } }
-    /* Assign grid areas to testimonial media and copy */
-    .testimonial .t-media{ grid-area: media; }
-    .testimonial .t-copy{ grid-area: copy; }
-
-    /* Layout for reverse testimonials on desktop: text first then media */
-    .testimonial.reverse{
-      grid-template-columns:1.4fr 1.1fr;
-      grid-template-areas:'copy media';
-    }
-    /* On mobile: stack media above copy for reverse layouts */
+    .testimonial.reverse{ grid-template-columns:1.4fr 1.1fr; }
+    /* Mobile: stack video and text even for reverse layout */
     @media (max-width:980px){
-      .testimonial.reverse{
-        grid-template-columns:1fr;
-        grid-template-areas:'media' 'copy';
+      .testimonial.reverse{ grid-template-columns:1fr; }
+    }
+
+    /* Adjust order on mobile: show video above text for reverse testimonials */
+    @media (max-width:980px){
+      .testimonial.reverse .t-media{
+        order:1;
+      }
+      .testimonial.reverse .t-copy{
+        order:2;
       }
     }
 
@@ -647,7 +658,7 @@
               <div class="eyebrow serif reveal">Client Story</div>
               <h3 class="serif reveal">Chris &amp; Dani</h3>
               <blockquote class="reveal">“We absolutely love our video—it’s the cutest, most amazing thing we’ve ever seen! Dani was crying watching it, and it truly means so much to us. You captured our love perfectly, and we’re so grateful for the time and care you put into making it so special. We couldn’t be happier.”</blockquote>
-              <p class="body reveal">Because your wedding isn’t the only Dulce Día… Maternity, family, and all the milestones in between — we capture them in photo and video, so every sweet chapter gets the spotlight it deserves.</p>
+              <!-- Additional paragraph styled like Pags & Gunner -->
               <p class="body reveal">Because your wedding isn’t the only Dulce Día… Maternity, family, and all the milestones in between — we capture them in photo and video, so every sweet chapter gets the spotlight it deserves.</p>
             </div>
             <div class="t-media ratio-9x16 reveal" aria-label="Chris &amp; Dani">
@@ -836,11 +847,11 @@
       const btn = document.getElementById('menuBtn');
       const nav = document.getElementById('navLinks');
       if(!btn || !nav) return;
-      btn.addEventListener('click', ()=>{
+      btn.addEventListener('click', () =>{
         const open = nav.classList.toggle('open');
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
-      nav.addEventListener('click', (e)=>{
+      nav.addEventListener('click', (e) =>{
         if(e.target.tagName === 'A' && nav.classList.contains('open')){
           nav.classList.remove('open'); btn.setAttribute('aria-expanded','false');
         }
@@ -868,7 +879,7 @@
       const items = Array.from(document.querySelectorAll('.reveal'));
       items.forEach(el => el.classList.add('js-init'));
       if (prefersReduced || !('IntersectionObserver' in window)) { items.forEach(el => el.classList.add('is-revealed')); return; }
-      const io = new IntersectionObserver((entries)=>{
+      const io = new IntersectionObserver((entries) =>{
         entries.forEach(entry=>{
           if(entry.isIntersecting){ entry.target.classList.add('is-revealed'); io.unobserve(entry.target); }
         });

@@ -358,6 +358,43 @@
       box-shadow:var(--shadow);
     }
     .packages-extra p{ margin:0 0 12px; }
+
+    /* ===== Builder (NEW) ===== */
+    #builder .builder-shell{
+      background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+      padding: clamp(18px,2.4vw,26px);
+    }
+    #builder .grid-2{
+      display:grid;grid-template-columns:1.1fr 1fr;gap:22px;align-items:start;
+    }
+    @media (max-width:900px){ #builder .grid-2{ grid-template-columns:1fr; } }
+
+    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:#fff}
+    .pill[data-selected="true"]{border-color:#0E0F12;background:#0E0F12;color:#fff}
+    .options{display:grid;gap:10px}
+    .group{margin:8px 0 16px}
+    .group h4{margin:0 0 8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .muted{color:var(--muted);font-size:14px}
+
+    .cart{
+      border:1px dashed var(--line);border-radius:12px;padding:12px;min-height:120px;background:#faf9f6
+    }
+    .cart.empty::before{
+      content:"Drag add-ons here (mobile) or click to add (desktop)";
+      color:var(--muted);font-size:14px
+    }
+    .cart-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+    .cart-item{
+      display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px
+    }
+    .cart-item button{border:1px solid var(--line);background:transparent;border-radius:8px;padding:6px 8px}
+    .sum{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+    .sum strong{font-size:18px}
+    .dragging{opacity:.6;transform:scale(.98)}
+    .dropping{outline:2px dashed #bbb;outline-offset:3px}
+
+    .builder-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
   </style>
 </head>
 <body class="no-js">
@@ -386,6 +423,7 @@
       <a href="#experience">Experience</a>
       <a href="#process">Process</a>
       <a href="#packages">Packages</a>
+      <a href="#builder">Build your Dulce Día</a>
       <a href="#proposals">Proposals &amp; Engagements</a>
       <a href="#contact">Inquire</a>
     </nav>
@@ -569,6 +607,69 @@
       </div>
     </section>
 
+    <!-- ===== NEW: BUILD YOUR DULCE DÍA ===== -->
+    <section id="builder" class="section" aria-label="Build your Dulce Día">
+      <div class="wrap">
+        <h2 class="serif reveal">Build your Dulce Día</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+
+        <div class="builder-shell reveal">
+          <div class="grid-2">
+            <!-- Left: Options -->
+            <div>
+              <div class="group">
+                <h4 class="serif">Choose a Base</h4>
+                <div class="options" id="baseOptions" role="group" aria-label="Base options">
+                  <!-- Bases from your earlier spec -->
+                  <button class="pill" data-type="base" data-id="base-6-1" data-label="6 hrs, 1 videographer" data-price="1250">$1,250 • 6 hrs / 1 vid</button>
+                  <button class="pill" data-type="base" data-id="base-8-1" data-label="8 hrs, 1 videographer" data-price="1450">$1,450 • 8 hrs / 1 vid</button>
+                  <button class="pill" data-type="base" data-id="base-all-1" data-label="All-day, 1 videographer" data-price="1900">$1,900 • all-day / 1 vid</button>
+                  <button class="pill" data-type="base" data-id="base-6-2" data-label="6 hrs, 2 videographers" data-price="1900">$1,900 • 6 hrs / 2 vid</button>
+                  <button class="pill" data-type="base" data-id="base-8-2" data-label="8 hrs, 2 videographers" data-price="2100">$2,100 • 8 hrs / 2 vid</button>
+                  <button class="pill" data-type="base" data-id="base-all-2" data-label="All-day, 2 videographers" data-price="2600">$2,600 • all-day / 2 vid</button>
+                </div>
+                <p class="muted">Pick one base to start. You can always change it.</p>
+              </div>
+
+              <div class="group">
+                <h4 class="serif">Add-ons</h4>
+                <div class="chips" id="addonPool" aria-label="Available add-ons">
+                  <!-- Balanced Add-ons from your spec -->
+                  <div class="pill" draggable="true" data-type="addon" data-id="hl1" data-label="Highlight Reel" data-price="450">Highlight Reel — $450</div>
+                  <div class="pill" draggable="true" data-type="addon" data-id="hl2" data-label="2 Highlight Reels" data-price="675">2 Highlight Reels — $675</div>
+                  <div class="pill" draggable="true" data-type="addon" data-id="vertical" data-label="Vertical Conversion" data-price="175">Vertical Conversion — $175</div>
+                  <div class="pill" draggable="true" data-type="addon" data-id="doc" data-label="Documentary Edit" data-price="650">Documentary Edit — $650</div>
+                  <div class="pill" draggable="true" data-type="addon" data-id="drone" data-label="Drone Coverage" data-price="275">Drone Coverage — $275</div>
+                  <div class="pill" draggable="true" data-type="addon" data-id="hr1" data-label="1 hr add-on (1 videographer)" data-price="150">+1 hr (1 vid) — $150</div>
+                  <div class="pill" draggable="true" data-type="addon" data-id="hr2" data-label="1 hr add-on (2 videographers)" data-price="200">+1 hr (2 vid) — $200</div>
+                </div>
+                <p class="muted">On mobile, drag add-ons into your cart. On desktop, click to toggle them.</p>
+              </div>
+            </div>
+
+            <!-- Right: Cart / Summary -->
+            <div>
+              <div class="group">
+                <h4 class="serif">Your Selections</h4>
+                <div id="cart" class="cart empty" aria-label="Your selected items" tabindex="0">
+                  <ul id="cartList" class="cart-list" aria-live="polite" aria-relevant="additions removals"></ul>
+                </div>
+                <div class="sum">
+                  <span>Total</span>
+                  <strong id="sum">$0</strong>
+                </div>
+                <div class="builder-cta">
+                  <button id="clearBuilder" class="btn" type="button">Clear</button>
+                  <a class="btn" href="#contact">Add to Inquiry</a>
+                </div>
+                <p class="muted">When you submit the form below, your selections and total are included automatically.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- TESTIMONIALS -->
     <section id="testimonials" class="section dark" aria-label="Testimonials">
       <div class="wrap">
@@ -702,6 +803,13 @@
               <input name="email" aria-label="Email" placeholder="Email" type="email" required />
               <input name="date" aria-label="Date" placeholder="Wedding Date" type="text" />
               <textarea name="message" aria-label="Message" placeholder="Tell us about your day, priorities, and any questions" rows="5"></textarea>
+
+              <!-- NEW: hidden fields to receive builder data -->
+              <input type="hidden" name="builder_base" id="builder_base" />
+              <input type="hidden" name="builder_addons" id="builder_addons" />
+              <input type="hidden" name="builder_total" id="builder_total" />
+              <input type="hidden" name="builder_json" id="builder_json" />
+
               <button class="btn" type="submit">Send</button>
             </form>
           </div>
@@ -831,18 +939,15 @@
     })();
 
     // ---------- Auto-discover + randomize gallery ----------
-    // Drop files at /assets/gallery/ as 1.jpg, 2.jpg, 3.webp, etc.
-    // No code changes needed when you add more.
     async function buildRandomGallery() {
       const track = document.getElementById('folioTrack');
       if (!track) return;
 
-      const MAX_TRY = 200;               // generous ceiling; bump if you ever exceed it
+      const MAX_TRY = 200;
       const EXTS = ['jpg','jpeg','webp','png'];
       const base = '/assets/gallery/';
       const found = [];
 
-      // Probe sequential numbers, accepting any supported extension
       for (let i = 1; i <= MAX_TRY; i++) {
         let match = null;
         for (const ext of EXTS) {
@@ -855,20 +960,17 @@
         if (match) found.push({ src: match, alt: `Portfolio still ${i}` });
       }
 
-      // If nothing found, bail gracefully
       if (!found.length) {
         track.innerHTML = '<li class="slide"><figure class="card" style="display:grid;place-items:center;color:#999;background:#faf9f6"><figcaption style="padding:24px;text-align:center">Add images to <code>/assets/gallery/</code> as <code>1.jpg</code>, <code>2.jpg</code>, …</figcaption></figure></li>';
         document.dispatchEvent(new CustomEvent('gallery:ready'));
         return;
       }
 
-      // Fisher–Yates shuffle for new order each load
       for (let i = found.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [found[i], found[j]] = [found[j], found[i]];
       }
 
-      // Render slides
       const frag = document.createDocumentFragment();
       for (const img of found) {
         const li = document.createElement('li');
@@ -882,7 +984,6 @@
       track.innerHTML = '';
       track.appendChild(frag);
 
-      // Signal downstream code that slides are ready
       document.dispatchEvent(new CustomEvent('gallery:ready'));
     }
 
@@ -1149,6 +1250,164 @@
         }, { threshold: [0, .25, .5, .75, 1]});
         glassEls.forEach(el=>io.observe(el));
       }
+    })();
+
+    // ===== NEW: Builder logic (click + drag/drop on mobile) =====
+    (function(){
+      const baseGroup = document.getElementById('baseOptions');
+      const addonPool = document.getElementById('addonPool');
+      const cart = document.getElementById('cart');
+      const cartList = document.getElementById('cartList');
+      const sumEl = document.getElementById('sum');
+      const clearBtn = document.getElementById('clearBuilder');
+
+      const form = document.querySelector('form[name="inquire"]');
+      const fBase = document.getElementById('builder_base');
+      const fAdds = document.getElementById('builder_addons');
+      const fTotal = document.getElementById('builder_total');
+      const fJson = document.getElementById('builder_json');
+
+      let base = null;               // { id, label, price }
+      const addons = new Map();      // id -> { id,label,price }
+
+      function money(n){ return `$${n.toLocaleString()}`; }
+
+      function updateUI(){
+        // Cart render
+        cartList.innerHTML = '';
+        if(!base && addons.size===0){ cart.classList.add('empty'); }
+        else { cart.classList.remove('empty'); }
+
+        if(base){
+          const li = document.createElement('li');
+          li.className = 'cart-item';
+          li.innerHTML = `<span>${base.label}</span><strong>${money(base.price)}</strong>`;
+          cartList.appendChild(li);
+        }
+
+        addons.forEach(item=>{
+          const li = document.createElement('li');
+          li.className = 'cart-item';
+          li.innerHTML = `<span>${item.label}</span>
+                          <div style="display:flex;gap:8px;align-items:center">
+                            <strong>${money(item.price)}</strong>
+                            <button type="button" aria-label="Remove">Remove</button>
+                          </div>`;
+          li.querySelector('button').addEventListener('click', ()=>{
+            addons.delete(item.id);
+            // also deselect chip in pool
+            const chip = addonPool.querySelector(`.pill[data-id="${item.id}"]`);
+            if(chip) chip.dataset.selected = "false";
+            updateUI();
+          });
+          cartList.appendChild(li);
+        });
+
+        // Total
+        let total = (base ? base.price : 0);
+        addons.forEach(a=> total += a.price);
+        sumEl.textContent = money(total);
+
+        // Hidden fields for Netlify
+        fBase.value = base ? `${base.label} — ${money(base.price)}` : '';
+        fAdds.value = addons.size ? Array.from(addons.values()).map(a=>`${a.label} — ${money(a.price)}`).join(', ') : '';
+        fTotal.value = total;
+        fJson.value = JSON.stringify({
+          base, addons: Array.from(addons.values()), total
+        });
+      }
+
+      function parseNode(el){
+        return {
+          id: el.dataset.id,
+          type: el.dataset.type,
+          label: el.dataset.label,
+          price: Number(el.dataset.price||0)
+        };
+      }
+
+      // Base selection (single-choice)
+      baseGroup.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.pill[data-type="base"]');
+        if(!btn) return;
+        baseGroup.querySelectorAll('.pill').forEach(p=>p.dataset.selected="false");
+        btn.dataset.selected = "true";
+        base = parseNode(btn);
+        updateUI();
+      });
+
+      // Desktop add-on toggle by click
+      addonPool.addEventListener('click', (e)=>{
+        const chip = e.target.closest('.pill[data-type="addon"]');
+        if(!chip) return;
+        const item = parseNode(chip);
+        const selected = chip.dataset.selected === "true";
+        if(selected){
+          chip.dataset.selected = "false";
+          addons.delete(item.id);
+        }else{
+          chip.dataset.selected = "true";
+          addons.set(item.id, item);
+        }
+        updateUI();
+      });
+
+      // Drag & drop for mobile (pointer-friendly)
+      let draggingEl = null;
+      addonPool.querySelectorAll('.pill[data-type="addon"]').forEach(chip=>{
+        chip.addEventListener('dragstart', (e)=>{
+          draggingEl = chip; chip.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'copy';
+          e.dataTransfer.setData('text/plain', chip.dataset.id);
+        });
+        chip.addEventListener('dragend', ()=>{
+          chip.classList.remove('dragging'); draggingEl = null;
+        });
+      });
+
+      ['dragenter','dragover'].forEach(ev=>{
+        cart.addEventListener(ev, (e)=>{
+          e.preventDefault();
+          cart.classList.add('dropping');
+          e.dataTransfer.dropEffect = 'copy';
+        });
+      });
+      ['dragleave','drop'].forEach(ev=>{
+        cart.addEventListener(ev, (e)=>{
+          e.preventDefault();
+          cart.classList.remove('dropping');
+          if(ev === 'drop'){
+            const id = e.dataTransfer.getData('text/plain');
+            const chip = addonPool.querySelector(`.pill[data-id="${id}"]`);
+            if(chip){
+              const item = parseNode(chip);
+              chip.dataset.selected = "true";
+              addons.set(item.id, item);
+              updateUI();
+            }
+          }
+        });
+      });
+
+      // Clear
+      clearBtn.addEventListener('click', ()=>{
+        base = null;
+        addons.clear();
+        baseGroup.querySelectorAll('.pill').forEach(p=>p.dataset.selected="false");
+        addonPool.querySelectorAll('.pill').forEach(p=>p.dataset.selected="false");
+        updateUI();
+      });
+
+      // Attach to form submit (already kept in hidden fields by updateUI)
+      if(form){
+        form.addEventListener('submit', ()=>{
+          // ensure fields are up to date at submit time
+          updateUI();
+        });
+      }
+
+      // Init
+      updateUI();
     })();
   </script>
 </body>

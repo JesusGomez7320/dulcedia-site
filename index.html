@@ -1272,7 +1272,10 @@
           { id:'a4', label:'Documentary Edit', price:650 },
           { id:'a5', label:'Drone Coverage', price:275 },
           { id:'a6', label:'1 hr coverage (1 videographer)', price:150 },
-          { id:'a7', label:'1 hr coverage (2 videographers)', price:200 }
+          { id:'a7', label:'1 hr coverage (2 videographers)', price:200 },
+          { id:'a8', label:'1 Photographer 6 hrs', price:1000 },
+          { id:'a9', label:'1 Photographer 8 hrs', price:1200 },
+          { id:'a10', label:'1 Photographer All day', price:1500 }
         ]
       };
 
@@ -1345,9 +1348,24 @@
           });
         });
 
+        // Photographer add-ons mutual exclusion
+        const photog6 = addonsList.querySelector('input[value="a8"]');
+        const photog8 = addonsList.querySelector('input[value="a9"]');
+        const photogAll = addonsList.querySelector('input[value="a10"]');
+        [photog6, photog8, photogAll].forEach(cb => {
+          cb.addEventListener('change', () => {
+            if (cb.checked) {
+              if (cb.value === 'a8') { photog8.checked = false; photogAll.checked = false; }
+              if (cb.value === 'a9') { photog6.checked = false; photogAll.checked = false; }
+              if (cb.value === 'a10') { photog6.checked = false; photog8.checked = false; }
+            }
+            updateAddonsState();
+          });
+        });
+
         // All other checkboxes
         addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-          if (cb.value !== 'a1' && cb.value !== 'a2') {
+          if (!["a1","a2","a8","a9","a10"].includes(cb.value)) {
             cb.addEventListener('change', updateAddonsState);
           }
         });
@@ -1379,6 +1397,20 @@
           li.innerHTML = `<span>${a.label}</span><span>$${a.price.toLocaleString()}</span>`;
           frag.appendChild(li);
         });
+
+        // Disclaimer for All day base
+        if (base.label && base.label.toLowerCase().includes('all‑day')) {
+          const disclaimer = document.createElement('li');
+          disclaimer.className = 'row';
+          disclaimer.innerHTML = `<span style="color:#b77;font-size:13px">All day is 12 hrs max</span><span></span>`;
+          frag.appendChild(disclaimer);
+        }
+        // Disclaimer for travel fees
+        const travel = document.createElement('li');
+        travel.className = 'row';
+        travel.innerHTML = `<span style="color:#b77;font-size:13px">Travel outside LA, Orange, or San Diego County may incur a travel fee.</span><span></span>`;
+        frag.appendChild(travel);
+
         summaryList.innerHTML = '';
         summaryList.appendChild(frag);
 

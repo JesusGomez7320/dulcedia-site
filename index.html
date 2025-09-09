@@ -642,14 +642,10 @@
 
               <div class="b-card" style="margin-top:16px" aria-labelledby="addonsTitle">
                 <h3 id="addonsTitle" class="serif">Add‑Ons</h3>
-                <p class="sub" style="margin:0 0 8px">Tap to toggle on desktop. On mobile, drag chips into the dropzone.</p>
-                <div id="addonsList" class="b-options" aria-label="Add-ons list">
-                  <!-- JS injects addon chips -->
-                </div>
-                <!-- Mobile drag target -->
-                <div class="b-dragzone" id="addonsDrop" aria-label="Your selected add-ons (drag here on mobile)" style="margin-top:10px">
-                  <span class="sub">Drag add‑on chips here on mobile</span>
-                </div>
+                <p class="sub" style="margin:0 0 8px">Select any add-ons. "Highlight Reel" and "2 Highlight Reels" cannot be selected together.</p>
+                <form id="addonsList" class="b-options" aria-label="Add-ons list" style="display: flex; flex-direction: column; gap: 8px;">
+                  <!-- JS injects addon checkboxes -->
+                </form>
               </div>
             </div>
 
@@ -1311,36 +1307,62 @@
         });
       }
 
-      // Render addon chips (toggle on click)
-      function makeAddonRow(a){
-        const row = document.createElement('div');
+
+      // Render add-on checkboxes
+      function makeAddonCheckbox(a) {
+        const row = document.createElement('label');
         row.className = 'b-option';
         row.setAttribute('data-id', a.id);
+        row.style.display = 'flex';
+        row.style.alignItems = 'center';
+        row.style.gap = '10px';
         row.innerHTML = `
-          <div style="display:flex; flex-direction:column">
-            <span class="title">${a.label}</span>
-            <span class="sub">$${a.price.toLocaleString()}</span>
-          </div>
-          <span class="b-chip b-draggable" draggable="true" aria-label="${a.label}">$${a.price}</span>
+          <input type="checkbox" name="addonPick" value="${a.id}" aria-label="${a.label} for $${a.price}">
+          <span class="title">${a.label}</span>
+          <span class="sub">$${a.price.toLocaleString()}</span>
         `;
-        // Toggle selection on click (desktop)
-        row.addEventListener('click', (ev)=>{
-          // Ignore clicks starting on the chip (handled by DnD)
-          if(ev.target && ev.target.classList && ev.target.classList.contains('b-chip')) return;
-          toggleAddon(a.id);
-        });
         return row;
       }
 
-      if (addonsList){
-        PRICES.addons.forEach(a=> addonsList.appendChild(makeAddonRow(a)));
+      function renderAddons() {
+        if (!addonsList) return;
+        addonsList.innerHTML = '';
+        PRICES.addons.forEach(a => {
+          const checkbox = makeAddonCheckbox(a);
+          addonsList.appendChild(checkbox);
+        });
+
+        // Set up mutual exclusion for Highlight Reel and 2 Highlight Reels
+        const highlight = addonsList.querySelector('input[value="a1"]');
+        const highlight2 = addonsList.querySelector('input[value="a2"]');
+        [highlight, highlight2].forEach(cb => {
+          cb.addEventListener('change', () => {
+            if (cb.checked) {
+              if (cb.value === 'a1') highlight2.checked = false;
+              if (cb.value === 'a2') highlight.checked = false;
+            }
+            updateAddonsState();
+          });
+        });
+
+        // All other checkboxes
+        addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          if (cb.value !== 'a1' && cb.value !== 'a2') {
+            cb.addEventListener('change', updateAddonsState);
+          }
+        });
       }
 
-      function toggleAddon(id){
-        if(state.addons.has(id)) state.addons.delete(id);
-        else state.addons.add(id);
+      function updateAddonsState() {
+        state.addons.clear();
+        addonsList.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+          state.addons.add(cb.value);
+        });
         renderSummary();
       }
+
+      renderAddons();
+
 
       function renderSummary(){
         const base = PRICES.base.find(b=>b.id===state.base);

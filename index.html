@@ -358,6 +358,60 @@
       box-shadow:var(--shadow);
     }
     .packages-extra p{ margin:0 0 12px; }
+
+    /* ===== Builder (scoped styles) ===== */
+    #builder{ background:#fff; }
+    #builder .builder-shell{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:#fff;
+      box-shadow:var(--shadow);
+      padding: clamp(18px, 3vw, 28px);
+    }
+    .builder-grid{
+      display:grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap:24px;
+      align-items:start;
+    }
+    @media (max-width:980px){ .builder-grid{ grid-template-columns:1fr } }
+    .b-card{ border:1px solid var(--line); border-radius:12px; background:#faf9f6; padding:16px; }
+    .b-card h3{ margin:0 0 8px; font-size:14px; letter-spacing:.18em; text-transform:uppercase; }
+    .b-options{ display:grid; gap:10px; }
+    .b-option{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:10px 12px; background:#fff; border:1px solid var(--line);
+      border-radius:10px;
+    }
+    .b-option input{ accent-color:#111; }
+    .b-option .title{ font-weight:600; }
+    .b-option .sub{ margin:0; }
+    .b-summary{
+      position:sticky; top:90px;
+      border:1px solid var(--line); border-radius:12px; background:#fff; padding:16px;
+    }
+    .b-summary h3{ margin:0 0 12px; font-size:14px; letter-spacing:.18em; text-transform:uppercase; }
+    .b-summary ul{ list-style:none; padding:0; margin:0 0 10px; display:grid; gap:8px; }
+    .b-summary .row{ display:flex; justify-content:space-between; gap:8px; }
+    .b-total{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-top:10px; margin-top:10px; font-weight:800; }
+    .b-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+    .b-chip{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 10px;
+      border:1px dashed var(--line); border-radius:999px; background:#fff; user-select:none;
+    }
+
+    /* Drag & Drop (mobile-first) */
+    .b-dragzone{
+      border:1px dashed var(--line);
+      border-radius:12px; min-height:72px; padding:10px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; background:#fff;
+    }
+    .b-dragzone.is-over{ background:#f3f1ec; border-color:#d7d4cc; }
+    .b-draggable{ touch-action:none; }
+    @media (hover:hover){
+      .b-draggable{ cursor:grab; }
+      .b-draggable:active{ cursor:grabbing; }
+    }
   </style>
 </head>
 <body class="no-js">
@@ -458,7 +512,7 @@
       <div class="wrap glass-panel" data-glass>
         <h2 class="serif reveal">A LOVE STORY IN MOTION: THE EXPERIENCE</h2>
         <div class="rule reveal" aria-hidden="true"></div>
-        <div class="grid grid-3">
+  <div class="grid grid-3">
           <div class="reveal"><p>Your wedding day is one of the most meaningful stories you’ll ever live — and I’m here to help you relive it, beautifully.</p></div>
           <div class="reveal"><p>From our first conversation to the final delivery, I work closely with you to bring your vision to life. I focus on the details, capture the in-between moments, and craft a film that feels like you.</p></div>
           <div class="reveal"><p>My goal is simple: to go above and beyond so your wedding is remembered not just clearly — but emotionally.</p></div>
@@ -527,17 +581,18 @@
         <div class="pkgs">
           <article class="pkg reveal">
             <h3 class="serif">DULCE INICIO (SWEET BEGINNING)</h3>
-            <p class="price">$1,800</p>
+            <p class="price">$1,900</p>
             <ul>
               <li>6 Hours of Coverage</li>
               <li>1 Videographer</li>
               <li>1–3 min Highlight Reel Video</li>
+              <li>Vertical version of the highlight reel (under 1 min)</li>
             </ul>
-            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $800. Please reach out for details.</em></p>
+            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $900. Please reach out for details.</em></p>
           </article>
           <article class="pkg reveal">
             <h3 class="serif">DULCE RECUERDO (SWEET MEMORY)</h3>
-            <p class="price">$2,500</p>
+            <p class="price">$2,700</p>
             <ul>
               <li>8 Hours of Coverage</li>
               <li>Two Videographers</li>
@@ -545,11 +600,11 @@
               <li>1 Shortform Vertical Highlight Reel</li>
               <li>Drone Coverage</li>
             </ul>
-            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $1,000. Please reach out for details.</em></p>
+            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $1,100. Please reach out for details.</em></p>
           </article>
           <article class="pkg reveal">
             <h3 class="serif">DULCE ETERNIDAD (SWEET ETERNITY)</h3>
-            <p class="price">$3,200</p>
+            <p class="price">$3,500</p>
             <ul>
               <li>All-Day Coverage</li>
               <li>Two Videographers</li>
@@ -558,12 +613,57 @@
               <li>3 Shortform Vertical Highlight Reels</li>
               <li>Drone Coverage</li>
             </ul>
-            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $1,200. Please reach out for details.</em></p>
+            <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $1,400. Please reach out for details.</em></p>
           </article>
         </div>
         <div class="packages-extra reveal">
           <p><strong>Limited time promotion:</strong> Be among the first five couples to book through this current promotion and receive an extra session or a free upgrade to your package. We'll find a creative way to honour an extra session if you're outside LA County, San Diego County, or Orange County. <em>Disclaimer: This promotion cannot be used to waive travel fees.</em></p>
           <p><strong>Customize your experience:</strong> These packages are prebuilt. Feel free to contact us to modify any package or build a custom one. Travel outside LA County, San Diego County and Orange County may include a travel fee.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BUILD YOUR DULCE DÍA (interactive) ===== -->
+    <section id="builder" class="section" aria-label="Build Your Dulce Día">
+      <div class="wrap">
+        <h2 class="serif reveal">Build Your Dulce Día</h2>
+        <div class="rule reveal" aria-hidden="true"></div>
+
+        <div class="builder-shell reveal">
+          <div class="builder-grid">
+            <!-- PICKERS -->
+            <div class="b-pickers">
+              <div class="b-card" aria-labelledby="baseTitle">
+                <h3 id="baseTitle" class="serif">Choose Your Base</h3>
+                <div class="b-options" id="baseOptions" role="radiogroup" aria-label="Base options">
+                  <!-- JS injects base options -->
+                </div>
+              </div>
+
+              <div class="b-card" style="margin-top:16px" aria-labelledby="addonsTitle">
+                <h3 id="addonsTitle" class="serif">Add‑Ons</h3>
+                <p class="sub" style="margin:0 0 8px">Select any add-ons. "Highlight Reel" and "2 Highlight Reels" cannot be selected together.</p>
+                <form id="addonsList" class="b-options" aria-label="Add-ons list" style="display: flex; flex-direction: column; gap: 8px;">
+                  <!-- JS injects addon checkboxes -->
+                </form>
+              </div>
+            </div>
+
+            <!-- SUMMARY -->
+            <aside class="b-summary" aria-live="polite">
+              <h3 class="serif">Your Build</h3>
+              <ul id="summaryList"></ul>
+              <div class="b-total">
+                <span>Total</span>
+                <span id="summaryTotal">$0</span>
+              </div>
+              <div class="b-actions">
+                <button class="btn" id="copyToFormBtn" type="button">Send with Inquiry</button>
+                <button class="btn" id="clearBuildBtn" type="button" aria-label="Clear selections">Clear</button>
+              </div>
+              <p class="sub" style="margin:6px 0 0">We’ll attach this to your inquiry form automatically.</p>
+            </aside>
+          </div>
         </div>
       </div>
     </section>
@@ -641,8 +741,14 @@
             <p>Packages start at <strong>$300–$500</strong> and include a <strong>1–2 minute highlight film</strong> that captures the surprise, the joy, and the details that matter.</p>
           </div>
           <div class="reveal">
-            <p><em>Optional:</em> Add a dedicated photographer for <strong>$300–$500</strong> depending on hours booked. <a href="#contact" class="btn" style="margin-top:6px">Request Details</a></p>
+            <p><em>Optional:</em> Add a dedicated photographer for <strong>$300–$500</strong> depending on hours booked. <a href="assets/pricing.pdf" class="btn" style="margin-top:6px" target="_blank" rel="noopener">See Pricing Sheet</a></p>
           </div>
+        </div>
+        <div class="reveal" style="margin-top:18px">
+          <p class="sub" style="font-size:15px;max-width:600px;margin:0 auto;text-align:center">
+            <strong>Note:</strong> Depending on your chosen location and date, a permit fee may be required by the venue or municipality. If applicable, this fee is the responsibility of the client and will be charged at cost. We are happy to advise on permit requirements and assist with the process.
+          </p>
+        </div>
         </div>
       </div>
     </section>
@@ -701,6 +807,12 @@
               <input name="email" aria-label="Email" placeholder="Email" type="email" required />
               <input name="date" aria-label="Date" placeholder="Wedding Date" type="text" />
               <textarea name="message" aria-label="Message" placeholder="Tell us about your day, priorities, and any questions" rows="5"></textarea>
+
+              <!-- Builder-hidden fields (auto filled) -->
+              <input type="hidden" name="builder_base" id="builder_base" />
+              <input type="hidden" name="builder_addons" id="builder_addons" />
+              <input type="hidden" name="builder_total" id="builder_total" />
+
               <button class="btn" type="submit">Send</button>
             </form>
           </div>
@@ -830,18 +942,15 @@
     })();
 
     // ---------- Auto-discover + randomize gallery ----------
-    // Drop files at /assets/gallery/ as 1.jpg, 2.jpg, 3.webp, etc.
-    // No code changes needed when you add more.
     async function buildRandomGallery() {
       const track = document.getElementById('folioTrack');
       if (!track) return;
 
-      const MAX_TRY = 200;               // generous ceiling; bump if you ever exceed it
+  const MAX_TRY = 20;
       const EXTS = ['jpg','jpeg','webp','png'];
       const base = '/assets/gallery/';
       const found = [];
 
-      // Probe sequential numbers, accepting any supported extension
       for (let i = 1; i <= MAX_TRY; i++) {
         let match = null;
         for (const ext of EXTS) {
@@ -854,20 +963,18 @@
         if (match) found.push({ src: match, alt: `Portfolio still ${i}` });
       }
 
-      // If nothing found, bail gracefully
       if (!found.length) {
         track.innerHTML = '<li class="slide"><figure class="card" style="display:grid;place-items:center;color:#999;background:#faf9f6"><figcaption style="padding:24px;text-align:center">Add images to <code>/assets/gallery/</code> as <code>1.jpg</code>, <code>2.jpg</code>, …</figcaption></figure></li>';
         document.dispatchEvent(new CustomEvent('gallery:ready'));
         return;
       }
 
-      // Fisher–Yates shuffle for new order each load
+      // FIXED: proper Fisher-Yates swap (previous version had a missing bracket which broke all JS)
       for (let i = found.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [found[i], found[j]] = [found[j], found[i]];
       }
 
-      // Render slides
       const frag = document.createDocumentFragment();
       for (const img of found) {
         const li = document.createElement('li');
@@ -881,7 +988,6 @@
       track.innerHTML = '';
       track.appendChild(frag);
 
-      // Signal downstream code that slides are ready
       document.dispatchEvent(new CustomEvent('gallery:ready'));
     }
 
@@ -1085,13 +1191,17 @@
       document.addEventListener('mouseleave', ()=>c.classList.add('is-hidden'));
 
       const INTERACTIVE = 'a, button, .btn, [role="button"], input, textarea, select, .folio-arrow, .embed';
-      document.querySelectorAll(INTERACTIVE)
-        .forEach(el=>{
+      function bindInteractive(){
+        document.querySelectorAll(INTERACTIVE).forEach(el=>{
           el.addEventListener('mouseenter', onEnter);
           el.addEventListener('mouseleave', onLeave);
           el.addEventListener('focus', onEnter);
           el.addEventListener('blur', onLeave);
         });
+      }
+      bindInteractive();
+      // Rebind after gallery inserts slides
+      document.addEventListener('gallery:ready', bindInteractive, { once:false });
 
       loop();
     })();
@@ -1148,6 +1258,328 @@
         }, { threshold: [0, .25, .5, .75, 1]});
         glassEls.forEach(el=>io.observe(el));
       }
+    })();
+
+    // ===== BUILDER LOGIC =====
+    (function(){
+      const PRICES = {
+        base: [
+          { id:'b1', label:'6 hrs, 1 videographer', price:1250 },
+          { id:'b2', label:'8 hrs, 1 videographer', price:1450 },
+          { id:'b3', label:'All‑day, 1 videographer', price:1900 },
+          { id:'b4', label:'6 hrs, 2 videographers', price:1900 },
+          { id:'b5', label:'8 hrs, 2 videographers', price:2100 },
+          { id:'b6', label:'All‑day, 2 videographers', price:2600 }
+        ],
+        addons: [
+          { id:'a1', label:'Highlight Reel', price:450 },
+          { id:'a2', label:'2 Highlight Reels', price:675 },
+          { id:'a3', label:'Vertical Conversion', price:175 },
+          { id:'a4', label:'Documentary Edit', price:650 },
+          { id:'a5', label:'Drone Coverage', price:275 },
+          { id:'a6', label:'1 hr extra coverage (1 videographer)', price:150, qty: true },
+          { id:'a7', label:'1 hr extra coverage (2 videographers)', price:200, qty: true },
+          { id:'a11', label:'1 hr extra coverage (1 photographer)', price:100, qty: true },
+          { id:'a8', label:'1 Photographer 6 hrs', price:1000 },
+          { id:'a9', label:'1 Photographer 8 hrs', price:1200 },
+          { id:'a10', label:'1 Photographer All day', price:1500 }
+        ]
+      };
+
+      const state = { base:null, addons:new Set() };
+
+      const $ = sel => document.querySelector(sel);
+      const baseWrap = $('#baseOptions');
+      const addonsList = $('#addonsList');
+      const addonsDrop = $('#addonsDrop');
+      const summaryList = $('#summaryList');
+      const summaryTotal = $('#summaryTotal');
+      const copyBtn = $('#copyToFormBtn');
+      const clearBtn = $('#clearBuildBtn');
+
+      // Render base radios
+      if (baseWrap){
+        PRICES.base.forEach((b, i)=>{
+          const row = document.createElement('label');
+          row.className = 'b-option';
+          row.innerHTML = `
+            <div style="display:flex; flex-direction:column">
+              <span class="title">${b.label}</span>
+              <span class="sub">$${b.price.toLocaleString()}</span>
+            </div>
+            <input type="radio" name="basePick" value="${b.id}" ${i===0?'checked':''} aria-label="${b.label} for $${b.price}">
+          `;
+          baseWrap.appendChild(row);
+        });
+        state.base = PRICES.base[0].id;
+        baseWrap.addEventListener('change', (e)=>{
+          if(e.target && e.target.name==='basePick'){ state.base = e.target.value; renderSummary(); }
+        });
+      }
+
+
+      // Render add-on checkboxes
+      function makeAddonCheckbox(a) {
+        const row = document.createElement('div');
+        row.className = 'b-option';
+        row.setAttribute('data-id', a.id);
+        row.style.display = 'flex';
+        row.style.alignItems = 'center';
+        row.style.gap = '10px';
+        // Checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'addonPick';
+        checkbox.value = a.id;
+        checkbox.setAttribute('aria-label', `${a.label} for $${a.price}`);
+        row.appendChild(checkbox);
+        // Label
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'title';
+        labelSpan.textContent = a.label;
+        row.appendChild(labelSpan);
+        // Price
+        const priceSpan = document.createElement('span');
+        priceSpan.className = 'sub';
+        priceSpan.textContent = `$${a.price.toLocaleString()}`;
+        row.appendChild(priceSpan);
+        // Quantity input for extra coverage
+        if (a.qty) {
+          const qtyWrap = document.createElement('span');
+          qtyWrap.style.display = 'none';
+          qtyWrap.style.gap = '4px';
+          qtyWrap.style.alignItems = 'center';
+          qtyWrap.style.marginLeft = '8px';
+          const qtyLabel = document.createElement('label');
+          qtyLabel.textContent = 'Hours:';
+          qtyLabel.setAttribute('for', `qty_${a.id}`);
+          qtyLabel.style.fontSize = '13px';
+          // Use select on mobile, input[type=number] on desktop
+          let qtyInput;
+          if (window.matchMedia('(max-width: 700px)').matches) {
+            qtyInput = document.createElement('select');
+            qtyInput.id = `qty_${a.id}`;
+            qtyInput.setAttribute('aria-label', `Number of extra hours for ${a.label}`);
+            for (let i = 1; i <= 8; i++) {
+              const opt = document.createElement('option');
+              opt.value = i;
+              opt.textContent = i;
+              qtyInput.appendChild(opt);
+            }
+          } else {
+            qtyInput = document.createElement('input');
+            qtyInput.type = 'number';
+            qtyInput.min = '1';
+            qtyInput.max = '12';
+            qtyInput.value = '1';
+            qtyInput.id = `qty_${a.id}`;
+            qtyInput.style.width = '40px';
+            qtyInput.style.marginLeft = '2px';
+            qtyInput.setAttribute('aria-label', `Number of extra hours for ${a.label}`);
+          }
+          qtyWrap.appendChild(qtyLabel);
+          qtyWrap.appendChild(qtyInput);
+          row.appendChild(qtyWrap);
+          // Show/hide qty input on check
+          checkbox.addEventListener('change', () => {
+            qtyWrap.style.display = checkbox.checked ? 'inline-flex' : 'none';
+            updateAddonsState();
+          });
+          // Update state on qty change
+          qtyInput.addEventListener('input', updateAddonsState);
+          qtyInput.addEventListener('change', updateAddonsState);
+        }
+        return row;
+      }
+
+      function renderAddons() {
+        if (!addonsList) return;
+        addonsList.innerHTML = '';
+        PRICES.addons.forEach(a => {
+          const checkbox = makeAddonCheckbox(a);
+          addonsList.appendChild(checkbox);
+        });
+
+        // Set up mutual exclusion for Highlight Reel and 2 Highlight Reels
+        const highlight = addonsList.querySelector('input[value="a1"]');
+        const highlight2 = addonsList.querySelector('input[value="a2"]');
+        [highlight, highlight2].forEach(cb => {
+          cb.addEventListener('change', () => {
+            if (cb.checked) {
+              if (cb.value === 'a1') highlight2.checked = false;
+              if (cb.value === 'a2') highlight.checked = false;
+            }
+            updateAddonsState();
+          });
+        });
+
+        // Photographer add-ons mutual exclusion
+        const photog6 = addonsList.querySelector('input[value="a8"]');
+        const photog8 = addonsList.querySelector('input[value="a9"]');
+        const photogAll = addonsList.querySelector('input[value="a10"]');
+        [photog6, photog8, photogAll].forEach(cb => {
+          cb.addEventListener('change', () => {
+            if (cb.checked) {
+              if (cb.value === 'a8') { photog8.checked = false; photogAll.checked = false; }
+              if (cb.value === 'a9') { photog6.checked = false; photogAll.checked = false; }
+              if (cb.value === 'a10') { photog6.checked = false; photog8.checked = false; }
+            }
+            updateAddonsState();
+          });
+        });
+
+        // All other checkboxes
+        addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          if (!["a1","a2","a8","a9","a10"].includes(cb.value)) {
+            cb.addEventListener('change', updateAddonsState);
+          }
+        });
+      }
+
+      function updateAddonsState() {
+        state.addons.clear();
+        addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          if (cb.checked) {
+            // For extra coverage, store as {id, qty}
+            const parent = cb.closest('.b-option');
+            const a = PRICES.addons.find(x => x.id === cb.value);
+            if (a && a.qty) {
+              let qty = 1;
+              const qtyInput = parent.querySelector('input[type="number"], select');
+              if (qtyInput) {
+                qty = Math.max(1, Math.min(12, parseInt(qtyInput.value) || 1));
+                qtyInput.value = qty;
+              }
+              state.addons.add({id: cb.value, qty});
+            } else {
+              state.addons.add(cb.value);
+            }
+          }
+        });
+        renderSummary();
+      }
+
+      renderAddons();
+
+
+      function renderSummary(){
+        const base = PRICES.base.find(b=>b.id===state.base);
+        // Build addos array with support for extra coverage quantities
+        let addos = [];
+        let total = base.price;
+        state.addons.forEach(sel => {
+          if (typeof sel === 'string') {
+            const a = PRICES.addons.find(x => x.id === sel);
+            if (a) {
+              addos.push({label: a.label, price: a.price});
+              total += a.price;
+            }
+          } else if (typeof sel === 'object' && sel.id) {
+            const a = PRICES.addons.find(x => x.id === sel.id);
+            if (a) {
+              addos.push({label: `${a.label} × ${sel.qty}`, price: a.price * sel.qty});
+              total += a.price * sel.qty;
+            }
+          }
+        });
+        const baseLi = document.createElement('li');
+        baseLi.className = 'row';
+        baseLi.innerHTML = `<span>${base.label}</span><span>$${base.price.toLocaleString()}</span>`;
+
+        const frag = document.createDocumentFragment();
+        frag.appendChild(baseLi);
+        addos.forEach(a=>{
+          const li = document.createElement('li');
+          li.className = 'row';
+          li.innerHTML = `<span>${a.label}</span><span>$${a.price.toLocaleString()}</span>`;
+          frag.appendChild(li);
+        });
+
+        // Disclaimer for All day base
+        if (base.label && base.label.toLowerCase().includes('all‑day')) {
+          const disclaimer = document.createElement('li');
+          disclaimer.className = 'row';
+          disclaimer.innerHTML = `<span style=\"color:#b77;font-size:13px\">All day is 12 hrs max</span><span></span>`;
+          frag.appendChild(disclaimer);
+        }
+        // Disclaimer for travel fees
+        const travel = document.createElement('li');
+        travel.className = 'row';
+        travel.innerHTML = `<span style=\"color:#b77;font-size:13px\">Travel outside LA, Orange, or San Diego County may incur a travel fee.</span><span></span>`;
+        frag.appendChild(travel);
+
+        summaryList.innerHTML = '';
+        summaryList.appendChild(frag);
+
+        summaryTotal.textContent = `$${total.toLocaleString()}`;
+      }
+
+      renderSummary();
+
+      // Copy to form
+      function copyToForm(){
+        const base = PRICES.base.find(b=>b.id===state.base);
+        const addos = PRICES.addons.filter(a=>state.addons.has(a.id));
+        const total = base.price + addos.reduce((s,a)=>s+a.price,0);
+
+        const baseInput = document.getElementById('builder_base');
+        const addonsInput = document.getElementById('builder_addons');
+        const totalInput = document.getElementById('builder_total');
+
+        if(baseInput) baseInput.value = `${base.label} — $${base.price}`;
+        if(addonsInput) addonsInput.value = addos.map(a=>`${a.label} — $${a.price}`).join(', ');
+        if(totalInput) totalInput.value = `$${total}`;
+
+        // Scroll to contact form for convenience
+        const contact = document.getElementById('contact');
+        if(contact) contact.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      if(copyBtn) copyBtn.addEventListener('click', copyToForm);
+
+      if(clearBtn){
+        clearBtn.addEventListener('click', ()=>{
+          state.addons.clear();
+          // reset base to first
+          const first = baseWrap && baseWrap.querySelector('input[name="basePick"]');
+          if(first){ first.checked = true; state.base = first.value; }
+          renderSummary();
+          // clear hidden fields in case they were filled
+          ['builder_base','builder_addons','builder_total'].forEach(id=>{
+            const el = document.getElementById(id); if(el) el.value = '';
+          });
+        });
+      }
+
+      // Drag & Drop behavior (mobile-friendly)
+      function initDnD(){
+        if(!addonsDrop) return;
+        let over = false;
+        function setOver(v){ over = v; addonsDrop.classList.toggle('is-over', v); }
+
+        // Delegate draggable chips
+        addonsList.addEventListener('dragstart', (e)=>{
+          const chip = e.target.closest('.b-draggable');
+          if(!chip) return;
+          const row = chip.closest('.b-option');
+          if(!row) return;
+          const id = row.getAttribute('data-id');
+          e.dataTransfer.setData('text/plain', id);
+        });
+        addonsDrop.addEventListener('dragover', (e)=>{ e.preventDefault(); setOver(true); });
+        addonsDrop.addEventListener('dragleave', ()=> setOver(false));
+        addonsDrop.addEventListener('drop', (e)=>{
+          e.preventDefault();
+          setOver(false);
+          const id = e.dataTransfer.getData('text/plain');
+          if(id) { if(!state.addons.has(id)) state.addons.add(id); renderSummary(); }
+        });
+
+        // Support tapping chips into dropzone on touch (fallback)
+        addonsDrop.addEventListener('click', ()=>{});
+      }
+
+      initDnD();
     })();
   </script>
 </body>

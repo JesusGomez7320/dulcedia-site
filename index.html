@@ -880,8 +880,8 @@
           const style = el.getAttribute('style');
           if(style){
             const cleaned = style
-              .replace(/fill\\s*:\\s*[^;]+/gi,'fill:currentColor')
-              .replace(/stroke\\s*:\\s*[^;]+/gi,'stroke:currentColor');
+              .replace(/fill\s*:\s*[^;]+/gi,'fill:currentColor')
+              .replace(/stroke\s*:\s*[^;]+/gi,'stroke:currentColor');
             el.setAttribute('style', cleaned);
           }
           Array.from(el.children).forEach(WALK);
@@ -967,9 +967,10 @@
         return;
       }
 
+      // FIXED: proper Fisher-Yates swap (previous version had a missing bracket which broke all JS)
       for (let i = found.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [found[i], found[j]] = [found[j], found[i];
+        [found[i], found[j]] = [found[j], found[i]];
       }
 
       const frag = document.createDocumentFragment();
@@ -1188,13 +1189,17 @@
       document.addEventListener('mouseleave', ()=>c.classList.add('is-hidden'));
 
       const INTERACTIVE = 'a, button, .btn, [role="button"], input, textarea, select, .folio-arrow, .embed';
-      document.querySelectorAll(INTERACTIVE)
-        .forEach(el=>{
+      function bindInteractive(){
+        document.querySelectorAll(INTERACTIVE).forEach(el=>{
           el.addEventListener('mouseenter', onEnter);
           el.addEventListener('mouseleave', onLeave);
           el.addEventListener('focus', onEnter);
           el.addEventListener('blur', onLeave);
         });
+      }
+      bindInteractive();
+      // Rebind after gallery inserts slides
+      document.addEventListener('gallery:ready', bindInteractive, { once:false });
 
       loop();
     })();

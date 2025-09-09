@@ -1348,15 +1348,29 @@
           qtyLabel.textContent = 'Hours:';
           qtyLabel.setAttribute('for', `qty_${a.id}`);
           qtyLabel.style.fontSize = '13px';
-          const qtyInput = document.createElement('input');
-          qtyInput.type = 'number';
-          qtyInput.min = '1';
-          qtyInput.max = '12';
-          qtyInput.value = '1';
-          qtyInput.id = `qty_${a.id}`;
-          qtyInput.style.width = '40px';
-          qtyInput.style.marginLeft = '2px';
-          qtyInput.setAttribute('aria-label', `Number of extra hours for ${a.label}`);
+          // Use select on mobile, input[type=number] on desktop
+          let qtyInput;
+          if (window.matchMedia('(max-width: 700px)').matches) {
+            qtyInput = document.createElement('select');
+            qtyInput.id = `qty_${a.id}`;
+            qtyInput.setAttribute('aria-label', `Number of extra hours for ${a.label}`);
+            for (let i = 1; i <= 8; i++) {
+              const opt = document.createElement('option');
+              opt.value = i;
+              opt.textContent = i;
+              qtyInput.appendChild(opt);
+            }
+          } else {
+            qtyInput = document.createElement('input');
+            qtyInput.type = 'number';
+            qtyInput.min = '1';
+            qtyInput.max = '12';
+            qtyInput.value = '1';
+            qtyInput.id = `qty_${a.id}`;
+            qtyInput.style.width = '40px';
+            qtyInput.style.marginLeft = '2px';
+            qtyInput.setAttribute('aria-label', `Number of extra hours for ${a.label}`);
+          }
           qtyWrap.appendChild(qtyLabel);
           qtyWrap.appendChild(qtyInput);
           row.appendChild(qtyWrap);
@@ -1367,6 +1381,7 @@
           });
           // Update state on qty change
           qtyInput.addEventListener('input', updateAddonsState);
+          qtyInput.addEventListener('change', updateAddonsState);
         }
         return row;
       }
@@ -1423,8 +1438,8 @@
             const parent = cb.closest('.b-option');
             const a = PRICES.addons.find(x => x.id === cb.value);
             if (a && a.qty) {
-              const qtyInput = parent.querySelector('input[type="number"]');
               let qty = 1;
+              const qtyInput = parent.querySelector('input[type="number"], select');
               if (qtyInput) {
                 qty = Math.max(1, Math.min(12, parseInt(qtyInput.value) || 1));
                 qtyInput.value = qty;

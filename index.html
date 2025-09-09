@@ -359,42 +359,59 @@
     }
     .packages-extra p{ margin:0 0 12px; }
 
-    /* ===== Builder (NEW) ===== */
+    /* ===== Builder (scoped styles) ===== */
+    #builder{ background:#fff; }
     #builder .builder-shell{
-      background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
-      padding: clamp(18px,2.4vw,26px);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:#fff;
+      box-shadow:var(--shadow);
+      padding: clamp(18px, 3vw, 28px);
     }
-    #builder .grid-2{
-      display:grid;grid-template-columns:1.1fr 1fr;gap:22px;align-items:start;
+    .builder-grid{
+      display:grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap:24px;
+      align-items:start;
     }
-    @media (max-width:900px){ #builder .grid-2{ grid-template-columns:1fr; } }
+    @media (max-width:980px){ .builder-grid{ grid-template-columns:1fr } }
+    .b-card{ border:1px solid var(--line); border-radius:12px; background:#faf9f6; padding:16px; }
+    .b-card h3{ margin:0 0 8px; font-size:14px; letter-spacing:.18em; text-transform:uppercase; }
+    .b-options{ display:grid; gap:10px; }
+    .b-option{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:10px 12px; background:#fff; border:1px solid var(--line);
+      border-radius:10px;
+    }
+    .b-option input{ accent-color:#111; }
+    .b-option .title{ font-weight:600; }
+    .b-option .sub{ margin:0; }
+    .b-summary{
+      position:sticky; top:90px;
+      border:1px solid var(--line); border-radius:12px; background:#fff; padding:16px;
+    }
+    .b-summary h3{ margin:0 0 12px; font-size:14px; letter-spacing:.18em; text-transform:uppercase; }
+    .b-summary ul{ list-style:none; padding:0; margin:0 0 10px; display:grid; gap:8px; }
+    .b-summary .row{ display:flex; justify-content:space-between; gap:8px; }
+    .b-total{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-top:10px; margin-top:10px; font-weight:800; }
+    .b-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+    .b-chip{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 10px;
+      border:1px dashed var(--line); border-radius:999px; background:#fff; user-select:none;
+    }
 
-    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:#fff}
-    .pill[data-selected="true"]{border-color:#0E0F12;background:#0E0F12;color:#fff}
-    .options{display:grid;gap:10px}
-    .group{margin:8px 0 16px}
-    .group h4{margin:0 0 8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
-    .chips{display:flex;flex-wrap:wrap;gap:10px}
-    .muted{color:var(--muted);font-size:14px}
-
-    .cart{
-      border:1px dashed var(--line);border-radius:12px;padding:12px;min-height:120px;background:#faf9f6
+    /* Drag & Drop (mobile-first) */
+    .b-dragzone{
+      border:1px dashed var(--line);
+      border-radius:12px; min-height:72px; padding:10px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; background:#fff;
     }
-    .cart.empty::before{
-      content:"Drag add-ons here (mobile) or click to add (desktop)";
-      color:var(--muted);font-size:14px
+    .b-dragzone.is-over{ background:#f3f1ec; border-color:#d7d4cc; }
+    .b-draggable{ touch-action:none; }
+    @media (hover:hover){
+      .b-draggable{ cursor:grab; }
+      .b-draggable:active{ cursor:grabbing; }
     }
-    .cart-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-    .cart-item{
-      display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px
-    }
-    .cart-item button{border:1px solid var(--line);background:transparent;border-radius:8px;padding:6px 8px}
-    .sum{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-    .sum strong{font-size:18px}
-    .dragging{opacity:.6;transform:scale(.98)}
-    .dropping{outline:2px dashed #bbb;outline-offset:3px}
-
-    .builder-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
   </style>
 </head>
 <body class="no-js">
@@ -423,7 +440,6 @@
       <a href="#experience">Experience</a>
       <a href="#process">Process</a>
       <a href="#packages">Packages</a>
-      <a href="#builder">Build your Dulce Día</a>
       <a href="#proposals">Proposals &amp; Engagements</a>
       <a href="#contact">Inquire</a>
     </nav>
@@ -607,64 +623,50 @@
       </div>
     </section>
 
-    <!-- ===== NEW: BUILD YOUR DULCE DÍA ===== -->
-    <section id="builder" class="section" aria-label="Build your Dulce Día">
+    <!-- ===== BUILD YOUR DULCE DÍA (interactive) ===== -->
+    <section id="builder" class="section" aria-label="Build Your Dulce Día">
       <div class="wrap">
-        <h2 class="serif reveal">Build your Dulce Día</h2>
+        <h2 class="serif reveal">Build Your Dulce Día</h2>
         <div class="rule reveal" aria-hidden="true"></div>
 
         <div class="builder-shell reveal">
-          <div class="grid-2">
-            <!-- Left: Options -->
-            <div>
-              <div class="group">
-                <h4 class="serif">Choose a Base</h4>
-                <div class="options" id="baseOptions" role="group" aria-label="Base options">
-                  <!-- Bases from your earlier spec -->
-                  <button class="pill" data-type="base" data-id="base-6-1" data-label="6 hrs, 1 videographer" data-price="1250">$1,250 • 6 hrs / 1 vid</button>
-                  <button class="pill" data-type="base" data-id="base-8-1" data-label="8 hrs, 1 videographer" data-price="1450">$1,450 • 8 hrs / 1 vid</button>
-                  <button class="pill" data-type="base" data-id="base-all-1" data-label="All-day, 1 videographer" data-price="1900">$1,900 • all-day / 1 vid</button>
-                  <button class="pill" data-type="base" data-id="base-6-2" data-label="6 hrs, 2 videographers" data-price="1900">$1,900 • 6 hrs / 2 vid</button>
-                  <button class="pill" data-type="base" data-id="base-8-2" data-label="8 hrs, 2 videographers" data-price="2100">$2,100 • 8 hrs / 2 vid</button>
-                  <button class="pill" data-type="base" data-id="base-all-2" data-label="All-day, 2 videographers" data-price="2600">$2,600 • all-day / 2 vid</button>
+          <div class="builder-grid">
+            <!-- PICKERS -->
+            <div class="b-pickers">
+              <div class="b-card" aria-labelledby="baseTitle">
+                <h3 id="baseTitle" class="serif">Choose Your Base</h3>
+                <div class="b-options" id="baseOptions" role="radiogroup" aria-label="Base options">
+                  <!-- JS injects base options -->
                 </div>
-                <p class="muted">Pick one base to start. You can always change it.</p>
               </div>
 
-              <div class="group">
-                <h4 class="serif">Add-ons</h4>
-                <div class="chips" id="addonPool" aria-label="Available add-ons">
-                  <!-- Balanced Add-ons from your spec -->
-                  <div class="pill" draggable="true" data-type="addon" data-id="hl1" data-label="Highlight Reel" data-price="450">Highlight Reel — $450</div>
-                  <div class="pill" draggable="true" data-type="addon" data-id="hl2" data-label="2 Highlight Reels" data-price="675">2 Highlight Reels — $675</div>
-                  <div class="pill" draggable="true" data-type="addon" data-id="vertical" data-label="Vertical Conversion" data-price="175">Vertical Conversion — $175</div>
-                  <div class="pill" draggable="true" data-type="addon" data-id="doc" data-label="Documentary Edit" data-price="650">Documentary Edit — $650</div>
-                  <div class="pill" draggable="true" data-type="addon" data-id="drone" data-label="Drone Coverage" data-price="275">Drone Coverage — $275</div>
-                  <div class="pill" draggable="true" data-type="addon" data-id="hr1" data-label="1 hr add-on (1 videographer)" data-price="150">+1 hr (1 vid) — $150</div>
-                  <div class="pill" draggable="true" data-type="addon" data-id="hr2" data-label="1 hr add-on (2 videographers)" data-price="200">+1 hr (2 vid) — $200</div>
+              <div class="b-card" style="margin-top:16px" aria-labelledby="addonsTitle">
+                <h3 id="addonsTitle" class="serif">Add‑Ons</h3>
+                <p class="sub" style="margin:0 0 8px">Tap to toggle on desktop. On mobile, drag chips into the dropzone.</p>
+                <div id="addonsList" class="b-options" aria-label="Add-ons list">
+                  <!-- JS injects addon chips -->
                 </div>
-                <p class="muted">On mobile, drag add-ons into your cart. On desktop, click to toggle them.</p>
+                <!-- Mobile drag target -->
+                <div class="b-dragzone" id="addonsDrop" aria-label="Your selected add-ons (drag here on mobile)" style="margin-top:10px">
+                  <span class="sub">Drag add‑on chips here on mobile</span>
+                </div>
               </div>
             </div>
 
-            <!-- Right: Cart / Summary -->
-            <div>
-              <div class="group">
-                <h4 class="serif">Your Selections</h4>
-                <div id="cart" class="cart empty" aria-label="Your selected items" tabindex="0">
-                  <ul id="cartList" class="cart-list" aria-live="polite" aria-relevant="additions removals"></ul>
-                </div>
-                <div class="sum">
-                  <span>Total</span>
-                  <strong id="sum">$0</strong>
-                </div>
-                <div class="builder-cta">
-                  <button id="clearBuilder" class="btn" type="button">Clear</button>
-                  <a class="btn" href="#contact">Add to Inquiry</a>
-                </div>
-                <p class="muted">When you submit the form below, your selections and total are included automatically.</p>
+            <!-- SUMMARY -->
+            <aside class="b-summary" aria-live="polite">
+              <h3 class="serif">Your Build</h3>
+              <ul id="summaryList"></ul>
+              <div class="b-total">
+                <span>Total</span>
+                <span id="summaryTotal">$0</span>
               </div>
-            </div>
+              <div class="b-actions">
+                <button class="btn" id="copyToFormBtn" type="button">Send with Inquiry</button>
+                <button class="btn" id="clearBuildBtn" type="button" aria-label="Clear selections">Clear</button>
+              </div>
+              <p class="sub" style="margin:6px 0 0">We’ll attach this to your inquiry form automatically.</p>
+            </aside>
           </div>
         </div>
       </div>
@@ -804,11 +806,10 @@
               <input name="date" aria-label="Date" placeholder="Wedding Date" type="text" />
               <textarea name="message" aria-label="Message" placeholder="Tell us about your day, priorities, and any questions" rows="5"></textarea>
 
-              <!-- NEW: hidden fields to receive builder data -->
+              <!-- Builder-hidden fields (auto filled) -->
               <input type="hidden" name="builder_base" id="builder_base" />
               <input type="hidden" name="builder_addons" id="builder_addons" />
               <input type="hidden" name="builder_total" id="builder_total" />
-              <input type="hidden" name="builder_json" id="builder_json" />
 
               <button class="btn" type="submit">Send</button>
             </form>
@@ -879,8 +880,8 @@
           const style = el.getAttribute('style');
           if(style){
             const cleaned = style
-              .replace(/fill\s*:\s*[^;]+/gi,'fill:currentColor')
-              .replace(/stroke\s*:\s*[^;]+/gi,'stroke:currentColor');
+              .replace(/fill\\s*:\\s*[^;]+/gi,'fill:currentColor')
+              .replace(/stroke\\s*:\\s*[^;]+/gi,'stroke:currentColor');
             el.setAttribute('style', cleaned);
           }
           Array.from(el.children).forEach(WALK);
@@ -968,7 +969,7 @@
 
       for (let i = found.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [found[i], found[j]] = [found[j], found[i]];
+        [found[i], found[j]] = [found[j], found[i];
       }
 
       const frag = document.createDocumentFragment();
@@ -1252,162 +1253,178 @@
       }
     })();
 
-    // ===== NEW: Builder logic (click + drag/drop on mobile) =====
+    // ===== BUILDER LOGIC =====
     (function(){
-      const baseGroup = document.getElementById('baseOptions');
-      const addonPool = document.getElementById('addonPool');
-      const cart = document.getElementById('cart');
-      const cartList = document.getElementById('cartList');
-      const sumEl = document.getElementById('sum');
-      const clearBtn = document.getElementById('clearBuilder');
+      const PRICES = {
+        base: [
+          { id:'b1', label:'6 hrs, 1 videographer', price:1250 },
+          { id:'b2', label:'8 hrs, 1 videographer', price:1450 },
+          { id:'b3', label:'All‑day, 1 videographer', price:1900 },
+          { id:'b4', label:'6 hrs, 2 videographers', price:1900 },
+          { id:'b5', label:'8 hrs, 2 videographers', price:2100 },
+          { id:'b6', label:'All‑day, 2 videographers', price:2600 }
+        ],
+        addons: [
+          { id:'a1', label:'Highlight Reel', price:450 },
+          { id:'a2', label:'2 Highlight Reels', price:675 },
+          { id:'a3', label:'Vertical Conversion', price:175 },
+          { id:'a4', label:'Documentary Edit', price:650 },
+          { id:'a5', label:'Drone Coverage', price:275 },
+          { id:'a6', label:'1 hr coverage (1 videographer)', price:150 },
+          { id:'a7', label:'1 hr coverage (2 videographers)', price:200 }
+        ]
+      };
 
-      const form = document.querySelector('form[name="inquire"]');
-      const fBase = document.getElementById('builder_base');
-      const fAdds = document.getElementById('builder_addons');
-      const fTotal = document.getElementById('builder_total');
-      const fJson = document.getElementById('builder_json');
+      const state = { base:null, addons:new Set() };
 
-      let base = null;               // { id, label, price }
-      const addons = new Map();      // id -> { id,label,price }
+      const $ = sel => document.querySelector(sel);
+      const baseWrap = $('#baseOptions');
+      const addonsList = $('#addonsList');
+      const addonsDrop = $('#addonsDrop');
+      const summaryList = $('#summaryList');
+      const summaryTotal = $('#summaryTotal');
+      const copyBtn = $('#copyToFormBtn');
+      const clearBtn = $('#clearBuildBtn');
 
-      function money(n){ return `$${n.toLocaleString()}`; }
+      // Render base radios
+      if (baseWrap){
+        PRICES.base.forEach((b, i)=>{
+          const row = document.createElement('label');
+          row.className = 'b-option';
+          row.innerHTML = `
+            <div style="display:flex; flex-direction:column">
+              <span class="title">${b.label}</span>
+              <span class="sub">$${b.price.toLocaleString()}</span>
+            </div>
+            <input type="radio" name="basePick" value="${b.id}" ${i===0?'checked':''} aria-label="${b.label} for $${b.price}">
+          `;
+          baseWrap.appendChild(row);
+        });
+        state.base = PRICES.base[0].id;
+        baseWrap.addEventListener('change', (e)=>{
+          if(e.target && e.target.name==='basePick'){ state.base = e.target.value; renderSummary(); }
+        });
+      }
 
-      function updateUI(){
-        // Cart render
-        cartList.innerHTML = '';
-        if(!base && addons.size===0){ cart.classList.add('empty'); }
-        else { cart.classList.remove('empty'); }
+      // Render addon chips (toggle on click)
+      function makeAddonRow(a){
+        const row = document.createElement('div');
+        row.className = 'b-option';
+        row.setAttribute('data-id', a.id);
+        row.innerHTML = `
+          <div style="display:flex; flex-direction:column">
+            <span class="title">${a.label}</span>
+            <span class="sub">$${a.price.toLocaleString()}</span>
+          </div>
+          <span class="b-chip b-draggable" draggable="true" aria-label="${a.label}">$${a.price}</span>
+        `;
+        // Toggle selection on click (desktop)
+        row.addEventListener('click', (ev)=>{
+          // Ignore clicks starting on the chip (handled by DnD)
+          if(ev.target && ev.target.classList && ev.target.classList.contains('b-chip')) return;
+          toggleAddon(a.id);
+        });
+        return row;
+      }
 
-        if(base){
+      if (addonsList){
+        PRICES.addons.forEach(a=> addonsList.appendChild(makeAddonRow(a)));
+      }
+
+      function toggleAddon(id){
+        if(state.addons.has(id)) state.addons.delete(id);
+        else state.addons.add(id);
+        renderSummary();
+      }
+
+      function renderSummary(){
+        const base = PRICES.base.find(b=>b.id===state.base);
+        const addos = PRICES.addons.filter(a=>state.addons.has(a.id));
+        const baseLi = document.createElement('li');
+        baseLi.className = 'row';
+        baseLi.innerHTML = `<span>${base.label}</span><span>$${base.price.toLocaleString()}</span>`;
+
+        const frag = document.createDocumentFragment();
+        frag.appendChild(baseLi);
+        addos.forEach(a=>{
           const li = document.createElement('li');
-          li.className = 'cart-item';
-          li.innerHTML = `<span>${base.label}</span><strong>${money(base.price)}</strong>`;
-          cartList.appendChild(li);
-        }
+          li.className = 'row';
+          li.innerHTML = `<span>${a.label}</span><span>$${a.price.toLocaleString()}</span>`;
+          frag.appendChild(li);
+        });
+        summaryList.innerHTML = '';
+        summaryList.appendChild(frag);
 
-        addons.forEach(item=>{
-          const li = document.createElement('li');
-          li.className = 'cart-item';
-          li.innerHTML = `<span>${item.label}</span>
-                          <div style="display:flex;gap:8px;align-items:center">
-                            <strong>${money(item.price)}</strong>
-                            <button type="button" aria-label="Remove">Remove</button>
-                          </div>`;
-          li.querySelector('button').addEventListener('click', ()=>{
-            addons.delete(item.id);
-            // also deselect chip in pool
-            const chip = addonPool.querySelector(`.pill[data-id="${item.id}"]`);
-            if(chip) chip.dataset.selected = "false";
-            updateUI();
+        const total = base.price + addos.reduce((s,a)=>s+a.price,0);
+        summaryTotal.textContent = `$${total.toLocaleString()}`;
+      }
+
+      renderSummary();
+
+      // Copy to form
+      function copyToForm(){
+        const base = PRICES.base.find(b=>b.id===state.base);
+        const addos = PRICES.addons.filter(a=>state.addons.has(a.id));
+        const total = base.price + addos.reduce((s,a)=>s+a.price,0);
+
+        const baseInput = document.getElementById('builder_base');
+        const addonsInput = document.getElementById('builder_addons');
+        const totalInput = document.getElementById('builder_total');
+
+        if(baseInput) baseInput.value = `${base.label} — $${base.price}`;
+        if(addonsInput) addonsInput.value = addos.map(a=>`${a.label} — $${a.price}`).join(', ');
+        if(totalInput) totalInput.value = `$${total}`;
+
+        // Scroll to contact form for convenience
+        const contact = document.getElementById('contact');
+        if(contact) contact.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      if(copyBtn) copyBtn.addEventListener('click', copyToForm);
+
+      if(clearBtn){
+        clearBtn.addEventListener('click', ()=>{
+          state.addons.clear();
+          // reset base to first
+          const first = baseWrap && baseWrap.querySelector('input[name="basePick"]');
+          if(first){ first.checked = true; state.base = first.value; }
+          renderSummary();
+          // clear hidden fields in case they were filled
+          ['builder_base','builder_addons','builder_total'].forEach(id=>{
+            const el = document.getElementById(id); if(el) el.value = '';
           });
-          cartList.appendChild(li);
-        });
-
-        // Total
-        let total = (base ? base.price : 0);
-        addons.forEach(a=> total += a.price);
-        sumEl.textContent = money(total);
-
-        // Hidden fields for Netlify
-        fBase.value = base ? `${base.label} — ${money(base.price)}` : '';
-        fAdds.value = addons.size ? Array.from(addons.values()).map(a=>`${a.label} — ${money(a.price)}`).join(', ') : '';
-        fTotal.value = total;
-        fJson.value = JSON.stringify({
-          base, addons: Array.from(addons.values()), total
         });
       }
 
-      function parseNode(el){
-        return {
-          id: el.dataset.id,
-          type: el.dataset.type,
-          label: el.dataset.label,
-          price: Number(el.dataset.price||0)
-        };
-      }
+      // Drag & Drop behavior (mobile-friendly)
+      function initDnD(){
+        if(!addonsDrop) return;
+        let over = false;
+        function setOver(v){ over = v; addonsDrop.classList.toggle('is-over', v); }
 
-      // Base selection (single-choice)
-      baseGroup.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.pill[data-type="base"]');
-        if(!btn) return;
-        baseGroup.querySelectorAll('.pill').forEach(p=>p.dataset.selected="false");
-        btn.dataset.selected = "true";
-        base = parseNode(btn);
-        updateUI();
-      });
-
-      // Desktop add-on toggle by click
-      addonPool.addEventListener('click', (e)=>{
-        const chip = e.target.closest('.pill[data-type="addon"]');
-        if(!chip) return;
-        const item = parseNode(chip);
-        const selected = chip.dataset.selected === "true";
-        if(selected){
-          chip.dataset.selected = "false";
-          addons.delete(item.id);
-        }else{
-          chip.dataset.selected = "true";
-          addons.set(item.id, item);
-        }
-        updateUI();
-      });
-
-      // Drag & drop for mobile (pointer-friendly)
-      let draggingEl = null;
-      addonPool.querySelectorAll('.pill[data-type="addon"]').forEach(chip=>{
-        chip.addEventListener('dragstart', (e)=>{
-          draggingEl = chip; chip.classList.add('dragging');
-          e.dataTransfer.effectAllowed = 'copy';
-          e.dataTransfer.setData('text/plain', chip.dataset.id);
+        // Delegate draggable chips
+        addonsList.addEventListener('dragstart', (e)=>{
+          const chip = e.target.closest('.b-draggable');
+          if(!chip) return;
+          const row = chip.closest('.b-option');
+          if(!row) return;
+          const id = row.getAttribute('data-id');
+          e.dataTransfer.setData('text/plain', id);
         });
-        chip.addEventListener('dragend', ()=>{
-          chip.classList.remove('dragging'); draggingEl = null;
-        });
-      });
-
-      ['dragenter','dragover'].forEach(ev=>{
-        cart.addEventListener(ev, (e)=>{
+        addonsDrop.addEventListener('dragover', (e)=>{ e.preventDefault(); setOver(true); });
+        addonsDrop.addEventListener('dragleave', ()=> setOver(false));
+        addonsDrop.addEventListener('drop', (e)=>{
           e.preventDefault();
-          cart.classList.add('dropping');
-          e.dataTransfer.dropEffect = 'copy';
+          setOver(false);
+          const id = e.dataTransfer.getData('text/plain');
+          if(id) { if(!state.addons.has(id)) state.addons.add(id); renderSummary(); }
         });
-      });
-      ['dragleave','drop'].forEach(ev=>{
-        cart.addEventListener(ev, (e)=>{
-          e.preventDefault();
-          cart.classList.remove('dropping');
-          if(ev === 'drop'){
-            const id = e.dataTransfer.getData('text/plain');
-            const chip = addonPool.querySelector(`.pill[data-id="${id}"]`);
-            if(chip){
-              const item = parseNode(chip);
-              chip.dataset.selected = "true";
-              addons.set(item.id, item);
-              updateUI();
-            }
-          }
-        });
-      });
 
-      // Clear
-      clearBtn.addEventListener('click', ()=>{
-        base = null;
-        addons.clear();
-        baseGroup.querySelectorAll('.pill').forEach(p=>p.dataset.selected="false");
-        addonPool.querySelectorAll('.pill').forEach(p=>p.dataset.selected="false");
-        updateUI();
-      });
-
-      // Attach to form submit (already kept in hidden fields by updateUI)
-      if(form){
-        form.addEventListener('submit', ()=>{
-          // ensure fields are up to date at submit time
-          updateUI();
-        });
+        // Support tapping chips into dropzone on touch (fallback)
+        addonsDrop.addEventListener('click', ()=>{});
       }
 
-      // Init
-      updateUI();
+      initDnD();
     })();
   </script>
 </body>

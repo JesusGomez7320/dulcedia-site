@@ -1271,8 +1271,9 @@
           { id:'a3', label:'Vertical Conversion', price:175 },
           { id:'a4', label:'Documentary Edit', price:650 },
           { id:'a5', label:'Drone Coverage', price:275 },
-          { id:'a6', label:'1 hr coverage (1 videographer)', price:150 },
-          { id:'a7', label:'1 hr coverage (2 videographers)', price:200 },
+          { id:'a6', label:'1 hr extra coverage (1 videographer)', price:150, qty: true },
+          { id:'a7', label:'1 hr extra coverage (2 videographers)', price:200, qty: true },
+          { id:'a11', label:'1 hr extra coverage (1 photographer)', price:100, qty: true },
           { id:'a8', label:'1 Photographer 6 hrs', price:1000 },
           { id:'a9', label:'1 Photographer 8 hrs', price:1200 },
           { id:'a10', label:'1 Photographer All day', price:1500 }
@@ -1313,17 +1314,60 @@
 
       // Render add-on checkboxes
       function makeAddonCheckbox(a) {
-        const row = document.createElement('label');
+        const row = document.createElement('div');
         row.className = 'b-option';
         row.setAttribute('data-id', a.id);
         row.style.display = 'flex';
         row.style.alignItems = 'center';
         row.style.gap = '10px';
-        row.innerHTML = `
-          <input type="checkbox" name="addonPick" value="${a.id}" aria-label="${a.label} for $${a.price}">
-          <span class="title">${a.label}</span>
-          <span class="sub">$${a.price.toLocaleString()}</span>
-        `;
+        // Checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'addonPick';
+        checkbox.value = a.id;
+        checkbox.setAttribute('aria-label', `${a.label} for $${a.price}`);
+        row.appendChild(checkbox);
+        // Label
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'title';
+        labelSpan.textContent = a.label;
+        row.appendChild(labelSpan);
+        // Price
+        const priceSpan = document.createElement('span');
+        priceSpan.className = 'sub';
+        priceSpan.textContent = `$${a.price.toLocaleString()}`;
+        row.appendChild(priceSpan);
+        // Quantity input for extra coverage
+        if (a.qty) {
+          const qtyWrap = document.createElement('span');
+          qtyWrap.style.display = 'none';
+          qtyWrap.style.gap = '4px';
+          qtyWrap.style.alignItems = 'center';
+          qtyWrap.style.marginLeft = '8px';
+          const qtyLabel = document.createElement('label');
+          qtyLabel.textContent = 'Hours:';
+          qtyLabel.setAttribute('for', `qty_${a.id}`);
+          qtyLabel.style.fontSize = '13px';
+          const qtyInput = document.createElement('input');
+          qtyInput.type = 'number';
+          qtyInput.min = '1';
+          qtyInput.max = '12';
+          qtyInput.value = '1';
+          qtyInput.id = `qty_${a.id}`;
+          qtyInput.style.width = '40px';
+          qtyInput.style.marginLeft = '2px';
+          qtyInput.setAttribute('aria-label', `Number of extra hours for ${a.label}`);
+          qtyWrap.appendChild(qtyLabel);
+          qtyWrap.appendChild(qtyInput);
+          row.appendChild(qtyWrap);
+          // Show/hide qty input on check
+          checkbox.addEventListener('change', () => {
+            qtyWrap.style.display = checkbox.checked ? 'inline-flex' : 'none';
+            updateAddonsState();
+          });
+          // Update state on qty change
+          qtyInput.addEventListener('input', updateAddonsState);
+        }
         return row;
       }
 
@@ -1373,8 +1417,23 @@
 
       function updateAddonsState() {
         state.addons.clear();
-        addonsList.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
-          state.addons.add(cb.value);
+        addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          if (cb.checked) {
+            // For extra coverage, store as {id, qty}
+            const parent = cb.closest('.b-option');
+            const a = PRICES.addons.find(x => x.id === cb.value);
+            if (a && a.qty) {
+              const qtyInput = parent.querySelector('input[type="number"]');
+              let qty = 1;
+              if (qtyInput) {
+                qty = Math.max(1, Math.min(12, parseInt(qtyInput.value) || 1));
+                qtyInput.value = qty;
+              }
+              state.addons.add({id: cb.value, qty});
+            } else {
+              state.addons.add(cb.value);
+            }
+          }
         });
         renderSummary();
       }
@@ -1384,7 +1443,24 @@
 
       function renderSummary(){
         const base = PRICES.base.find(b=>b.id===state.base);
-        const addos = PRICES.addons.filter(a=>state.addons.has(a.id));
+        // Build addos array with support for extra coverage quantities
+        let addos = [];
+        let total = base.price;
+        state.addons.forEach(sel => {
+          if (typeof sel === 'string') {
+            const a = PRICES.addons.find(x => x.id === sel);
+            if (a) {
+              addos.push({label: a.label, price: a.price});
+              total += a.price;
+            }
+          } else if (typeof sel === 'object' && sel.id) {
+            const a = PRICES.addons.find(x => x.id === sel.id);
+            if (a) {
+              addos.push({label: `${a.label} × ${sel.qty}`, price: a.price * sel.qty});
+              total += a.price * sel.qty;
+            }
+          }
+        });
         const baseLi = document.createElement('li');
         baseLi.className = 'row';
         baseLi.innerHTML = `<span>${base.label}</span><span>$${base.price.toLocaleString()}</span>`;
@@ -1402,19 +1478,18 @@
         if (base.label && base.label.toLowerCase().includes('all‑day')) {
           const disclaimer = document.createElement('li');
           disclaimer.className = 'row';
-          disclaimer.innerHTML = `<span style="color:#b77;font-size:13px">All day is 12 hrs max</span><span></span>`;
+          disclaimer.innerHTML = `<span style=\"color:#b77;font-size:13px\">All day is 12 hrs max</span><span></span>`;
           frag.appendChild(disclaimer);
         }
         // Disclaimer for travel fees
         const travel = document.createElement('li');
         travel.className = 'row';
-        travel.innerHTML = `<span style="color:#b77;font-size:13px">Travel outside LA, Orange, or San Diego County may incur a travel fee.</span><span></span>`;
+        travel.innerHTML = `<span style=\"color:#b77;font-size:13px\">Travel outside LA, Orange, or San Diego County may incur a travel fee.</span><span></span>`;
         frag.appendChild(travel);
 
         summaryList.innerHTML = '';
         summaryList.appendChild(frag);
 
-        const total = base.price + addos.reduce((s,a)=>s+a.price,0);
         summaryTotal.textContent = `$${total.toLocaleString()}`;
       }
 

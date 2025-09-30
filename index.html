@@ -159,6 +159,19 @@
 
     .btn{display:inline-block;border:1px solid var(--ink);padding:10px 14px;border-radius:12px}
     .btn:hover{background:var(--ink);color:#fff}
+
+    /* Make buttons more visible on dark sections */
+    .section.dark .btn{
+      border-color: rgba(255,255,255,0.92);
+      color: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.04);
+      padding:12px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .section.dark .btn:hover{
+      background:#fff;
+      color:var(--dark);
+    }
     .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
 
     .reveal{will-change:transform,opacity;transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}

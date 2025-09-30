@@ -697,6 +697,9 @@
               <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
               <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
               <p class="body reveal">We hired Dulce Día to capture our wedding announcement and engagement photos and video, and we couldn’t be happier with the experience. From the very beginning, they made us feel so comfortable in front of the camera. They were quick to respond, easy to work with, and genuinely took the time to get to know us. It was clear they understood who we are as a couple, and they beautifully captured our fun, playful, and loving relationship in both the photos and the video. We’ll cherish these memories.</p>
+              <p style="margin-top:12px">
+                <a class="btn" href="https://dulcediacine.pixieset.com/pagsandgunner/" target="_blank" rel="noopener noreferrer" aria-label="View Pags &amp; Gunner gallery">View Gallery</a>
+              </p>
             </div>
           </div>
 
@@ -1208,6 +1211,7 @@
 
     // Parallax + Glass
     (function(){
+
       const sections = Array.from(document.querySelectorAll('[data-parallax]'));
       if(!sections.length) return;
 
@@ -1499,13 +1503,13 @@
         if (base.label && base.label.toLowerCase().includes('all‑day')) {
           const disclaimer = document.createElement('li');
           disclaimer.className = 'row';
-          disclaimer.innerHTML = `<span style=\"color:#b77;font-size:13px\">All day is 12 hrs max</span><span></span>`;
+          disclaimer.innerHTML = `<span style=\"color:#b77;font-size:13px">All day is 12 hrs max</span><span></span>`;
           frag.appendChild(disclaimer);
         }
         // Disclaimer for travel fees
         const travel = document.createElement('li');
         travel.className = 'row';
-        travel.innerHTML = `<span style=\"color:#b77;font-size:13px\">Travel outside LA, Orange, or San Diego County may incur a travel fee.</span><span></span>`;
+        travel.innerHTML = `<span style=\"color:#b77;font-size:13px">Travel outside LA, Orange, or San Diego County may incur a travel fee.</span><span></span>`;
         frag.appendChild(travel);
 
         summaryList.innerHTML = '';

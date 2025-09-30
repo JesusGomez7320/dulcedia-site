@@ -159,6 +159,19 @@
 
     .btn{display:inline-block;border:1px solid var(--ink);padding:10px 14px;border-radius:12px}
     .btn:hover{background:var(--ink);color:#fff}
+
+    /* Make buttons more visible on dark sections */
+    .section.dark .btn{
+      border-color: rgba(255,255,255,0.92);
+      color: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.04);
+      padding:12px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .section.dark .btn:hover{
+      background:#fff;
+      color:var(--dark);
+    }
     .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
 
     .reveal{will-change:transform,opacity;transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
@@ -697,6 +710,9 @@
               <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
               <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
               <p class="body reveal">We hired Dulce Día to capture our wedding announcement and engagement photos and video, and we couldn’t be happier with the experience. From the very beginning, they made us feel so comfortable in front of the camera. They were quick to respond, easy to work with, and genuinely took the time to get to know us. It was clear they understood who we are as a couple, and they beautifully captured our fun, playful, and loving relationship in both the photos and the video. We’ll cherish these memories.</p>
+              <p style="margin-top:12px">
+                <a class="btn" href="https://dulcediacine.pixieset.com/pagsandgunner/" target="_blank" rel="noopener noreferrer" aria-label="View Pags &amp; Gunner gallery">View Gallery</a>
+              </p>
             </div>
           </div>
 
@@ -706,6 +722,9 @@
               <h3 class="serif reveal">Chris &amp; Dani</h3>
               <blockquote class="reveal">“We absolutely love our video—it’s the cutest, most amazing thing we’ve ever seen! Dani was crying watching it, and it truly means so much to us. You captured our love perfectly, and we’re so grateful for the time and care you put into making it so special. We couldn’t be happier.”</blockquote>
               <p class="body reveal">Because your wedding isn’t the only Dulce Día… Maternity, family, and all the milestones in between — we capture them in photo and video, so every sweet chapter gets the spotlight it deserves.</p>
+              <p style="margin-top:12px">
+                <a class="btn" href="https://dulcediacine.pixieset.com/daniandchris/" target="_blank" rel="noopener noreferrer" aria-label="View Chris &amp; Dani gallery">View Gallery</a>
+              </p>
             </div>
             <div class="t-media ratio-9x16 reveal" aria-label="Chris &amp; Dani">
               <div
@@ -1208,6 +1227,7 @@
 
     // Parallax + Glass
     (function(){
+
       const sections = Array.from(document.querySelectorAll('[data-parallax]'));
       if(!sections.length) return;
 
@@ -1499,13 +1519,13 @@
         if (base.label && base.label.toLowerCase().includes('all‑day')) {
           const disclaimer = document.createElement('li');
           disclaimer.className = 'row';
-          disclaimer.innerHTML = `<span style=\"color:#b77;font-size:13px\">All day is 12 hrs max</span><span></span>`;
+          disclaimer.innerHTML = `<span style=\"color:#b77;font-size:13px">All day is 12 hrs max</span><span></span>`;
           frag.appendChild(disclaimer);
         }
         // Disclaimer for travel fees
         const travel = document.createElement('li');
         travel.className = 'row';
-        travel.innerHTML = `<span style=\"color:#b77;font-size:13px\">Travel outside LA, Orange, or San Diego County may incur a travel fee.</span><span></span>`;
+        travel.innerHTML = `<span style=\"color:#b77;font-size:13px">Travel outside LA, Orange, or San Diego County may incur a travel fee.</span><span></span>`;
         frag.appendChild(travel);
 
         summaryList.innerHTML = '';

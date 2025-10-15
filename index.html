@@ -186,6 +186,10 @@
     .section.dark .rule{background:var(--dark-line)}
     .testimonial{display:grid;grid-template-columns:1.1fr 1.4fr;gap:36px;align-items:start}
     @media (max-width:980px){.testimonial{grid-template-columns:1fr}}
+    /* Make the featured project's media column larger on desktop */
+    @media (min-width:981px){
+      #featured-project .testimonial{ grid-template-columns:1.6fr 1fr; }
+    }
     .t-media{position:relative;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
     .t-copy .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--dark-sub);margin-bottom:8px}
     .t-copy blockquote{margin:0 0 14px;font-size:clamp(18px,2.1vw,24px);line-height:1.5;font-family:Playfair Display,BrandSerif,Georgia,serif}
@@ -543,7 +547,7 @@
         <div class="t-copy">
           <div class="eyebrow serif reveal">Featured Project</div>
           <h2 class="serif reveal">Adriana &amp; Grant</h2>
-          <blockquote class="reveal">There are moments in life when two paths don’t just cross — they merge. Adriana and Grant’s wedding was one of those rare days where love didn’t simply unite two people, but two families, two stories, two distinct colors that, as one bridesmaid beautifully said, blended to create something new — inseparable and luminous.</blockquote>
+          <p class="body reveal">There are moments in life when two paths don’t just cross — they merge. Adriana and Grant’s wedding was one of those rare days where love didn’t simply unite two people, but two families, two stories, two distinct colors that, as one bridesmaid beautifully said, blended to create something new — inseparable and luminous.</p>
           <p class="body reveal">It was our honor to witness and capture that transformation — to frame every laugh, tear, and glance as their worlds intertwined. What began as two lives moving toward each other became a single rhythm, a shared light. For us, documenting their celebration wasn’t just about preserving memories — it was about preserving the feeling of becoming whole together.</p>
 
           <p style="margin-top:12px">

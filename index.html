@@ -514,7 +514,7 @@
         </button>
 
         <div class="vp" id="folioVP" tabindex="0" aria-roledescription="carousel" aria-label="Portfolio stills">
-          <!-- Track is now empty; JS will auto-discover and randomize images -->
+          <!-- Track is now empty; JS will render the gallery from the manifest and randomize the order -->
           <ul class="track" id="folioTrack"></ul>
         </div>
       </div>
@@ -993,53 +993,72 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // ---------- Auto-discover + randomize gallery ----------
-    async function buildRandomGallery() {
+    // ---------- Gallery manifest + randomized render ----------
+    const GALLERY_IMAGES = [
+      '1.jpg',
+      '2.jpg',
+      '3.jpg',
+      '4.jpg',
+      '5.jpg',
+      '6.jpg',
+      '7.jpg',
+      '8.jpg',
+      '9.jpg',
+      '10.jpg',
+      '11.jpg',
+      '12.jpg',
+      '13.jpg',
+      '14.jpg',
+      '15.jpg',
+      '16.jpg',
+      '17.jpg'
+    ];
+
+    function shuffleArray(items) {
+      const copy = items.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function buildRandomGallery() {
       const track = document.getElementById('folioTrack');
       if (!track) return;
 
-      const MAX_TRY = 17;
-      const EXTS = ['jpg','jpeg','webp','png'];
       const base = '/assets/gallery/';
-      const found = [];
+      const images = shuffleArray(
+        GALLERY_IMAGES.map((filename, index) => ({
+          src: `${base}${filename}`,
+          alt: `Portfolio still ${index + 1}`
+        }))
+      );
 
-      for (let i = 1; i <= MAX_TRY; i++) {
-        let match = null;
-        for (const ext of EXTS) {
-          const url = `${base}${i}.${ext}`;
-          try {
-            const res = await fetch(url, { method: 'HEAD', cache: 'no-cache' });
-            if (res.ok) { match = url; break; }
-          } catch (_) {}
-        }
-        if (match) found.push({ src: match, alt: `Portfolio still ${i}` });
-      }
-
-      if (!found.length) {
-        track.innerHTML = '<li class="slide"><figure class="card" style="display:grid;place-items:center;color:#999;background:#faf9f6"><figcaption style="padding:24px;text-align:center">Add images to <code>/assets/gallery/</code> as <code>1.jpg</code>, <code>2.jpg</code>, …</figcaption></figure></li>';
+      if (!images.length) {
+        track.innerHTML = '<li class="slide"><figure class="card" style="display:grid;place-items:center;color:#999;background:#faf9f6"><figcaption style="padding:24px;text-align:center">Add image filenames to <code>GALLERY_IMAGES</code> in <code>index.html</code>.</figcaption></figure></li>';
         document.dispatchEvent(new CustomEvent('gallery:ready'));
         return;
       }
 
-      // FIXED: proper Fisher-Yates swap (previous version had a missing bracket which broke all JS)
-      for (let i = found.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [found[i], found[j]] = [found[j], found[i]];
-      }
-
       const frag = document.createDocumentFragment();
-      for (const img of found) {
+      images.forEach((img, index) => {
         const li = document.createElement('li');
         li.className = 'slide';
         li.innerHTML = `
           <figure class="card">
-            <img src="${img.src}" alt="${img.alt}" loading="lazy" decoding="async"/>
+            <img
+              src="${img.src}"
+              alt="${img.alt}"
+              loading="${index < 4 ? 'eager' : 'lazy'}"
+              decoding="async"
+            />
           </figure>`;
         frag.appendChild(li);
-      }
+      });
+
       track.innerHTML = '';
       track.appendChild(frag);
-
       document.dispatchEvent(new CustomEvent('gallery:ready'));
     }
 
@@ -1569,21 +1588,37 @@
 
       renderSummary();
 
-      // Copy to form
       function copyToForm(){
-        const base = PRICES.base.find(b=>b.id===state.base);
-        const addos = PRICES.addons.filter(a=>state.addons.has(a.id));
-        const total = base.price + addos.reduce((s,a)=>s+a.price,0);
+        const base = PRICES.base.find(b => b.id === state.base);
+        const addonLines = [];
+        let total = base ? base.price : 0;
+
+        state.addons.forEach(sel => {
+          if (typeof sel === 'string') {
+            const addon = PRICES.addons.find(a => a.id === sel);
+            if (!addon) return;
+            addonLines.push(`${addon.label} — $${addon.price}`);
+            total += addon.price;
+            return;
+          }
+
+          if (sel && typeof sel === 'object' && sel.id) {
+            const addon = PRICES.addons.find(a => a.id === sel.id);
+            if (!addon) return;
+            const qty = Math.max(1, parseInt(sel.qty, 10) || 1);
+            addonLines.push(`${addon.label} × ${qty} — $${addon.price * qty}`);
+            total += addon.price * qty;
+          }
+        });
 
         const baseInput = document.getElementById('builder_base');
         const addonsInput = document.getElementById('builder_addons');
         const totalInput = document.getElementById('builder_total');
 
-        if(baseInput) baseInput.value = `${base.label} — $${base.price}`;
-        if(addonsInput) addonsInput.value = addos.map(a=>`${a.label} — $${a.price}`).join(', ');
+        if(baseInput) baseInput.value = base ? `${base.label} — $${base.price}` : '';
+        if(addonsInput) addonsInput.value = addonLines.join(', ');
         if(totalInput) totalInput.value = `$${total}`;
 
-        // Scroll to contact form for convenience
         const contact = document.getElementById('contact');
         if(contact) contact.scrollIntoView({ behavior:'smooth', block:'start' });
       }
@@ -1593,13 +1628,33 @@
       if(clearBtn){
         clearBtn.addEventListener('click', ()=>{
           state.addons.clear();
-          // reset base to first
+
           const first = baseWrap && baseWrap.querySelector('input[name="basePick"]');
-          if(first){ first.checked = true; state.base = first.value; }
+          if(first){
+            first.checked = true;
+            state.base = first.value;
+          }
+
+          if (addonsList) {
+            addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+              cb.checked = false;
+            });
+            addonsList.querySelectorAll('input[type="number"]').forEach(input => {
+              input.value = '1';
+            });
+            addonsList.querySelectorAll('select').forEach(select => {
+              select.value = '1';
+            });
+            addonsList.querySelectorAll('.b-option span[style*="display: none"], .b-option span[style*="display:none"]').forEach(el => {
+              el.style.display = 'none';
+            });
+          }
+
           renderSummary();
-          // clear hidden fields in case they were filled
+
           ['builder_base','builder_addons','builder_total'].forEach(id=>{
-            const el = document.getElementById(id); if(el) el.value = '';
+            const el = document.getElementById(id);
+            if(el) el.value = '';
           });
         });
       }

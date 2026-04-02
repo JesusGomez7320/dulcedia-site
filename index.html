@@ -73,7 +73,7 @@
     .bg-video{
       position:fixed; inset:0; width:100%; height:100%;
       object-fit:cover; pointer-events:none; z-index:0;
-      filter:brightness(.52) contrast(1.06) saturate(1.04);
+      filter:brightness(.62) contrast(1.06) saturate(1.06);
       transform:translate3d(0,0,0);
     }
 
@@ -122,7 +122,7 @@
     }
     .hero::before{
       content:""; position:absolute; inset:0; z-index:0;
-      background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,.18), rgba(0,0,0,.46) 58%, rgba(0,0,0,.55) 100%);
+      background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,.14), rgba(0,0,0,.36) 58%, rgba(0,0,0,.45) 100%);
       pointer-events:none;
     }
     .hero .wrap{position:relative;z-index:1}
@@ -533,7 +533,7 @@
         </button>
 
         <div class="vp" id="folioVP" tabindex="0" aria-roledescription="carousel" aria-label="Portfolio stills">
-          <!-- Track is now empty; JS will auto-discover and randomize images -->
+          <!-- Track is now empty; JS will render the gallery from the manifest and randomize the order -->
           <ul class="track" id="folioTrack"></ul>
         </div>
       </div>
@@ -740,14 +740,14 @@
 
         <div class="testimonial-grid">
           <div class="testimonial">
-            <div class="t-media ratio-9x16 reveal" aria-label="Meet Pags &amp; Gunner">
+            <div class="t-media ratio-9x16 reveal" aria-label="Chelsea &amp; Gavin">
               <div
                 class="embed"
-                data-provider="youtube"
-                data-id="aBauHVpOA3A"
+                data-provider="vimeo"
+                data-id="1179649747"
                 data-aspect="9x16"
-                role="button" aria-label="Play Testimonial video (9:16)" tabindex="0">
-                <img class="thumb" src="/assets/tn_2.jpg" alt="Play Testimonial video" />
+                role="button" aria-label="Play Chelsea &amp; Gavin Testimonial video (9:16)" tabindex="0">
+                <img class="thumb" src="/assets/tn_4.jpg" alt="Play Chelsea &amp; Gavin Testimonial video" />
                 <div class="playbtn" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="9,7 19,12 9,17" fill="currentColor"></polygon>
@@ -758,15 +758,13 @@
             </div>
             <div class="t-copy">
               <div class="eyebrow serif reveal">Client Story</div>
-              <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
-              <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
-              <p class="body reveal">We hired Dulce Día to capture our wedding announcement and engagement photos and video, and we couldn’t be happier with the experience. From the very beginning, they made us feel so comfortable in front of the camera. They were quick to respond, easy to work with, and genuinely took the time to get to know us. It was clear they understood who we are as a couple, and they beautifully captured our fun, playful, and loving relationship in both the photos and the video. We’ll cherish these memories.</p>
-              <p style="margin-top:12px">
-                <a class="btn" href="https://dulcediacine.pixieset.com/pagsandgunner/" target="_blank" rel="noopener noreferrer" aria-label="View Pags &amp; Gunner gallery">View Gallery</a>
-              </p>
+              <h3 class="serif reveal">Chelsea &amp; Gavin</h3>
+              <blockquote class="reveal">Jesus and Sarah are an incredible team.</blockquote>
+              <p class="body reveal">They made our entire wedding videography experience feel effortless, fun, and truly memorable. From the moment we started working with them, we felt completely at ease — like we were in the hands of people who genuinely cared about our story.</p>
+              <p class="body reveal">The edits they created went far beyond our expectations. Every moment was captured with so much intention and emotion that watching our film brought us right back to that day. It’s something we’ll continue to revisit for years to come.</p>
+              <p class="body reveal">If you’re looking for a team that not only delivers beautiful work but also creates an unforgettable experience, I can’t recommend them enough.</p>
             </div>
           </div>
-
           <div class="testimonial reverse">
             <div class="t-copy">
               <div class="eyebrow serif reveal">Client Story</div>
@@ -794,6 +792,33 @@
               </div>
             </div>
           </div>
+          <div class="testimonial">
+            <div class="t-media ratio-9x16 reveal" aria-label="Meet Pags &amp; Gunner">
+              <div
+                class="embed"
+                data-provider="youtube"
+                data-id="aBauHVpOA3A"
+                data-aspect="9x16"
+                role="button" aria-label="Play Testimonial video (9:16)" tabindex="0">
+                <img class="thumb" src="/assets/tn_2.jpg" alt="Play Testimonial video" />
+                <div class="playbtn" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="9,7 19,12 9,17" fill="currentColor"></polygon>
+                  </svg>
+                  <span>Play</span>
+                </div>
+              </div>
+            </div>
+            <div class="t-copy">
+              <div class="eyebrow serif reveal">Client Story</div>
+              <h3 class="serif reveal">Meet Pags &amp; Gunner</h3>
+              <blockquote class="reveal">A playful, heartfelt chapter in our continuing series of real love stories.</blockquote>
+              <p class="body reveal">We hired Dulce Día to capture our wedding announcement and engagement photos and video, and we couldn’t be happier with the experience. From the very beginning, they made us feel so comfortable in front of the camera. They were quick to respond, easy to work with, and genuinely took the time to get to know us. It was clear they understood who we are as a couple, and they beautifully captured our fun, playful, and loving relationship in both the photos and the video. We’ll cherish these memories.</p>
+              <p style="margin-top:12px">
+                <a class="btn" href="https://dulcediacine.pixieset.com/pagsandgunner/" target="_blank" rel="noopener noreferrer" aria-label="View Pags &amp; Gunner gallery">View Gallery</a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -805,13 +830,13 @@
         <div class="rule reveal" aria-hidden="true"></div>
         <div class="grid grid-3">
           <div class="reveal">
-            <p>Make the moment unforgettable with a cinematic keepsake tailored to your plans.</p>
+            <p>Make the moment unforgettable with proposal and engagement coverage tailored to your plans — whether you want a simple portrait session, a fuller photo story, a cinematic highlight film, or both.</p>
           </div>
           <div class="reveal">
-            <p>Packages start at <strong>$300–$500</strong> and include a <strong>1–2 minute highlight film</strong> that captures the surprise, the joy, and the details that matter.</p>
+            <p><strong>Photo sessions begin at $300</strong>, with the full photo story at <strong>$400</strong>. A <strong>1-minute cinematic highlight video</strong> is also available as a <strong>$350 standalone option</strong>.</p>
           </div>
           <div class="reveal">
-            <p><em>Optional:</em> Add a dedicated photographer for <strong>$300–$500</strong> depending on hours booked. <a href="assets/pricing.pdf" class="btn" style="margin-top:6px" target="_blank" rel="noopener">See Pricing Sheet</a></p>
+            <p><strong>Bundle &amp; Save:</strong> Book the full photo story with the cinematic highlight video for <strong>$650</strong>. <a href="/assets/Dulce_Dia_Pricing_sheet.pdf" class="btn" style="margin-top:6px" target="_blank" rel="noopener">See Pricing Sheet</a></p>
           </div>
         </div>
         <div class="reveal" style="margin-top:18px">
@@ -1011,53 +1036,58 @@
       items.forEach((el, i)=>{ el.style.transitionDelay = el.style.transitionDelay || (Math.min(i*60,360)+'ms'); io.observe(el); });
     })();
 
-    // ---------- Auto-discover + randomize gallery ----------
-    async function buildRandomGallery() {
+    // ---------- Gallery manifest + randomized render ----------
+    const GALLERY_COUNT = 40;
+    const GALLERY_IMAGES = Array.from(
+      { length: GALLERY_COUNT },
+      (_, index) => `${index + 1}.jpg`
+    );
+
+    function shuffleArray(items) {
+      const copy = items.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function buildRandomGallery() {
       const track = document.getElementById('folioTrack');
       if (!track) return;
 
-      const MAX_TRY = 17;
-      const EXTS = ['jpg','jpeg','webp','png'];
       const base = '/assets/gallery/';
-      const found = [];
+      const images = shuffleArray(
+        GALLERY_IMAGES.map((filename, index) => ({
+          src: `${base}${filename}`,
+          alt: `Portfolio still ${index + 1}`
+        }))
+      );
 
-      for (let i = 1; i <= MAX_TRY; i++) {
-        let match = null;
-        for (const ext of EXTS) {
-          const url = `${base}${i}.${ext}`;
-          try {
-            const res = await fetch(url, { method: 'HEAD', cache: 'no-cache' });
-            if (res.ok) { match = url; break; }
-          } catch (_) {}
-        }
-        if (match) found.push({ src: match, alt: `Portfolio still ${i}` });
-      }
-
-      if (!found.length) {
-        track.innerHTML = '<li class="slide"><figure class="card" style="display:grid;place-items:center;color:#999;background:#faf9f6"><figcaption style="padding:24px;text-align:center">Add images to <code>/assets/gallery/</code> as <code>1.jpg</code>, <code>2.jpg</code>, …</figcaption></figure></li>';
+      if (!images.length) {
+        track.innerHTML = '<li class="slide"><figure class="card" style="display:grid;place-items:center;color:#999;background:#faf9f6"><figcaption style="padding:24px;text-align:center">Add image filenames to <code>GALLERY_IMAGES</code> in <code>index.html</code>.</figcaption></figure></li>';
         document.dispatchEvent(new CustomEvent('gallery:ready'));
         return;
       }
 
-      // FIXED: proper Fisher-Yates swap (previous version had a missing bracket which broke all JS)
-      for (let i = found.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [found[i], found[j]] = [found[j], found[i]];
-      }
-
       const frag = document.createDocumentFragment();
-      for (const img of found) {
+      images.forEach((img, index) => {
         const li = document.createElement('li');
         li.className = 'slide';
         li.innerHTML = `
           <figure class="card">
-            <img src="${img.src}" alt="${img.alt}" loading="lazy" decoding="async"/>
+            <img
+              src="${img.src}"
+              alt="${img.alt}"
+              loading="${index < 4 ? 'eager' : 'lazy'}"
+              decoding="async"
+            />
           </figure>`;
         frag.appendChild(li);
-      }
+      });
+
       track.innerHTML = '';
       track.appendChild(frag);
-
       document.dispatchEvent(new CustomEvent('gallery:ready'));
     }
 
@@ -1587,21 +1617,37 @@
 
       renderSummary();
 
-      // Copy to form
       function copyToForm(){
-        const base = PRICES.base.find(b=>b.id===state.base);
-        const addos = PRICES.addons.filter(a=>state.addons.has(a.id));
-        const total = base.price + addos.reduce((s,a)=>s+a.price,0);
+        const base = PRICES.base.find(b => b.id === state.base);
+        const addonLines = [];
+        let total = base ? base.price : 0;
+
+        state.addons.forEach(sel => {
+          if (typeof sel === 'string') {
+            const addon = PRICES.addons.find(a => a.id === sel);
+            if (!addon) return;
+            addonLines.push(`${addon.label} — $${addon.price}`);
+            total += addon.price;
+            return;
+          }
+
+          if (sel && typeof sel === 'object' && sel.id) {
+            const addon = PRICES.addons.find(a => a.id === sel.id);
+            if (!addon) return;
+            const qty = Math.max(1, parseInt(sel.qty, 10) || 1);
+            addonLines.push(`${addon.label} × ${qty} — $${addon.price * qty}`);
+            total += addon.price * qty;
+          }
+        });
 
         const baseInput = document.getElementById('builder_base');
         const addonsInput = document.getElementById('builder_addons');
         const totalInput = document.getElementById('builder_total');
 
-        if(baseInput) baseInput.value = `${base.label} — $${base.price}`;
-        if(addonsInput) addonsInput.value = addos.map(a=>`${a.label} — $${a.price}`).join(', ');
+        if(baseInput) baseInput.value = base ? `${base.label} — $${base.price}` : '';
+        if(addonsInput) addonsInput.value = addonLines.join(', ');
         if(totalInput) totalInput.value = `$${total}`;
 
-        // Scroll to contact form for convenience
         const contact = document.getElementById('contact');
         if(contact) contact.scrollIntoView({ behavior:'smooth', block:'start' });
       }
@@ -1611,13 +1657,33 @@
       if(clearBtn){
         clearBtn.addEventListener('click', ()=>{
           state.addons.clear();
-          // reset base to first
+
           const first = baseWrap && baseWrap.querySelector('input[name="basePick"]');
-          if(first){ first.checked = true; state.base = first.value; }
+          if(first){
+            first.checked = true;
+            state.base = first.value;
+          }
+
+          if (addonsList) {
+            addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+              cb.checked = false;
+            });
+            addonsList.querySelectorAll('input[type="number"]').forEach(input => {
+              input.value = '1';
+            });
+            addonsList.querySelectorAll('select').forEach(select => {
+              select.value = '1';
+            });
+            addonsList.querySelectorAll('.b-option span[style*="display: none"], .b-option span[style*="display:none"]').forEach(el => {
+              el.style.display = 'none';
+            });
+          }
+
           renderSummary();
-          // clear hidden fields in case they were filled
+
           ['builder_base','builder_addons','builder_total'].forEach(id=>{
-            const el = document.getElementById(id); if(el) el.value = '';
+            const el = document.getElementById(id);
+            if(el) el.value = '';
           });
         });
       }

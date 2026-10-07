@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>San Clemente Wedding Photographer &amp; Videographer | Dulce Día Cine</title>
+<meta name="description" content="San Clemente wedding photography and cinematic wedding videography by Dulce Día Cine. Meet our couples, watch their stories, and inquire about your date.">
+<!-- Test-site preview: remove noindex when this page is approved for production. -->
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#F7F6F2">
+<meta property="og:type" content="website">
+<meta property="og:title" content="San Clemente Wedding Photography &amp; Videography | Dulce Día Cine">
+<meta property="og:description" content="Your people. Your coast. Your sweetest day. Discover heartfelt wedding photography and cinematic films for your San Clemente celebration.">
+<meta property="og:image" content="/assets/images/og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/logo_1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+
+    :root{
+      --bg:#F7F6F2; --ink:#0E0F12; --muted:#666B74; --line:#E8E6E0; --accent:#C9BBA6;
+      --max:1160px; --r:18px; --shadow:0 20px 40px rgba(0,0,0,.08);
+      --dur:650ms; --ease:cubic-bezier(.21,.65,.21,1);
+      --dark:#161616; --dark-ink:#F2EFEA; --dark-sub:#C9C5BD; --dark-line:#2A2A2A;
+      --cursor-size:28px;
+      --cursor-link-size:32px;
+      --cursor-link-pad:6px;
+      --glass-min:.22; --glass-max:.55;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--bg);
+      color:var(--ink);
+      font:16px/1.75 BrandSans, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      text-rendering:optimizeLegibility; overflow-x:hidden;
+      cursor:none;
+    }
+    a, button, .btn, [role="button"], input, textarea, select { cursor:none }
+
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+
+    .serif{font-family: Playfair Display, BrandSerif, Georgia, "Times New Roman", Times, serif}
+    h1,h2,h3{letter-spacing:.12em;text-transform:uppercase;font-family: Playfair Display, BrandSerif, Georgia, serif}
+    p{margin:0 0 16px}
+    .prose{max-width:760px;margin:0 auto 16px}
+    .sub{color:var(--muted)}
+    .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
+
+    .bg-video{
+      position:fixed; inset:0; width:100%; height:100%;
+      object-fit:cover; pointer-events:none; z-index:0;
+      filter:brightness(.62) contrast(1.06) saturate(1.06);
+      transform:translate3d(0,0,0);
+    }
+
+    header{
+      position:fixed; top:0; left:0; right:0; z-index:60;
+      display:flex; align-items:center; justify-content:space-between;
+      height:72px; padding:0 16px;
+      background:transparent; color:#fff;
+      transition:color .25s ease, background .25s ease, border-color .25s ease;
+    }
+    header.is-solid{ color:var(--ink); }
+    @media (max-width:820px){
+      header.is-solid{
+        background:rgba(247,246,242,.9);
+        backdrop-filter:blur(10px);
+        border-bottom:1px solid var(--line);
+      }
+    }
+    .brand-logo{display:inline-flex;align-items:center;gap:10px;height:52px}
+    .brand-logo .logo-inline{display:block;height:40px;width:auto;color:currentColor}
+    .brand-logo img{height:40px;width:auto;display:block}
+
+    .nav-links{display:flex;align-items:center;gap:18px}
+    .nav-links a{margin:0;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+
+    .menu-btn{display:none;background:none;border:none;padding:10px;cursor:none;color:currentColor}
+    .menu-btn .bar{width:22px;height:2px;background:currentColor;display:block;margin:4px 0}
+    @media (max-width:820px){
+      .menu-btn{display:inline-block}
+      .nav-links{
+        display:none;position:absolute;top:72px;left:12px;right:12px;
+        flex-direction:column;gap:10px;padding:14px;
+        background:rgba(250, 248, 244, .92);backdrop-filter:blur(12px);
+        border:1px solid var(--line);border-radius:14px;
+      }
+      header.is-solid .nav-links{background:rgba(250,248,244,.96)}
+      .nav-links.open{display:flex}
+    }
+
+    .hero{
+      position:relative; min-height:100vh;
+      display:grid; place-items:center;
+      color:#fff; text-align:center; overflow:hidden;
+      background:transparent; isolation:isolate; z-index:1;
+      padding-top:72px;
+    }
+    .hero::before{
+      content:""; position:absolute; inset:0; z-index:0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,.14), rgba(0,0,0,.36) 58%, rgba(0,0,0,.45) 100%);
+      pointer-events:none;
+    }
+    .hero .wrap{position:relative;z-index:1}
+    .hero h1{
+      font-size:clamp(36px, 6.8vw, 80px);
+      line-height:1.06;
+      font-weight:600;
+      text-shadow:0 4px 22px rgba(0,0,0,.42), 0 1px 0 rgba(0,0,0,.35);
+    }
+    .hero .sub{color:rgba(255,255,255,.92)}
+    .hero .rule{background:rgba(255,255,255,.55);margin:14px auto 0}
+
+    .section{padding:72px 0;scroll-margin-top:80px;background:var(--bg); position:relative; z-index:1}
+    @media (max-width:560px){ .section{padding:56px 0} }
+
+    #about.section{ padding:64px 0; }
+    #about .about-layout{
+      display:grid; grid-template-columns:minmax(280px,480px) 1fr;
+      gap:28px; align-items:start;
+    }
+    #about .about-media{
+      position:relative; border-radius:14px; overflow:hidden;
+      box-shadow:var(--shadow); background:#000; border:1px solid var(--line);
+      aspect-ratio:4/5;
+    }
+    #about .about-media video, #about .about-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+    #about .about-media video{ opacity:0; transition:opacity .6s ease .05s, filter .2s ease; }
+    #about .about-media video.is-visible{ opacity:1; }
+    #about .about-media video.paused{ filter:brightness(.85); }
+    #about .about-copy{ text-align:left; }
+    #about .about-copy p{ font-size:17px; line-height:1.75; margin:0 0 12px; }
+    @media (max-width:900px){
+      #about .about-layout{ grid-template-columns:1fr; }
+      #about.section{ padding:44px 0; }
+      #about .rule{ width:96px; margin:10px 0 14px; }
+      #about .about-copy p{ font-size:15px; line-height:1.65; }
+    }
+
+    .grid{display:grid;gap:22px}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    @media (max-width:980px){ .grid-3{grid-template-columns:1fr} }
+
+    .pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    @media (max-width:980px){.pkgs{grid-template-columns:1fr}}
+    .pkg{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px}
+    .price{font-weight:800;margin:10px 0 16px;font-size:22px}
+    .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--muted);margin-bottom:8px}
+    .kicker{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--ink);margin:0 0 10px}
+
+    .btn{display:inline-block;border:1px solid var(--ink);padding:10px 14px;border-radius:12px}
+    .btn:hover{background:var(--ink);color:#fff}
+
+    /* Make buttons more visible on dark sections */
+    .section.dark .btn{
+      border-color: rgba(255,255,255,0.92);
+      color: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.04);
+      padding:12px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .section.dark .btn:hover{
+      background:#fff;
+      color:var(--dark);
+    }
+    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+
+    .reveal{will-change:transform,opacity;transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
+    .reveal{opacity:1;transform:none}
+    @media (scripting:enabled){ .reveal.js-init{opacity:0;transform:translateY(14px)} .reveal.js-init.is-revealed{opacity:1;transform:none} }
+    @media (prefers-reduced-motion:reduce){ .reveal{transition:opacity 120ms linear} .reveal.js-init{transform:none} }
+
+    footer{border-top:1px solid var(--line);padding:28px 0;background:#fff; z-index:1; position:relative;}
+
+    .section.dark{background:var(--dark);color:var(--dark-ink);border-top:1px solid var(--dark-line);border-bottom:1px solid var(--dark-line)}
+    .section.dark .sub,.section.dark .eyebrow{color:var(--dark-sub)}
+    .section.dark .rule{background:var(--dark-line)}
+    .testimonial{display:grid;grid-template-columns:1.1fr 1.4fr;gap:36px;align-items:start}
+    @media (max-width:980px){.testimonial{grid-template-columns:1fr}}
+    .t-media{position:relative;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
+    .t-copy .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--dark-sub);margin-bottom:8px}
+    .t-copy blockquote{margin:0 0 14px;font-size:clamp(18px,2.1vw,24px);line-height:1.5;font-family:Playfair Display,BrandSerif,Georgia,serif}
+    .t-copy .body{color:var(--dark-sub)}
+    .ratio-16x9{aspect-ratio:16/9}
+    .ratio-4x5{aspect-ratio:4/5}
+    .ratio-9x16{aspect-ratio:9/16}
+
+    #folio{ padding-top:28px; padding-bottom:72px; }
+    #folio .folio-head{ text-align:center; position:relative; margin-bottom:6px; }
+    #folio .folio-title{
+      display:inline-block; letter-spacing:.20em; text-transform:uppercase;
+      font-size:clamp(22px,3.2vw,36px); line-height:1.1; margin:0; color:var(--ink); translate:0 -8px;
+      font-family: Playfair Display, BrandSerif, Georgia, serif;
+    }
+    #folio .vp{ position:relative; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; padding:12px 0 4px 0; }
+    #folio .vp::-webkit-scrollbar{ display:none } #folio .vp{ scrollbar-width:none }
+    #folio .track{ display:grid; grid-auto-flow:column; grid-auto-columns:clamp(220px, 30vw, 420px); gap:16px; list-style:none; margin:0; padding:0 22px; }
+    #folio .slide{ scroll-snap-align:center; transition:transform 260ms ease, filter 260ms ease, z-index 260ms ease, opacity 260ms ease; transform-origin:center; }
+    #folio .card{ overflow:hidden; margin:0; border-radius:14px; border:1px solid var(--line); background:#000; aspect-ratio:4/5; }
+    #folio .card img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 260ms ease; }
+
+    .folio-arrow{ position:absolute; top:50%; translate:0 -50%; width:40px; height:40px; border-radius:999px; border:1px solid var(--line); background:transparent; display:grid; place-items:center; cursor:none; transition:background .15s ease, transform .15s ease, border-color .15s ease; z-index:3; }
+    .folio-arrow:hover{ background:rgba(0,0,0,.03); transform:translateY(-50%) scale(1.03); border-color:#DCD9D2; }
+    .folio-arrow.prev{ left:6px } .folio-arrow.next{ right:6px }
+    @media (max-width:560px){ .folio-arrow{ display:none } }
+
+    #experience.bg-photo, #process.bg-photo, #proposals.bg-photo{
+      background-position:center 0px; background-size:cover; background-repeat:no-repeat;
+      position:relative; isolation:isolate;
+    }
+    @media (min-width:981px){
+      #experience.bg-photo, #process.bg-photo, #proposals.bg-photo{
+        background-attachment: fixed;
+      }
+    }
+    #experience.bg-photo::before, #process.bg-photo::before, #proposals.bg-photo::before{
+      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+      background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,.10), rgba(0,0,0,.38) 58%, rgba(0,0,0,.48) 100%);
+    }
+
+    .glass-panel{
+      --glassA: var(--glass-max);
+      background: rgba(20,20,20,var(--glassA));
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-radius: var(--r); padding: 32px; box-shadow:var(--shadow);
+      transition: background 200ms linear;
+      position:relative; z-index:1;
+    }
+    .glass-panel h2, .glass-panel p, .glass-panel h3 { color:#fff }
+
+    .socials{display:flex;gap:16px;align-items:center;justify-content:center;padding:18px;border-top:1px solid var(--line);background:#fff; position:relative; z-index:1}
+    .socials a{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--line); border-radius:999px; transition:transform .18s ease, background .18s ease; font-size:14px; line-height:1;}
+    .socials a:hover{transform:translateY(-1px);background:#faf9f6}
+    .socials a svg{width:18px;height:18px;display:inline-block;flex:none}
+
+    .cursor{
+      position:fixed; left:0; top:0; translate:-50% -50%;
+      width:var(--cursor-size); height:var(--cursor-size);
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.55);
+      background:rgba(255,255,255,.75);
+      box-shadow:0 8px 18px rgba(0,0,0,.18);
+      pointer-events:none; z-index:9999;
+      box-sizing:content-box;
+      transition:
+        width .15s ease,
+        height .15s ease,
+        background-color .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease,
+        filter .15s ease,
+        background-image .0s ease;
+      will-change: transform;
+    }
+    .cursor.is-hidden{ opacity:0 }
+
+    .cursor.is-link{
+      width:var(--cursor-link-size);
+      height:var(--cursor-link-size);
+      border-radius:0;
+      border:none;
+      padding:var(--cursor-link-pad);
+      background-color:transparent;
+      background-image:url('/assets/ring.svg');
+      background-repeat:no-repeat;
+      background-position:center;
+      background-origin:content-box;
+      background-clip:content-box;
+      background-size:100% 100%;
+      box-shadow:none;
+      filter:drop-shadow(0 2px 2px rgba(0,0,0,.22));
+    }
+
+    @media (pointer:coarse) { body{ cursor:auto } .cursor{ display:none } }
+
+    .embed{ position:relative; width:100%; height:100%; overflow:hidden; background:#000; }
+    .embed img.thumb{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:opacity .18s ease; }
+    .embed .playbtn{
+      position:absolute; top:50%; left:50%; translate:-50% -50%;
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.75);
+      background:rgba(0,0,0,.38);
+      color:#fff; letter-spacing:.12em; text-transform:uppercase; font-size:12px;
+      cursor:none; z-index:2; transition:transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
+      user-select:none;
+    }
+    .embed .playbtn:hover{ transform:translate(-50%,-50%) scale(1.03); background:rgba(0,0,0,.48); }
+    .embed .playbtn svg{ width:18px; height:18px; }
+    .embed[aria-busy="true"] .thumb, .embed[aria-busy="true"] .playbtn { opacity:0; pointer-events:none; }
+
+    .embed::after{
+      content:""; position:absolute; inset:0; background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.06) 20%, transparent 40%);
+      translate:-100% 0; animation:sh 1.2s ease infinite; pointer-events:none; opacity:0;
+    }
+    .embed[aria-busy="true"]::after{ opacity:1; }
+    @keyframes sh{ to{ translate:100% 0 } }
+
+    .yt-16x9{
+      position:absolute; left:50%; top:50%;
+      translate:-50% -50%;
+      width:100%;
+      aspect-ratio:16/9;
+      transform-origin:center center;
+    }
+    .ratio-4x5 .yt-16x9{ transform:translate(-50%, -50%) scale(2.222); }
+    .yt-16x9 iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+    #contact.section{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, rgba(255,255,255,.65), transparent 60%),
+        radial-gradient(1000px 700px at 120% 120%, rgba(201,187,166,.18), transparent 60%),
+        var(--bg);
+    }
+    #contact .contact-shell{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:rgba(255,255,255,.65);
+      backdrop-filter: blur(10px);
+      box-shadow:var(--shadow);
+      padding: clamp(18px, 3vw, 28px);
+    }
+    #contact .contact-grid{
+      display:grid; grid-template-columns:1.1fr 1fr; gap:24px; align-items:start;
+    }
+    @media (max-width:900px){ #contact .contact-grid{ grid-template-columns:1fr } }
+    #contact .contact-copy h3{
+      margin:0 0 8px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+    }
+    #contact .contact-points{
+      display:grid; gap:10px; margin:14px 0 8px; color:var(--muted);
+    }
+    #contact .contact-points .row{ display:flex; gap:10px; align-items:flex-start; }
+    #contact .chip-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    #contact .chip{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 12px; border:1px solid var(--line); border-radius:999px;
+      background:#fff; font-size:14px; line-height:1; transition:transform .18s ease, background .18s ease;
+      cursor:none;
+    }
+    #contact .chip:hover{ transform:translateY(-1px); background:#faf9f6; }
+    #contact form input, #contact form textarea{
+      padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;width:100%;
+    }
+    #contact .fineprint{ font-size:13px; color:var(--muted); margin-top:8px; }
+
+    .testimonial-grid{ display:grid; grid-template-columns:1fr; gap:48px; }
+    @media (max-width:980px){ .testimonial-grid{ grid-template-columns:1fr; gap:36px; } }
+    .testimonial.reverse{ grid-template-columns:1.4fr 1.1fr; }
+    @media (max-width:980px){
+      .testimonial.reverse{ grid-template-columns:1fr; }
+      .testimonial.reverse .t-media{ order:1; }
+      .testimonial.reverse .t-copy{ order:2; }
+    }
+
+    .packages-extra{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      padding:20px;
+      margin-top:22px;
+      box-shadow:var(--shadow);
+    }
+    .packages-extra p{ margin:0 0 12px; }
+
+    /* ===== Builder (scoped styles) ===== */
+    #builder{ background:#fff; }
+    #builder .builder-shell{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:#fff;
+      box-shadow:var(--shadow);
+      padding: clamp(18px, 3vw, 28px);
+    }
+    .builder-grid{
+      display:grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap:24px;
+      align-items:start;
+    }
+    @media (max-width:980px){ .builder-grid{ grid-template-columns:1fr } }
+    .b-card{ border:1px solid var(--line); border-radius:12px; background:#faf9f6; padding:16px; }
+    .b-card h3{ margin:0 0 8px; font-size:14px; letter-spacing:.18em; text-transform:uppercase; }
+    .b-options{ display:grid; gap:10px; }
+    .b-option{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:10px 12px; background:#fff; border:1px solid var(--line);
+      border-radius:10px;
+    }
+    .b-option input{ accent-color:#111; }
+    .b-option .title{ font-weight:600; }
+    .b-option .sub{ margin:0; }
+    .b-summary{
+      position:sticky; top:90px;
+      border:1px solid var(--line); border-radius:12px; background:#fff; padding:16px;
+    }
+    .b-summary h3{ margin:0 0 12px; font-size:14px; letter-spacing:.18em; text-transform:uppercase; }
+    .b-summary ul{ list-style:none; padding:0; margin:0 0 10px; display:grid; gap:8px; }
+    .b-summary .row{ display:flex; justify-content:space-between; gap:8px; }
+    .b-total{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-top:10px; margin-top:10px; font-weight:800; }
+    .b-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+    .b-chip{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 10px;
+      border:1px dashed var(--line); border-radius:999px; background:#fff; user-select:none;
+    }
+
+    /* Drag & Drop (mobile-first) */
+    .b-dragzone{
+      border:1px dashed var(--line);
+      border-radius:12px; min-height:72px; padding:10px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; background:#fff;
+    }
+    .b-dragzone.is-over{ background:#f3f1ec; border-color:#d7d4cc; }
+    .b-draggable{ touch-action:none; }
+    @media (hover:hover){
+      .b-draggable{ cursor:grab; }
+      .b-draggable:active{ cursor:grabbing; }
+    }
+  
+body,a,button,.btn{cursor:auto} button,.btn{cursor:pointer}
+header{background:rgba(247,246,242,.97);color:var(--ink);border-bottom:1px solid var(--line)}
+.brand-logo img{height:42px} .hero{min-height:88svh;background:#252621;padding:140px 0 80px}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.48;z-index:-1}
+.hero h1{font-size:clamp(32px,5.4vw,68px);letter-spacing:.06em;max-width:1040px;margin:22px auto}
+.hero .sub{max-width:620px;margin:24px auto}.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}.hero .actions{justify-content:center}
+.hero .btn{border-color:#eee;color:white;background:transparent}.hero .btn:first-child{background:var(--bg);color:var(--ink)}
+h2{font-size:clamp(26px,3.3vw,40px);line-height:1.3;letter-spacing:.06em}h3{letter-spacing:.06em}
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}.intro h2{margin-top:12px}
+.story{display:grid;grid-template-columns:minmax(240px,360px) 1fr;gap:80px;align-items:center;margin-top:56px}
+.story+.story{padding-top:64px;border-top:1px solid var(--dark-line);margin-top:64px}
+.story:nth-of-type(even){grid-template-columns:1fr minmax(240px,360px)}.story:nth-of-type(even) .film{order:2}
+.film{width:100%;aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#080808;position:relative}
+.film button{width:100%;height:100%;padding:0;border:0;background:none;color:white;display:block}
+.film img{width:100%;height:100%;object-fit:cover}.film .play{position:absolute;inset:auto 20px 24px;background:rgba(0,0,0,.75);padding:14px;border:1px solid #aaa;border-radius:40px;font:14px Inter,sans-serif}
+.film iframe{width:100%;height:100%;border:0}.story blockquote{font:24px/1.6 'Playfair Display',Georgia,serif;margin:24px 0}
+.story p{color:var(--dark-sub)}.story .btn{color:var(--dark-ink);border-color:#777;background:transparent}
+.services{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:40px}.services article{border-top:1px solid var(--line);padding-top:20px}
+details{border-bottom:1px solid var(--line);padding:20px 0}summary{font-weight:500;cursor:pointer}details p{max-width:800px;margin:16px 0 0}
+.cta{text-align:center}.cta p{max-width:620px;margin:0 auto 24px}.cta .actions{justify-content:center}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a8885f;outline-offset:6px}.skip:focus{left:12px;top:80px;width:auto;height:auto;z-index:100;background:white;padding:12px}
+@media(max-width:820px){.nav-links{color:var(--ink)}.intro,.services,.story,.story:nth-of-type(even){grid-template-columns:1fr;gap:28px}.story:nth-of-type(even) .film{order:0}.film{max-width:360px;margin:auto}.hero{min-height:760px}.story{margin-top:36px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body>
+<a class="sr-only skip" href="#main">Skip to content</a>
+<header><a href="/" class="brand-logo" aria-label="Dulce Día Cine home"><img src="/assets/logo_1.png" alt="Dulce Día Cine"></a>
+<button class="menu-btn" aria-expanded="false" aria-controls="local-nav" aria-label="Open navigation"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+<nav class="nav-links" id="local-nav" aria-label="Main navigation"><a href="#stories">Our couples</a><a href="#coverage">Photo &amp; film</a><a href="/#packages">Packages</a><a href="/#contact">Inquire</a></nav></header>
+<main id="main">
+<section class="hero"><img src="/assets/images/hero-poster.jpg" alt="" fetchpriority="high"><div class="wrap"><p class="eyebrow">Dulce Día Cine · San Clemente, California</p>
+<h1>San Clemente Wedding Photography &amp; Videography</h1><div class="rule"></div>
+<p class="sub">Your people. Your coast. Your sweetest day. Heartfelt photographs and cinematic wedding films that bring you right back to how it all felt.</p>
+<div class="actions"><a class="btn" href="/#contact">Tell us about your day</a><a class="btn" href="#stories">Meet our couples ↓</a></div></div></section>
+<section class="section"><div class="wrap intro"><div><p class="eyebrow">A little coastal magic. A lot of heart.</p><h2>Your San Clemente love story, honestly told.</h2></div><div><p>Looking for San Clemente wedding photographers and videographers who help you feel like yourselves? We’re Dulce Día Cine. Our approach brings together documentary storytelling, an organic feel, and an editorial finish.</p><p class="sub">For your celebration in this corner of coastal Orange County, we want to make room for what matters: the anticipation before your vows, your favorite people gathered together, and those quiet moments when the day finally sinks in. Beautiful light is part of the story. You are the heart of it.</p></div></div></section>
+<section class="section dark" id="stories"><div class="wrap"><p class="eyebrow">Real couples. Sweet chapters.</p><h2>Get a feel for the experience.</h2><p class="sub">A wedding reflection and an engagement story from the Dulce Día family.</p>
+<article class="story"><div class="film" data-provider="vimeo" data-id="1179649747"><button type="button" aria-label="Play Chelsea and Gavin’s testimonial"><img src="/assets/tn_4.jpg" alt="Chelsea and Gavin client story" loading="lazy" width="360" height="640"><span class="play">▶ Watch Chelsea &amp; Gavin</span></button></div><div><p class="eyebrow">The wedding experience</p><h3>Chelsea &amp; Gavin</h3><blockquote>“Jesus and Sarah are an incredible team.”</blockquote><p>Chelsea and Gavin describe a wedding videography experience that felt effortless, fun, and memorable, with films that brought them right back to their day.</p><p>Planning your own San Clemente wedding? Start here for a couple’s perspective on feeling comfortable in front of the camera and trusting the people telling your story.</p><a class="btn" href="/#contact">Let’s talk about your wedding</a></div></article>
+<article class="story"><div class="film" data-provider="youtube" data-id="aBauHVpOA3A"><button type="button" aria-label="Play Pags and Gunner’s story"><img src="/assets/TN_2.jpg" alt="Pags and Gunner engagement story" loading="lazy" width="360" height="640"><span class="play">▶ Watch Pags &amp; Gunner</span></button></div><div><p class="eyebrow">Before the wedding day</p><h3>Pags &amp; Gunner</h3><blockquote>Playful, heartfelt, and completely themselves.</blockquote><p>For their wedding announcement and engagement photos and video, Pags and Gunner wanted their fun, loving relationship to shine through. Their story is a reminder that the sweet moments begin long before the ceremony.</p><p>Thinking about an engagement session in San Clemente? Let’s make space to slow down, get comfortable together, and capture this chapter in photographs and film.</p><a class="btn" href="https://dulcediacine.pixieset.com/pagsandgunner/" target="_blank" rel="noopener noreferrer">View their photo gallery ↗</a></div></article>
+</div></section>
+<section class="section" id="coverage"><div class="wrap"><p class="eyebrow">Photo &amp; film, with intention</p><h2>For the moments you’ll want to keep.</h2><div class="services"><article><h3>San Clemente wedding photography</h3><p class="sub">The big just-married smiles. The hands held under the table. The people who traveled to be there. Tell us about the photographs you’re dreaming of, and we’ll talk through coverage that fits your celebration.</p><a href="/#folio" class="btn">Explore our work</a></article><article><h3>San Clemente wedding videography</h3><p class="sub">Hear the vows again. Feel the energy of the room. Our cinematic wedding films pair the emotion of your day with a documentary approach, so your memories have movement, sound, and a story all their own.</p><a href="/#packages" class="btn">Explore film packages</a></article></div></div></section>
+<section class="section dark"><div class="wrap intro"><div><p class="eyebrow">Made for your day</p><h2>Let the coast set the scene.</h2></div><div><p>Whether you’re imagining portraits near the San Clemente Pier, time by the beach, or an intimate celebration tucked away from the coast, we’d love to hear your plans.</p><p class="sub">Share your venue, ceremony time, and the moments you care about most. We can talk through how photography and video fit into the day, including time for portraits without losing the celebration around you.</p><a class="btn" href="/#contact">Share your San Clemente plans</a></div></div></section>
+<section class="section" id="questions"><div class="wrap"><p class="eyebrow">A few things you might be wondering</p><h2>Planning your San Clemente wedding</h2>
+<details><summary>Can we inquire about both wedding photography and videography?</summary><p>Yes. Tell us you’re interested in photo and video, along with your wedding date and San Clemente venue. We’ll discuss availability, your priorities, and coverage options for your day.</p></details>
+<details><summary>Do you offer engagement photos and video?</summary><p>Yes. Pags and Gunner’s story above features their wedding announcement and engagement chapter. Share your ideas for a San Clemente engagement session through our inquiry form.</p></details>
+<details><summary>What should we share when we inquire?</summary><p>Your date, venue or planned location, whether you’re looking for photography, videography, or both, and the moments that matter most to you. If your plans are still taking shape, we’d still love to hear them.</p></details>
+<details><summary>Where can we see packages and more of your work?</summary><p>Explore our <a href="/#packages"><u>wedding film packages</u></a> and <a href="/#folio"><u>portfolio</u></a>, then reach out to discuss your celebration and current availability.</p></details>
+</div></section>
+<section class="section dark cta"><div class="wrap"><p class="eyebrow">Your next sweet chapter</p><h2>Let’s make your San Clemente day cinematic.</h2><p class="sub">Tell us who you are, where you’re celebrating, and what you want to remember. We’d love to hear your story.</p><div class="actions"><a class="btn" href="/#contact">Inquire about your date</a></div></div></section>
+</main><footer><div class="wrap"><span>© Dulce Día Cine · Southern California</span><a href="/">Back to Dulce Día Cine</a><a href="https://instagram.com/dulcediacine">Instagram ↗</a></div></footer>
+<script>
+const menu = document.querySelector('.menu-btn');
+const nav = document.querySelector('#local-nav');
+menu.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; menu.setAttribute('aria-expanded', String(open)); nav.classList.toggle('open', open); });
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {nav.classList.remove('open'); menu.setAttribute('aria-expanded', 'false');}));
+document.addEventListener('keydown', e => {if(e.key === 'Escape'){nav.classList.remove('open');menu.setAttribute('aria-expanded','false');}});
+document.querySelectorAll('.film').forEach(film => film.querySelector('button').addEventListener('click', () => {
+ const frame = document.createElement('iframe');
+ frame.src = film.dataset.provider === 'vimeo' ? 'https://player.vimeo.com/video/' + film.dataset.id + '?autoplay=1&playsinline=1' : 'https://www.youtube-nocookie.com/embed/' + film.dataset.id + '?autoplay=1&rel=0&playsinline=1';
+ frame.title = film.querySelector('button').getAttribute('aria-label'); frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true; film.replaceChildren(frame); frame.focus();
+}));
+</script></body></html>

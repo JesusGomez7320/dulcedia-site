@@ -455,7 +455,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a8
 @media(max-width:820px){#siteHeader:not(.is-solid){background:rgba(22,22,22,.22);backdrop-filter:blur(10px)}}
 body.no-custom-cursor,body.no-custom-cursor a,body.no-custom-cursor button,body.no-custom-cursor summary{cursor:auto}
 body.no-custom-cursor .cursor{display:none}
-@media(pointer:fine){body.cursor-ready summary{cursor:none}}
+/* Cover the root, nested elements and pseudo-elements, including browser defaults. */
+@media(pointer:fine){
+  html.cursor-ready,html.cursor-ready *,html.cursor-ready *::before,html.cursor-ready *::after{cursor:none!important}
+}
 @media(prefers-reduced-motion:reduce){#experience.bg-photo,#process.bg-photo,#proposals.bg-photo{background-attachment:scroll;background-position:center!important}.glass-panel{transition:none}}
 </style></head><body>
 <div class="cursor is-hidden" id="cursor" aria-hidden="true"></div>
@@ -493,7 +496,14 @@ document.addEventListener('keydown', e => {if(e.key === 'Escape'){nav.classList.
 document.querySelectorAll('.film').forEach(film => film.querySelector('button').addEventListener('click', () => {
  const frame = document.createElement('iframe');
  frame.src = film.dataset.provider === 'vimeo' ? 'https://player.vimeo.com/video/' + film.dataset.id + '?autoplay=1&playsinline=1' : 'https://www.youtube-nocookie.com/embed/' + film.dataset.id + '?autoplay=1&rel=0&playsinline=1';
- frame.title = film.querySelector('button').getAttribute('aria-label'); frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true; film.replaceChildren(frame); frame.focus();
+ frame.title = film.querySelector('button').getAttribute('aria-label'); frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true; film.replaceChildren(frame);
+ // Embedded players control their own pointer; hide our overlay while inside them.
+ const customCursor = document.getElementById('cursor');
+ frame.addEventListener('mouseenter', () => customCursor.classList.add('is-hidden'));
+ frame.addEventListener('mouseleave', () => { customCursor.classList.add('is-hidden'); customCursor.classList.remove('is-link'); });
+ customCursor.classList.add('is-hidden');
+ customCursor.classList.remove('is-link');
+ frame.focus();
 }));
 
 // Reveal the same editorial elements as the homepage.
@@ -536,6 +546,7 @@ reducedMotion.addEventListener('change',syncBackgroundMotion);syncBackgroundMoti
       const c = document.getElementById('cursor'); if(!c) return;
       if(!matchMedia('(pointer:fine)').matches){document.body.classList.add('no-custom-cursor');return;}
       document.body.classList.add('cursor-ready');
+      document.documentElement.classList.add('cursor-ready');
       let x = innerWidth/2, y = innerHeight/2, tx = x, ty = y;
       const lerp = (a,b,t)=>a+(b-a)*t;
 

@@ -471,6 +471,11 @@ figure{margin:0}.media-frame{overflow:hidden;border-radius:var(--r)}
 .scan-media{width:100%;max-width:700px;justify-self:center;margin:auto}
 .scan-media iframe,
 .scan-media video{width:100%;height:auto;aspect-ratio:16/9;display:block;background:transparent;border:0;border-radius:12px}
+@media (min-width: 821px){
+  .scan-media{max-width:960px}
+  .scan-media iframe,
+  .scan-media video{height:560px; max-height:70vh}
+}
 figcaption{font-size:12px;line-height:1.6;color:var(--muted);padding:12px 0}
 .dark figcaption{color:var(--dark-sub)}.dark .btn{color:var(--dark-ink);border-color:var(--dark-sub)}
 .format-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:48px}

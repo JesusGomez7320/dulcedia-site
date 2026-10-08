@@ -497,6 +497,12 @@ figcaption{font-size:12px;line-height:1.6;color:var(--muted);padding:12px 0}
 html.cursor-ready video{cursor:auto!important}
 
 .emulation-example{padding-top:56px;border-top:1px solid var(--dark-line)}
+
+/* Touch devices use the native pointer instead of the decorative cursor. */
+@media (pointer:coarse), (hover:none){
+  .cursor{display:none!important}
+  html,html *,html *::before,html *::after{cursor:auto!important}
+}
 </style><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Service", "name": "Film Photography and Film Emulation", "serviceType": ["35mm wedding film photography", "Digital photo film emulation", "Wedding video film emulation"], "provider": {"@type": "Organization", "name": "Dulce Día Cine"}, "areaServed": ["Southern California", "Orange County", "San Clemente"], "description": "Real 35mm film photography with custom film-stock packages, photo film-emulation styling included with photography packages, and separately quoted video film emulation."}</script></head><body>
 <div class="cursor is-hidden" id="cursor" aria-hidden="true"></div>
 <img class="bg-video film-background" src="/assets/film-web/film-hero.jpg" alt="" fetchpriority="high" decoding="async" width="1500" height="2000">

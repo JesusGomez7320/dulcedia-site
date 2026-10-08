@@ -461,6 +461,12 @@ body.no-custom-cursor .cursor{display:none}
   html.cursor-ready,html.cursor-ready *,html.cursor-ready *::before,html.cursor-ready *::after{cursor:none!important}
 }
 @media(prefers-reduced-motion:reduce){#experience.bg-photo,#process.bg-photo,#proposals.bg-photo{background-attachment:scroll;background-position:center!important}.glass-panel{transition:none}}
+
+/* Touch devices use the native pointer instead of the decorative cursor. */
+@media (pointer:coarse), (hover:none){
+  .cursor{display:none!important}
+  html,html *,html *::before,html *::after{cursor:auto!important}
+}
 </style></head><body>
 <div class="cursor is-hidden" id="cursor" aria-hidden="true"></div>
 <video class="bg-video" id="heroVideo" playsinline muted autoplay loop preload="auto" poster="/assets/images/hero-poster.jpg" aria-hidden="true"><source src="/assets/hero.mp4" type="video/mp4"></video>

@@ -457,7 +457,13 @@
       .b-draggable{ cursor:grab; }
       .b-draggable:active{ cursor:grabbing; }
     }
-  </style>
+
+/* Touch devices use the native pointer instead of the decorative cursor. */
+@media (pointer:coarse), (hover:none){
+  .cursor{display:none!important}
+  html,html *,html *::before,html *::after{cursor:auto!important}
+}
+</style>
 </head>
 <body class="no-js">
   <a class="sr-only" href="#main">Skip to content</a>

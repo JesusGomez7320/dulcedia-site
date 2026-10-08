@@ -644,7 +644,7 @@
         <div class="pkgs">
           <article class="pkg reveal">
             <h3 class="serif">DULCE INICIO (SWEET BEGINNING)</h3>
-            <p class="price">$1,900–$2,100</p>
+            <p class="price">$2,100</p>
             <ul>
               <li>6 Hours of Coverage</li>
               <li>1 Videographer</li>
@@ -655,7 +655,7 @@
           </article>
           <article class="pkg reveal">
             <h3 class="serif">DULCE RECUERDO (SWEET MEMORY)</h3>
-            <p class="price">$2,700–$3,000</p>
+            <p class="price">$3,000</p>
             <ul>
               <li>8 Hours of Coverage</li>
               <li>Two Videographers</li>
@@ -667,7 +667,7 @@
           </article>
           <article class="pkg reveal">
             <h3 class="serif">DULCE ETERNIDAD (SWEET ETERNITY)</h3>
-            <p class="price">$3,500–$4,000</p>
+            <p class="price">$4,000</p>
             <ul>
               <li>All-Day Coverage</li>
               <li>Two Videographers</li>
@@ -1396,6 +1396,7 @@
           { id:'a14', label:'1 hr extra coverage (2 photographers)', price:200, qty: true }
           ,{ id:'a12', label:'Highlight Film (3–4 mins)', price:550 }
           ,{ id:'a13', label:'Film package (~$300) — 3 rolls of film', price:300 }
+          ,{ id:'a15', label:'Additional film rolls ($50 each)', price:50, qty: true, maxQty: 5 }
         ]
       };
 
@@ -1476,7 +1477,7 @@
             qtyInput = document.createElement('select');
             qtyInput.id = `qty_${a.id}`;
             qtyInput.setAttribute('aria-label', `Number of extra hours for ${a.label}`);
-            for (let i = 1; i <= 8; i++) {
+            for (let i = 1; i <= (a.maxQty || 8); i++) {
               const opt = document.createElement('option');
               opt.value = i;
               opt.textContent = i;
@@ -1486,7 +1487,7 @@
             qtyInput = document.createElement('input');
             qtyInput.type = 'number';
             qtyInput.min = '1';
-            qtyInput.max = '12';
+            qtyInput.max = String(a.maxQty || 12);
             qtyInput.value = '1';
             qtyInput.id = `qty_${a.id}`;
             qtyInput.style.width = '40px';
@@ -1548,7 +1549,7 @@
               let qty = 1;
               const qtyInput = parent.querySelector('input[type="number"], select');
               if (qtyInput) {
-                qty = Math.max(1, Math.min(12, parseInt(qtyInput.value) || 1));
+                qty = Math.max(1, Math.min(a.maxQty || 12, parseInt(qtyInput.value) || 1));
                 qtyInput.value = qty;
               }
               state.addons.add({id: cb.value, qty});

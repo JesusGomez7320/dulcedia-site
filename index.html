@@ -1468,7 +1468,7 @@
           qtyWrap.style.alignItems = 'center';
           qtyWrap.style.marginLeft = '8px';
           const qtyLabel = document.createElement('label');
-          qtyLabel.textContent = 'Hours:';
+          qtyLabel.textContent = a.maxQty ? '+ Film rolls:' : 'Hours:';
           qtyLabel.setAttribute('for', `qty_${a.id}`);
           qtyLabel.style.fontSize = '13px';
           // Use select on mobile, input[type=number] on desktop

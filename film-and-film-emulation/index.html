@@ -52,7 +52,7 @@
     .rule{height:1px;background:var(--line);width:120px;margin:18px 0}
 
     .bg-video{
-      position:fixed; inset:0; width:100%; height:100%;
+      position:absolute; top:0; left:0; width:100%; height:100vh;
       object-fit:cover; pointer-events:none; z-index:0;
       filter:brightness(.62) contrast(1.06) saturate(1.06);
       transform:translate3d(0,0,0);
@@ -474,7 +474,7 @@ figure{margin:0}.media-frame{overflow:hidden;border-radius:var(--r)}
 @media (min-width: 821px){
   .scan-media{max-width:960px}
   .scan-media iframe,
-  .scan-media video{height:560px; max-height:70vh}
+  .scan-media video{height:380px; max-height:52vh}
 }
 figcaption{font-size:12px;line-height:1.6;color:var(--muted);padding:12px 0}
 .dark figcaption{color:var(--dark-sub)}.dark .btn{color:var(--dark-ink);border-color:var(--dark-sub)}

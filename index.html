@@ -418,6 +418,10 @@
     .b-card{ border:1px solid var(--line); border-radius:12px; background:#faf9f6; padding:16px; }
     .b-card h3{ margin:0 0 8px; font-size:14px; letter-spacing:.18em; text-transform:uppercase; }
     .b-options{ display:grid; gap:10px; }
+    .compact-options{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .compact-options .b-option{ padding:10px 12px; }
+    .compact-options .b-option .title{ font-size:14px; }
+    @media (max-width:700px){ .compact-options{ grid-template-columns:1fr; } }
     .b-option{
       display:flex; align-items:center; justify-content:space-between;
       gap:12px; padding:10px 12px; background:#fff; border:1px solid var(--line);
@@ -707,11 +711,13 @@
           <div class="builder-grid">
             <!-- PICKERS -->
             <div class="b-pickers">
-              <div class="b-card" aria-labelledby="baseTitle">
-                <h3 id="baseTitle" class="serif">Choose Your Base</h3>
-                <div class="b-options" id="baseOptions" role="radiogroup" aria-label="Base options">
-                  <!-- JS injects base options -->
-                </div>
+              <div class="b-card" aria-labelledby="videoTitle">
+                <h3 id="videoTitle" class="serif">Video Coverage</h3>
+                <div class="b-options compact-options" id="videoOptions" role="radiogroup" aria-label="Video coverage options"></div>
+              </div>
+              <div class="b-card" style="margin-top:16px" aria-labelledby="photoTitle">
+                <h3 id="photoTitle" class="serif">Photography Coverage</h3>
+                <div class="b-options compact-options" id="photoOptions" role="radiogroup" aria-label="Photography coverage options"></div>
                 <p class="sub" style="margin:14px 0 0">These sample builds help us understand what you’re looking for. Want fewer hours or a different combination? Send us a message and we can build a custom package for a smaller elopement, courthouse wedding, backyard wedding, or any budget.</p>
               </div>
 
@@ -1408,10 +1414,11 @@
         ]
       };
 
-      const state = { base:null, addons:new Set() };
+      const state = { video:null, photo:null, addons:new Set() };
 
       const $ = sel => document.querySelector(sel);
-      const baseWrap = $('#baseOptions');
+      const videoWrap = $('#videoOptions');
+      const photoWrap = $('#photoOptions');
       const addonsList = $('#addonsList');
       const addonsDrop = $('#addonsDrop');
       const summaryList = $('#summaryList');
@@ -1419,9 +1426,9 @@
       const copyBtn = $('#copyToFormBtn');
       const clearBtn = $('#clearBuildBtn');
 
-      // Render base radios
-      if (baseWrap){
-        PRICES.base.forEach((b, i)=>{
+      function renderBaseOptions(wrap, options, name, key){
+        if (!wrap) return;
+        options.forEach((b, i)=>{
           const row = document.createElement('label');
           row.className = 'b-option';
           row.innerHTML = `
@@ -1429,15 +1436,17 @@
               <span class="title">${b.label}</span>
               <span class="sub">$${b.price.toLocaleString()}</span>
             </div>
-            <input type="radio" name="basePick" value="${b.id}" ${i===0?'checked':''} aria-label="${b.label} for $${b.price}">
+            <input type="radio" name="${name}" value="${b.id}" ${i===0?'checked':''} aria-label="${b.label} for $${b.price}">
           `;
-          baseWrap.appendChild(row);
+          wrap.appendChild(row);
         });
-        state.base = PRICES.base[0].id;
-        baseWrap.addEventListener('change', (e)=>{
-          if(e.target && e.target.name==='basePick'){ state.base = e.target.value; renderSummary(); }
+        state[key] = options[0] ? options[0].id : null;
+        wrap.addEventListener('change', (e)=>{
+          if(e.target && e.target.name===name){ state[key] = e.target.value; renderSummary(); }
         });
       }
+      renderBaseOptions(videoWrap, PRICES.base.filter(b=>b.id.startsWith('b')), 'videoPick', 'video');
+      renderBaseOptions(photoWrap, PRICES.base.filter(b=>b.id.startsWith('p')), 'photoPick', 'photo');
 
 
       // Render add-on checkboxes
@@ -1585,10 +1594,10 @@
 
 
       function renderSummary(){
-        const base = PRICES.base.find(b=>b.id===state.base);
+        const bases = [state.video, state.photo].map(id=>PRICES.base.find(b=>b.id===id)).filter(Boolean);
         // Build addos array with support for extra coverage quantities
         let addos = [];
-        let total = base.price;
+        let total = bases.reduce((sum, base)=>sum + base.price, 0);
         state.addons.forEach(sel => {
           if (typeof sel === 'string') {
             const a = PRICES.addons.find(x => x.id === sel);
@@ -1604,12 +1613,13 @@
             }
           }
         });
-        const baseLi = document.createElement('li');
-        baseLi.className = 'row';
-        baseLi.innerHTML = `<span>${base.label}</span><span>$${base.price.toLocaleString()}</span>`;
-
         const frag = document.createDocumentFragment();
-        frag.appendChild(baseLi);
+        bases.forEach(base=>{
+          const baseLi = document.createElement('li');
+          baseLi.className = 'row';
+          baseLi.innerHTML = `<span>${base.label}</span><span>$${base.price.toLocaleString()}</span>`;
+          frag.appendChild(baseLi);
+        });
         addos.forEach(a=>{
           const li = document.createElement('li');
           li.className = 'row';
@@ -1618,7 +1628,7 @@
         });
 
         // Disclaimer for All day base
-        if (base.label && base.label.toLowerCase().includes('all‑day')) {
+        if (bases.some(base=>base.label.toLowerCase().includes('all‑day'))) {
           const disclaimer = document.createElement('li');
           disclaimer.className = 'row';
           disclaimer.innerHTML = `<span style=\"color:#b77;font-size:13px">All day is 12 hrs max</span><span></span>`;
@@ -1639,9 +1649,9 @@
       renderSummary();
 
       function copyToForm(){
-        const base = PRICES.base.find(b => b.id === state.base);
+        const bases = [state.video, state.photo].map(id=>PRICES.base.find(b=>b.id===id)).filter(Boolean);
         const addonLines = [];
-        let total = base ? base.price : 0;
+        let total = bases.reduce((sum, base)=>sum + base.price, 0);
 
         state.addons.forEach(sel => {
           if (typeof sel === 'string') {
@@ -1665,7 +1675,7 @@
         const addonsInput = document.getElementById('builder_addons');
         const totalInput = document.getElementById('builder_total');
 
-        if(baseInput) baseInput.value = base ? `${base.label} — $${base.price}` : '';
+        if(baseInput) baseInput.value = bases.map(base=>`${base.label} — $${base.price}`).join(', ');
         if(addonsInput) addonsInput.value = addonLines.join(', ');
         if(totalInput) totalInput.value = `$${total}`;
 
@@ -1679,11 +1689,10 @@
         clearBtn.addEventListener('click', ()=>{
           state.addons.clear();
 
-          const first = baseWrap && baseWrap.querySelector('input[name="basePick"]');
-          if(first){
-            first.checked = true;
-            state.base = first.value;
-          }
+          [['video', videoWrap, 'videoPick'], ['photo', photoWrap, 'photoPick']].forEach(([key, wrap, name])=>{
+            const first = wrap && wrap.querySelector(`input[name="${name}"]`);
+            if(first){ first.checked = true; state[key] = first.value; }
+          });
 
           if (addonsList) {
             addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {

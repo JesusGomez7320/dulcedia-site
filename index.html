@@ -1384,12 +1384,14 @@
     (function(){
       const PRICES = {
         base: [
+          { id:'b0', label:'Video — Not needed', price:0 },
           { id:'b1', label:'Video — 6 hrs, 1 videographer', price:1250 },
           { id:'b2', label:'Video — 8 hrs, 1 videographer', price:1450 },
           { id:'b3', label:'Video — All‑day, 1 videographer', price:1900 },
           { id:'b4', label:'Video — 6 hrs, 2 videographers', price:1900 },
           { id:'b5', label:'Video — 8 hrs, 2 videographers', price:2100 },
           { id:'b6', label:'Video — All‑day, 2 videographers', price:2600 }
+          ,{ id:'p0', label:'Photo — Not needed', price:0 }
           ,{ id:'p1', label:'Photo — 6 hrs, 1 photographer', price:1000 }
           ,{ id:'p2', label:'Photo — 8 hrs, 1 photographer', price:1200 }
           ,{ id:'p3', label:'Photo — All‑day, 1 photographer', price:1500 }
@@ -1406,9 +1408,7 @@
           { id:'a6', label:'1 hr extra coverage (1 videographer)', price:150, qty: true },
           { id:'a7', label:'1 hr extra coverage (2 videographers)', price:200, qty: true },
           { id:'a11', label:'1 hr extra coverage (1 photographer)', price:100, qty: true },
-          { id:'a8', label:'1 Photographer 6 hrs', price:1000 },
-          { id:'a9', label:'1 Photographer 8 hrs', price:1200 },
-          { id:'a10', label:'1 Photographer All day', price:1500 }
+          { id:'a14', label:'1 hr extra coverage (2 photographers)', price:200, qty: true }
           ,{ id:'a12', label:'Highlight Film (3–4 mins)', price:550 }
           ,{ id:'a13', label:'Film package (~$300) — 3 rolls of film', price:300 }
         ]
@@ -1544,24 +1544,9 @@
           });
         });
 
-        // Photographer add-ons mutual exclusion
-        const photog6 = addonsList.querySelector('input[value="a8"]');
-        const photog8 = addonsList.querySelector('input[value="a9"]');
-        const photogAll = addonsList.querySelector('input[value="a10"]');
-        [photog6, photog8, photogAll].forEach(cb => {
-          cb.addEventListener('change', () => {
-            if (cb.checked) {
-              if (cb.value === 'a8') { photog8.checked = false; photogAll.checked = false; }
-              if (cb.value === 'a9') { photog6.checked = false; photogAll.checked = false; }
-              if (cb.value === 'a10') { photog6.checked = false; photog8.checked = false; }
-            }
-            updateAddonsState();
-          });
-        });
-
         // All other checkboxes
         addonsList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-          if (!["a1","a2","a8","a9","a10"].includes(cb.value)) {
+          if (!["a1","a2"].includes(cb.value)) {
             cb.addEventListener('change', updateAddonsState);
           }
         });

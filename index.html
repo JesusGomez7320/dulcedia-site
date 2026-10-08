@@ -697,11 +697,12 @@
                 <div class="b-options" id="baseOptions" role="radiogroup" aria-label="Base options">
                   <!-- JS injects base options -->
                 </div>
+                <p class="sub" style="margin:14px 0 0">These sample builds help us understand what you’re looking for. Want fewer hours or a different combination? Send us a message and we can build a custom package for a smaller elopement, courthouse wedding, backyard wedding, or any budget.</p>
               </div>
 
               <div class="b-card" style="margin-top:16px" aria-labelledby="addonsTitle">
                 <h3 id="addonsTitle" class="serif">Add‑Ons</h3>
-                <p class="sub" style="margin:0 0 8px">Select any add-ons. "Highlight Reel" and "2 Highlight Reels" cannot be selected together.</p>
+                <p class="sub" style="margin:0 0 8px">Select any add-ons. Highlight films run 3–4 minutes. The film package is approximately $300 for three rolls; add more rolls or discuss different film stocks with us. Highlight Reel and 2 Highlight Reels cannot be selected together.</p>
                 <form id="addonsList" class="b-options" aria-label="Add-ons list" style="display: flex; flex-direction: column; gap: 8px;">
                   <!-- JS injects addon checkboxes -->
                 </form>
@@ -1362,12 +1363,18 @@
     (function(){
       const PRICES = {
         base: [
-          { id:'b1', label:'6 hrs, 1 videographer', price:1250 },
-          { id:'b2', label:'8 hrs, 1 videographer', price:1450 },
-          { id:'b3', label:'All‑day, 1 videographer', price:1900 },
-          { id:'b4', label:'6 hrs, 2 videographers', price:1900 },
-          { id:'b5', label:'8 hrs, 2 videographers', price:2100 },
-          { id:'b6', label:'All‑day, 2 videographers', price:2600 }
+          { id:'b1', label:'Video — 6 hrs, 1 videographer', price:1250 },
+          { id:'b2', label:'Video — 8 hrs, 1 videographer', price:1450 },
+          { id:'b3', label:'Video — All‑day, 1 videographer', price:1900 },
+          { id:'b4', label:'Video — 6 hrs, 2 videographers', price:1900 },
+          { id:'b5', label:'Video — 8 hrs, 2 videographers', price:2100 },
+          { id:'b6', label:'Video — All‑day, 2 videographers', price:2600 }
+          ,{ id:'p1', label:'Photo — 6 hrs, 1 photographer', price:1000 }
+          ,{ id:'p2', label:'Photo — 8 hrs, 1 photographer', price:1200 }
+          ,{ id:'p3', label:'Photo — All‑day, 1 photographer', price:1500 }
+          ,{ id:'p4', label:'Photo — 6 hrs, 2 photographers', price:1500 }
+          ,{ id:'p5', label:'Photo — 8 hrs, 2 photographers', price:1700 }
+          ,{ id:'p6', label:'Photo — All‑day, 2 photographers', price:2100 }
         ],
         addons: [
           { id:'a1', label:'Highlight Reel', price:450 },
@@ -1381,6 +1388,8 @@
           { id:'a8', label:'1 Photographer 6 hrs', price:1000 },
           { id:'a9', label:'1 Photographer 8 hrs', price:1200 },
           { id:'a10', label:'1 Photographer All day', price:1500 }
+          ,{ id:'a12', label:'Highlight Film (3–4 mins)', price:550 }
+          ,{ id:'a13', label:'Film package (~$300) — 3 rolls of film', price:300 }
         ]
       };
 

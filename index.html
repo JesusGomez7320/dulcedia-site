@@ -177,6 +177,11 @@
     .pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
     @media (max-width:980px){.pkgs{grid-template-columns:1fr}}
     .pkg{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px}
+    .photography-pkgs .pkg{display:flex;flex-direction:column;min-width:0}
+    .photography-pkgs .pkg h3{min-height:3.5em}
+    .photography-pkgs .pkg > .sub:last-child{margin-top:auto !important;padding-top:10px}
+    #addonsList .b-option{flex-wrap:wrap}
+    #addonsList .b-option .title{flex:1;min-width:0;overflow-wrap:anywhere}
     .price{font-weight:800;margin:10px 0 16px;font-size:22px}
     .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--muted);margin-bottom:8px}
     .kicker{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--ink);margin:0 0 10px}
@@ -664,6 +669,7 @@
       <div class="wrap">
         <h2 class="serif reveal">WEDDING PACKAGES</h2>
         <div class="rule reveal" aria-hidden="true"></div>
+        <h3 class="serif reveal">WEDDING VIDEOGRAPHY</h3>
         <div class="pkgs">
           <article class="pkg reveal">
             <h3 class="serif">DULCE INICIO (SWEET BEGINNING)</h3>
@@ -702,6 +708,57 @@
             <p class="sub" style="margin-top:10px"><em>Add a dedicated photographer for $1,400. Please reach out for details.</em></p>
           </article>
         </div>
+        <h3 class="serif reveal" style="margin-top:32px">WEDDING PHOTOGRAPHY</h3>
+        <div class="pkgs photography-pkgs">
+          <article class="pkg reveal">
+            <h3 class="serif">DULCE INSTANTE (SWEET MOMENT)</h3>
+            <p class="price">$1,500</p>
+            <p class="sub">6 Hours</p>
+            <p class="sub"><em>“Every love story is made of beautiful moments.”</em></p>
+            <ul>
+              <li>6 Hours of Photography Coverage</li>
+              <li>1 Professional Photographer</li>
+              <li>250–350 Professionally Edited Photos</li>
+              <li>Professional Color Correction</li>
+              <li>High-Resolution Digital Images</li>
+              <li>Private Online Gallery</li>
+            </ul>
+            <p class="sub" style="margin-top:10px"><em>Add a second photographer for $600.</em></p>
+          </article>
+          <article class="pkg reveal">
+            <h3 class="serif">DULCE RETRATO (SWEET PORTRAIT)</h3>
+            <p class="price">$2,200</p>
+            <p class="sub">8 Hours</p>
+            <p class="sub"><em>“Capturing the people, emotions, and memories that make your day unforgettable.”</em></p>
+            <ul>
+              <li>8 Hours of Photography Coverage</li>
+              <li>2 Professional Photographers</li>
+              <li>300–500 Professionally Edited Photos</li>
+              <li>Professional Color Correction</li>
+              <li>High-Resolution Digital Images</li>
+              <li>Private Online Gallery</li>
+              <li>20 Preview Photos Within 7 Days</li>
+            </ul>
+            <p class="sub" style="margin-top:10px"><em>Add 3 rolls of 35mm film photography for $300.</em></p>
+          </article>
+          <article class="pkg reveal">
+            <h3 class="serif">DULCE LEGADO (SWEET LEGACY)</h3>
+            <p class="price">$2,900</p>
+            <p class="sub">All-Day Coverage (Up to 12 Hours)</p>
+            <p class="sub"><em>“A timeless collection of memories, captured with intention and preserved for generations.”</em></p>
+            <ul>
+              <li>All-Day Photography Coverage (Up to 12 Hours)</li>
+              <li>2 Professional Photographers</li>
+              <li>500–700 Professionally Edited Photos</li>
+              <li>Professional Color Correction</li>
+              <li>High-Resolution Digital Images</li>
+              <li>Private Online Gallery</li>
+              <li>30 Preview Photos Within 72 Hours</li>
+              <li>3 Rolls of 35mm Film Photography</li>
+            </ul>
+            <p class="sub" style="margin-top:10px"><em>Additional film rolls available for $65 each.</em></p>
+          </article>
+        </div>
         <div class="packages-extra reveal" style="padding:32px 28px; min-height:80px; display:flex; align-items:center;">
           <p style="margin:0;"><strong>Customize your experience:</strong> These packages are prebuilt. Feel free to contact us to modify any package or build a custom one. Travel outside LA County, San Diego County and Orange County may include a travel fee.</p>
         </div>
@@ -721,17 +778,19 @@
             <div class="b-pickers">
               <div class="b-card" aria-labelledby="videoTitle">
                 <h3 id="videoTitle" class="serif">Video Coverage</h3>
+                <p class="sub">À la carte video coverage only; edited deliverables are priced separately unless included in a package.</p>
                 <div class="b-options compact-options" id="videoOptions" role="radiogroup" aria-label="Video coverage options"></div>
               </div>
               <div class="b-card" style="margin-top:16px" aria-labelledby="photoTitle">
                 <h3 id="photoTitle" class="serif">Photography Coverage</h3>
+                <p class="sub">À la carte photography coverage is separate from the wedding photography packages above.</p>
                 <div class="b-options compact-options" id="photoOptions" role="radiogroup" aria-label="Photography coverage options"></div>
                 <p class="sub" style="margin:14px 0 0">These sample builds help us understand what you’re looking for. Want fewer hours or a different combination? Send us a message and we can build a custom package for a smaller elopement, courthouse wedding, backyard wedding, or any budget.</p>
               </div>
 
               <div class="b-card" style="margin-top:16px" aria-labelledby="addonsTitle">
                 <h3 id="addonsTitle" class="serif">Add‑Ons</h3>
-                <p class="sub" style="margin:0 0 8px">Select any add-ons. Highlight films run 3–4 minutes. The film package is approximately $300 for three rolls; add more rolls or discuss different film stocks with us. Highlight Reel and 2 Highlight Reels cannot be selected together.</p>
+                <p class="sub" style="margin:0 0 8px">Select any add-ons. A Vertical Highlight Reel is a short-form social media video. A Wedding Highlight Film is a cinematic 3–4 minute wedding video; an Extended Wedding Highlight Film runs 4–6 minutes. A Documentary Edit preserves longer wedding moments, such as the ceremony and speeches. The 35mm film photography package is $350 for three rolls; additional rolls are $65 each. Dulce Retrato offers a package-specific three-roll add-on for $300. Vertical Highlight Reel and 2 Vertical Highlight Reels cannot be selected together.</p>
                 <form id="addonsList" class="b-options" aria-label="Add-ons list" style="display: flex; flex-direction: column; gap: 8px;">
                   <!-- JS injects addon checkboxes -->
                 </form>
@@ -1403,33 +1462,33 @@
       const PRICES = {
         base: [
           { id:'b0', label:'Video — Not needed', price:0 },
-          { id:'b1', label:'Video — 6 hrs, 1 videographer', price:1250 },
-          { id:'b2', label:'Video — 8 hrs, 1 videographer', price:1450 },
-          { id:'b3', label:'Video — All‑day, 1 videographer', price:1900 },
-          { id:'b4', label:'Video — 6 hrs, 2 videographers', price:1900 },
-          { id:'b5', label:'Video — 8 hrs, 2 videographers', price:2100 },
-          { id:'b6', label:'Video — All‑day, 2 videographers', price:2600 }
+          { id:'b1', label:'Video — 6 hrs, 1 videographer', price:1500 },
+          { id:'b2', label:'Video — 8 hrs, 1 videographer', price:1800 },
+          { id:'b3', label:'Video — All‑day, 1 videographer', price:2300 },
+          { id:'b4', label:'Video — 6 hrs, 2 videographers', price:2300 },
+          { id:'b5', label:'Video — 8 hrs, 2 videographers', price:2600 },
+          { id:'b6', label:'Video — All‑day, 2 videographers', price:3200 }
           ,{ id:'p0', label:'Photo — Not needed', price:0 }
-          ,{ id:'p1', label:'Photo — 6 hrs, 1 photographer', price:1000 }
-          ,{ id:'p2', label:'Photo — 8 hrs, 1 photographer', price:1200 }
-          ,{ id:'p3', label:'Photo — All‑day, 1 photographer', price:1500 }
-          ,{ id:'p4', label:'Photo — 6 hrs, 2 photographers', price:1500 }
-          ,{ id:'p5', label:'Photo — 8 hrs, 2 photographers', price:1700 }
-          ,{ id:'p6', label:'Photo — All‑day, 2 photographers', price:2100 }
+          ,{ id:'p1', label:'Photo — 6 hrs, 1 photographer', price:1200 }
+          ,{ id:'p2', label:'Photo — 8 hrs, 1 photographer', price:1500 }
+          ,{ id:'p3', label:'Photo — All‑day, 1 photographer', price:1900 }
+          ,{ id:'p4', label:'Photo — 6 hrs, 2 photographers', price:1800 }
+          ,{ id:'p5', label:'Photo — 8 hrs, 2 photographers', price:2100 }
+          ,{ id:'p6', label:'Photo — All‑day, 2 photographers', price:2600 }
         ],
         addons: [
-          { id:'a1', label:'Highlight Reel', price:450 },
-          { id:'a2', label:'2 Highlight Reels', price:675 },
-          { id:'a3', label:'Vertical Conversion', price:175 },
-          { id:'a4', label:'Documentary Edit', price:650 },
-          { id:'a5', label:'Drone Coverage', price:275 },
-          { id:'a6', label:'1 hr extra coverage (1 videographer)', price:150, qty: true },
-          { id:'a7', label:'1 hr extra coverage (2 videographers)', price:200, qty: true },
-          { id:'a11', label:'1 hr extra coverage (1 photographer)', price:100, qty: true },
-          { id:'a14', label:'1 hr extra coverage (2 photographers)', price:200, qty: true }
-          ,{ id:'a12', label:'Highlight Film (3–4 mins)', price:550 }
-          ,{ id:'a13', label:'Film package (~$300) — 3 rolls of film', price:300 }
-          ,{ id:'a15', label:'Additional film rolls ($50 each)', price:50, qty: true, maxQty: 5 }
+          { id:'a1', label:'Vertical Highlight Reel', price:550 },
+          { id:'a2', label:'2 Vertical Highlight Reels', price:850 },
+          { id:'a3', label:'Vertical Conversion', price:200 },
+          { id:'a4', label:'Documentary Edit', price:850 },
+          { id:'a5', label:'Drone Coverage', price:350 },
+          { id:'a6', label:'Additional Hour / 1 Videographer', price:200, qty: true },
+          { id:'a7', label:'Additional Hour / 2 Videographers', price:300, qty: true },
+          { id:'a11', label:'Additional Hour / 1 Photographer', price:150, qty: true },
+          { id:'a14', label:'Additional Hour / 2 Photographers', price:250, qty: true }
+          ,{ id:'a12', label:'Wedding Highlight Film (3–4 Minutes)', price:750 }
+          ,{ id:'a13', label:'35mm Film Photography Package (3 Rolls)', price:350 }
+          ,{ id:'a15', label:'Additional Film Roll', price:65, qty: true, maxQty: 5 }
         ]
       };
 

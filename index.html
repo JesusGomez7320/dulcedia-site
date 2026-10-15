@@ -485,8 +485,8 @@
 .edit-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:var(--bg);color:var(--ink);display:grid;place-items:center;font:22px/1 system-ui;box-shadow:0 2px 16px #0003}
 .edit-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
 .edit-compare:focus-within{outline:3px solid var(--ink);outline-offset:5px}
-.edit-help{text-align:center;font-size:12px;color:var(--muted);margin:14px 0}.edit-choices{display:flex;justify-content:center;gap:12px}
-.edit-choice{width:56px;height:64px;padding:0;overflow:hidden;border:2px solid transparent;border-radius:6px;background:var(--line);opacity:.6;transition:opacity .2s,border-color .2s}
+.edit-help{text-align:center;font-size:12px;color:var(--muted);margin:14px 0}.edit-choices{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.edit-choice{flex:0 0 56px;width:56px;height:64px;padding:0;overflow:hidden;border:2px solid transparent;border-radius:6px;background:var(--line);opacity:.6;transition:opacity .2s,border-color .2s}
 .edit-choice img{display:block;width:100%;height:100%;object-fit:cover}.edit-choice[aria-pressed="true"]{opacity:1;border-color:var(--ink);outline:2px solid var(--bg);outline-offset:-4px}
 .edit-choice:hover{opacity:1}.edit-choice:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 @media(max-width:760px){.edit-layout{grid-template-columns:1fr;gap:32px}.edit-viewer{width:100%;max-width:520px;margin:auto}.edit-copy .btn{font-size:14px}}
@@ -623,6 +623,12 @@
             <button class="edit-choice" type="button" data-pair="2" aria-label="Compare photo 2" aria-pressed="false"><img src="/assets/BNA/web/2_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
             <button class="edit-choice" type="button" data-pair="3" aria-label="Compare photo 3" aria-pressed="false"><img src="/assets/BNA/web/3_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
             <button class="edit-choice" type="button" data-pair="4" aria-label="Compare photo 4" aria-pressed="false"><img src="/assets/BNA/web/4_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="5" aria-label="Compare photo 5" aria-pressed="false"><img src="/assets/BNA/web/5_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="6" aria-label="Compare photo 6" aria-pressed="false"><img src="/assets/BNA/web/6_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="7" aria-label="Compare photo 7" aria-pressed="false"><img src="/assets/BNA/web/7_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="8" aria-label="Compare photo 8" aria-pressed="false"><img src="/assets/BNA/web/8_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="9" aria-label="Compare photo 9" aria-pressed="false"><img src="/assets/BNA/web/9_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="10" aria-label="Compare photo 10" aria-pressed="false"><img src="/assets/BNA/web/10_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
           </div>
         </div>
       </div>
@@ -1164,23 +1170,32 @@
       const range = document.getElementById('editRange');
       const before = document.getElementById('editBefore');
       const after = document.getElementById('editAfter');
-      const choices = document.querySelectorAll('.edit-choice');
+      const choices = Array.from(document.querySelectorAll('.edit-choice'));
+      // Shuffle whole pairs so before and after always stay matched.
+      for(let i=choices.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [choices[i],choices[j]]=[choices[j],choices[i]];
+      }
+      const choiceList=document.querySelector('.edit-choices');
+      choices.forEach(button=>choiceList.appendChild(button));
       function reveal(){
         compare.style.setProperty('--reveal', range.value + '%');
         range.setAttribute('aria-valuetext', range.value + '% after revealed');
       }
       range.addEventListener('input', reveal);
-      choices.forEach(button => button.addEventListener('click', () => {
+      function selectPair(button){
         const pair = button.dataset.pair;
         before.src = '/assets/BNA/web/' + pair + '_B.jpg';
         after.src = '/assets/BNA/web/' + pair + '_A.jpg';
         before.alt = 'Photo ' + pair + ' before the Lightroom edit';
         after.alt = 'Photo ' + pair + ' after the Lightroom edit';
-        compare.style.aspectRatio = pair === '4' ? '2609 / 3479' : '2832 / 4240';
+        compare.style.aspectRatio = Number(pair) >= 5 ? '3 / 4' : pair === '4' ? '2609 / 3479' : '2832 / 4240';
         choices.forEach(choice => choice.setAttribute('aria-pressed', String(choice === button)));
         range.value = 50;
         reveal();
-      }));
+      }
+      choices.forEach(button=>button.addEventListener('click',()=>selectPair(button)));
+      selectPair(choices[0]);
     })();
 
 

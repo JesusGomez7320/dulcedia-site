@@ -468,6 +468,25 @@
   .cursor{display:none!important}
   html,html *,html *::before,html *::after{cursor:auto!important}
 }
+
+/* Lightroom before / after */
+.edit-layout{display:grid;grid-template-columns:.85fr 1fr;gap:clamp(32px,6vw,88px);align-items:center}
+.edit-copy h2{font-size:clamp(28px,3.4vw,44px);line-height:1.25;letter-spacing:.07em;margin:12px 0 24px}
+.edit-copy .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase}.edit-copy .btn{margin-top:12px}
+.edit-viewer{min-width:0}.edit-compare{--reveal:50%;position:relative;aspect-ratio:2832/4240;overflow:hidden;border-radius:14px;background:var(--line);isolation:isolate}
+.edit-compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none}
+.edit-compare .edit-after{clip-path:inset(0 calc(100% - var(--reveal)) 0 0)}
+.edit-label{position:absolute;top:16px;padding:5px 12px;border-radius:999px;background:rgba(14,15,18,.65);color:white;font-size:11px;letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
+.edit-label.after{left:16px}.edit-label.before{right:16px}
+.edit-divider{position:absolute;top:0;bottom:0;left:var(--reveal);width:2px;background:white;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 8px #0003}
+.edit-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:var(--bg);color:var(--ink);display:grid;place-items:center;font:22px/1 system-ui;box-shadow:0 2px 16px #0003}
+.edit-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+.edit-compare:focus-within{outline:3px solid var(--ink);outline-offset:5px}
+.edit-help{text-align:center;font-size:12px;color:var(--muted);margin:14px 0}.edit-choices{display:flex;justify-content:center;gap:12px}
+.edit-choice{width:56px;height:64px;padding:0;overflow:hidden;border:2px solid transparent;border-radius:6px;background:var(--line);opacity:.6;transition:opacity .2s,border-color .2s}
+.edit-choice img{display:block;width:100%;height:100%;object-fit:cover}.edit-choice[aria-pressed="true"]{opacity:1;border-color:var(--ink);outline:2px solid var(--bg);outline-offset:-4px}
+.edit-choice:hover{opacity:1}.edit-choice:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+@media(max-width:760px){.edit-layout{grid-template-columns:1fr;gap:32px}.edit-viewer{width:100%;max-width:520px;margin:auto}.edit-copy .btn{font-size:14px}}
 </style>
 </head>
 <body class="no-js">
@@ -561,6 +580,36 @@
         <div class="vp" id="folioVP" tabindex="0" aria-roledescription="carousel" aria-label="Portfolio stills">
           <!-- Track is now empty; JS will render the gallery from the manifest and randomize the order -->
           <ul class="track" id="folioTrack"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FROM THE DAY TO THE EDIT -->
+    <section id="the-edit" class="section" aria-labelledby="edit-title">
+      <div class="wrap edit-layout">
+        <div class="edit-copy">
+          <p class="eyebrow">The light. The feeling. The final frame.</p>
+          <h2 id="edit-title" class="serif">From the day<br>to the edit.</h2>
+          <p>A photograph begins with the light in front of us. The edit is where we bring back the feeling of being there: the warmth of the sun, the softness of a quiet moment, the colors that made the day yours.</p>
+          <p class="sub">In Lightroom, we thoughtfully refine exposure, white balance, and color, shaping highlights and shadows while keeping skin tones natural. Each image gets individual attention, with a consistent finish that brings your gallery together.</p>
+          <p class="sub">That same care carries into our love of film: gentle contrast, rich color, and a little nostalgia. Discover how real film and our digital film emulation process can become part of your story.</p>
+          <a class="btn" href="/film-and-film-emulation/">Explore Film &amp; Film Emulation <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="edit-viewer">
+          <div class="edit-compare" id="editCompare">
+            <img id="editBefore" src="/assets/BNA/web/1_B.jpg" alt="Photo 1 before the Lightroom edit" width="1069" height="1600" loading="lazy" decoding="async" draggable="false">
+            <img class="edit-after" id="editAfter" src="/assets/BNA/web/1_A.jpg" alt="Photo 1 after the Lightroom edit" width="1069" height="1600" loading="lazy" decoding="async" draggable="false">
+            <span class="edit-label after">After</span><span class="edit-label before">Before</span>
+            <span class="edit-divider" aria-hidden="true"><span class="edit-handle">‹ ›</span></span>
+            <input class="edit-range" id="editRange" type="range" min="0" max="100" value="50" aria-label="Reveal the edited photo" aria-valuetext="50% after revealed" aria-describedby="editHelp">
+          </div>
+          <p class="edit-help" id="editHelp">Drag to explore the edit · Choose a frame below</p>
+          <div class="edit-choices" role="group" aria-label="Choose a before and after photo">
+            <button class="edit-choice" type="button" data-pair="1" aria-label="Compare photo 1" aria-pressed="true"><img src="/assets/BNA/web/1_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="2" aria-label="Compare photo 2" aria-pressed="false"><img src="/assets/BNA/web/2_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="3" aria-label="Compare photo 3" aria-pressed="false"><img src="/assets/BNA/web/3_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+            <button class="edit-choice" type="button" data-pair="4" aria-label="Compare photo 4" aria-pressed="false"><img src="/assets/BNA/web/4_A.jpg" alt="" width="56" height="64" loading="lazy" decoding="async"></button>
+          </div>
         </div>
       </div>
     </section>
@@ -1043,6 +1092,32 @@
 
   <script>
     document.body.classList.remove('no-js');
+
+    // Native range supports touch, mouse, and keyboard comparison.
+    (function initEditComparison(){
+      const compare = document.getElementById('editCompare');
+      const range = document.getElementById('editRange');
+      const before = document.getElementById('editBefore');
+      const after = document.getElementById('editAfter');
+      const choices = document.querySelectorAll('.edit-choice');
+      function reveal(){
+        compare.style.setProperty('--reveal', range.value + '%');
+        range.setAttribute('aria-valuetext', range.value + '% after revealed');
+      }
+      range.addEventListener('input', reveal);
+      choices.forEach(button => button.addEventListener('click', () => {
+        const pair = button.dataset.pair;
+        before.src = '/assets/BNA/web/' + pair + '_B.jpg';
+        after.src = '/assets/BNA/web/' + pair + '_A.jpg';
+        before.alt = 'Photo ' + pair + ' before the Lightroom edit';
+        after.alt = 'Photo ' + pair + ' after the Lightroom edit';
+        compare.style.aspectRatio = pair === '4' ? '2609 / 3479' : '2832 / 4240';
+        choices.forEach(choice => choice.setAttribute('aria-pressed', String(choice === button)));
+        range.value = 50;
+        reveal();
+      }));
+    })();
+
 
     // Year
     (function(){ var y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear(); })();

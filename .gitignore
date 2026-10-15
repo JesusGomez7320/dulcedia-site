@@ -1,0 +1,9 @@
+# macOS folder metadata
+.DS_Store
+
+# Local source photos; optimized website copies remain tracked in BNA/web
+/assets/BNA/*
+!/assets/BNA/web/
+
+# Local source videos; optimized website copies live in assets/film-web
+/assets/Film emulation vid/

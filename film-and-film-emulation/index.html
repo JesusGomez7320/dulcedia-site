@@ -503,6 +503,16 @@ html.cursor-ready video{cursor:auto!important}
   .cursor{display:none!important}
   html,html *,html *::before,html *::after{cursor:auto!important}
 }
+
+.video-compare{--reveal:50%;position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:12px;background:#080808;isolation:isolate}
+.video-compare video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.video-compare .graded{clip-path:inset(0 calc(100% - var(--reveal)) 0 0)}
+.video-label-layer{position:absolute;inset:0;pointer-events:none}.video-label-layer.graded{clip-path:inset(0 calc(100% - var(--reveal)) 0 0)}.video-label-layer.raw{clip-path:inset(0 0 0 var(--reveal))}
+.video-label{position:absolute;top:16px;padding:6px 10px;background:#000a;color:white;border-radius:20px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}.graded .video-label{left:14px}.raw .video-label{right:14px}
+.video-divider{position:absolute;top:0;bottom:0;left:var(--reveal);width:2px;background:white;transform:translateX(-50%);pointer-events:none}
+.video-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:#f7f6f2;color:#161616;font:22px/1 system-ui;box-shadow:0 2px 16px #0004}
+.video-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}.video-compare:focus-within{outline:3px solid #c9bba6;outline-offset:5px}
+.video-play{margin-top:12px;background:transparent;color:inherit;border:1px solid #777;border-radius:20px;padding:8px 16px;font:inherit;font-size:13px}.video-play:focus-visible{outline:2px solid white;outline-offset:3px}
 </style><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Service", "name": "Film Photography and Film Emulation", "serviceType": ["35mm wedding film photography", "Digital photo film emulation", "Wedding video film emulation"], "provider": {"@type": "Organization", "name": "Dulce Día Cine"}, "areaServed": ["Southern California", "Orange County", "San Clemente"], "description": "Real 35mm film photography with custom film-stock packages, photo film-emulation styling included with photography packages, and separately quoted video film emulation."}</script></head><body>
 <div class="cursor is-hidden" id="cursor" aria-hidden="true"></div>
 <img class="bg-video film-background" src="/assets/film-web/film-hero.jpg" alt="" fetchpriority="high" decoding="async" width="1500" height="2000">
@@ -549,7 +559,13 @@ html.cursor-ready video{cursor:auto!important}
     <a class="btn" href="/#contact">Find your film-emulation style</a>
   </div>
 </article>
-<div class="editorial workflow"><div><p class="eyebrow">Professional tools. Intentional choices.</p><h2>Crafted in DaVinci Resolve.</h2><p>Beautiful film emulation begins with the original capture. We shoot our wedding footage in RAW and prioritize the highest-quality source files, giving us a rich starting point for accurate color, natural skin tones, and a carefully controlled film-inspired finish.</p><p class="sub">Preserving that image information gives us more flexibility to refine exposure, balance color, and shape highlights and shadows before adding the emulation. From a clean, polished grade to a more expressive vintage look, the finish is built on a high-quality foundation.</p><p>We use DaVinci Resolve, professional film-emulation tools, and industry-standard color-grading techniques to build a considered look. Exposure and white balance come first, followed by shot matching, tonal shaping, and the film-inspired color response.</p><p class="sub">Grain, highlight bloom, and other texture choices are adjusted to suit the footage and the style you choose. We consider how the image feels in motion as well as in a still frame, keeping skin tones and the emotion of your day at the center of the grade.</p><p class="sub">The finishing process is about consistency: a look that holds together across changing light, different scenes, and the complete story. Tell us how subtle or nostalgic you want it to feel, and we’ll discuss the scope and price of your video-emulation package.</p></div><div class="tool-images"><figure><img src="/assets/film-web/professional-tools.jpg" alt="Color scopes used to evaluate exposure and color during professional video grading" loading="lazy" width="1400" height="529"><figcaption>Reading exposure and color with professional scopes.</figcaption></figure><figure><img src="/assets/film-web/inustry-emulation.jpg" alt="DaVinci Resolve node workflow for correction, texture, negative and print emulation" loading="lazy" width="1400" height="793"><figcaption>A structured workflow for correction, texture, and film emulation.</figcaption></figure></div></div></div></section>
+<div class="editorial workflow"><div><p class="eyebrow">Professional tools. Intentional choices.</p><h2>Crafted in DaVinci Resolve.</h2><p>Beautiful film emulation begins with the original capture. We shoot our wedding footage in RAW and prioritize the highest-quality source files, giving us a rich starting point for accurate color, natural skin tones, and a carefully controlled film-inspired finish.</p><p class="sub">Preserving that image information gives us more flexibility to refine exposure, balance color, and shape highlights and shadows before adding the emulation. From a clean, polished grade to a more expressive vintage look, the finish is built on a high-quality foundation.</p><p>We use DaVinci Resolve, professional film-emulation tools, and industry-standard color-grading techniques to build a considered look. Exposure and white balance come first, followed by shot matching, tonal shaping, and the film-inspired color response.</p><p class="sub">Grain, highlight bloom, and other texture choices are adjusted to suit the footage and the style you choose. We consider how the image feels in motion as well as in a still frame, keeping skin tones and the emotion of your day at the center of the grade.</p><p class="sub">The finishing process is about consistency: a look that holds together across changing light, different scenes, and the complete story. Tell us how subtle or nostalgic you want it to feel, and we’ll discuss the scope and price of your video-emulation package.</p></div><div class="tool-images"><figure class="video-comparison"><div class="video-compare" id="videoCompare" aria-label="RAW and film emulation video comparison">
+<video id="videoRaw" muted playsinline preload="none" disablepictureinpicture aria-label="Original RAW footage"><source src="/assets/film-web/comparison/raw.mp4" type="video/mp4"></video>
+<video id="videoGraded" class="graded" muted playsinline preload="none" disablepictureinpicture poster="/assets/film-web/comparison/poster.jpg" aria-label="Film emulation footage"><source src="/assets/film-web/comparison/film-emulation.mp4" type="video/mp4"></video>
+<span class="video-label-layer graded"><span class="video-label">Film emulation</span></span><span class="video-label-layer raw"><span class="video-label">RAW</span></span>
+<span class="video-divider" aria-hidden="true"><span class="video-handle">‹ ›</span></span>
+<input id="videoReveal" class="video-range" type="range" min="0" max="100" value="50" aria-label="Reveal film emulation" aria-valuetext="50% film emulation revealed" aria-describedby="videoCompareHelp">
+</div><figcaption id="videoCompareHelp">From RAW capture to film-inspired color. Drag to compare the same moment.</figcaption><button class="video-play" id="videoPlay" type="button">Play comparison</button></figure><figure><img src="/assets/film-web/professional-tools.jpg" alt="Color scopes used to evaluate exposure and color during professional video grading" loading="lazy" width="1400" height="529"><figcaption>Reading exposure and color with professional scopes.</figcaption></figure><figure><img src="/assets/film-web/inustry-emulation.jpg" alt="DaVinci Resolve node workflow for correction, texture, negative and print emulation" loading="lazy" width="1400" height="793"><figcaption>A structured workflow for correction, texture, and film emulation.</figcaption></figure></div></div></div></section>
 <section class="section" id="options"><div class="wrap"><p class="eyebrow">Make room for what matters</p><h2>A film look for your priorities.</h2><div class="format-grid options"><article><h3>Real 35mm photography</h3><p>For couples who value the experience and character of photographs captured on physical film.</p><p><strong>Custom pricing</strong> based on stock, film coverage, processing, and scans.</p></article><article><h3>Digital photo emulation</h3><p>For couples who want film-inspired color and texture with the flexibility of digital photography.</p><p><strong>No additional cost</strong> with your photography package.</p></article><article><h3>Video film emulation</h3><p>For couples drawn to Super 8, 16mm, or 35mm-inspired motion without the expense of physical motion-picture film.</p><p><strong>Quoted to your scope</strong> and preferred style.</p></article></div><p class="budget-note">You don’t need to arrive knowing the technical details. Share your date, the looks you love, and a comfortable budget. We’ll help you explore a combination that makes sense for your day.</p></div></section>
 <section class="section" id="questions"><div class="wrap"><p class="eyebrow">A few details, made simple</p><h2>Film photography &amp; emulation FAQs</h2>
 <details><summary>What is the difference between film photography and film emulation?</summary><p>Real film photography exposes an image onto physical film, which is developed and scanned. Film emulation starts with a digital photo or video and uses editing to create film-inspired color, contrast, and texture. We offer both approaches and can help you decide which fits your priorities.</p></details>
@@ -562,6 +578,37 @@ html.cursor-ready video{cursor:auto!important}
 <section class="section bg-photo cta" id="proposals" data-parallax data-speed="0.20" style="background-image:url('/assets/film-web/film-hero.jpg')"><div class="wrap glass-panel" data-glass><p class="eyebrow">Your memories, with character</p><h2>Let’s find your kind of timeless.</h2><p>Real film, a digital film look, or a thoughtful mix. Tell us what you love and what you want to spend, and we’ll help bring the picture into focus.</p><div class="actions"><a class="btn" href="/#contact">Ask about film &amp; emulation</a><a class="btn" href="/#builder">Build your own package</a></div></div></section>
 </main><footer><div class="wrap"><span>© Dulce Día Cine · Southern California</span><a href="/">Back to Dulce Día Cine</a><a href="/san-clemente-wedding-photographer-videographer/">San Clemente weddings</a><a href="https://instagram.com/dulcediacine">Instagram ↗</a></div></footer>
 <script>
+
+// Keep both versions on the same frame; only play while the comparison is visible.
+(function(){
+ const box=document.getElementById('videoCompare'), raw=document.getElementById('videoRaw'), graded=document.getElementById('videoGraded'), slider=document.getElementById('videoReveal'), button=document.getElementById('videoPlay');
+ const videos=[raw,graded]; let visible=false, userPaused=false, starting=false;
+ videos.forEach(video=>{video.muted=true;});
+ slider.addEventListener('input',()=>{box.style.setProperty('--reveal',slider.value+'%');slider.setAttribute('aria-valuetext',slider.value+'% film emulation revealed');});
+ function pause(){videos.forEach(video=>video.pause());button.textContent='Play comparison';}
+ async function play(){
+  if(starting || !visible || document.hidden || userPaused) return;
+  starting=true;
+  try{
+   await Promise.all(videos.map(video=>video.readyState>=2 ? Promise.resolve() : new Promise((resolve,reject)=>{video.addEventListener('loadeddata',resolve,{once:true});video.addEventListener('error',reject,{once:true});video.load();})));
+   if(!visible || document.hidden || userPaused) return;
+   graded.currentTime=raw.currentTime;
+   await Promise.all(videos.map(video=>video.play()));
+   if(!visible || document.hidden || userPaused) pause(); else button.textContent='Pause comparison';
+  }catch(error){pause();}finally{starting=false;}
+ }
+ button.addEventListener('click',()=>{userPaused=!raw.paused;if(userPaused)pause();else play();});
+ videos.forEach(video=>video.addEventListener('ended',()=>{pause();videos.forEach(v=>{v.currentTime=0;});play();}));
+ // Correct decoder drift without continually seeking during normal playback.
+ raw.addEventListener('timeupdate',()=>{if(!raw.paused && !graded.seeking && Math.abs(raw.currentTime-graded.currentTime)>.1)graded.currentTime=raw.currentTime;});
+ videos.forEach(video=>video.addEventListener('waiting',()=>{if(!starting){pause();}}));
+ videos.forEach(video=>video.addEventListener('canplay',()=>{if(raw.readyState>=3 && graded.readyState>=3 && raw.paused)play();}));
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();else play();});
+ const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ userPaused=reducedMotion;
+ if('IntersectionObserver' in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)play();else pause();},{threshold:.2}).observe(box);
+ else {visible=true;play();}
+})();
 const menu = document.querySelector('.menu-btn');
 const nav = document.querySelector('#local-nav');
 menu.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; menu.setAttribute('aria-expanded', String(open)); nav.classList.toggle('open', open); });

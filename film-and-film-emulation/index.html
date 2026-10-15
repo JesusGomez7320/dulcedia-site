@@ -505,7 +505,7 @@ html.cursor-ready video{cursor:auto!important}
 }
 
 .video-compare{--reveal:50%;position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:12px;background:#080808;isolation:isolate}
-.video-compare video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.video-compare .video-poster,.video-compare canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}.video-compare video[hidden]{display:none}
 .video-compare .graded{clip-path:inset(0 calc(100% - var(--reveal)) 0 0)}
 .video-label-layer{position:absolute;inset:0;pointer-events:none}.video-label-layer.graded{clip-path:inset(0 calc(100% - var(--reveal)) 0 0)}.video-label-layer.raw{clip-path:inset(0 0 0 var(--reveal))}
 .video-label{position:absolute;top:16px;padding:6px 10px;background:#000a;color:white;border-radius:20px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}.graded .video-label{left:14px}.raw .video-label{right:14px}
@@ -560,8 +560,10 @@ html.cursor-ready video{cursor:auto!important}
   </div>
 </article>
 <div class="editorial workflow"><div><p class="eyebrow">Professional tools. Intentional choices.</p><h2>Crafted in DaVinci Resolve.</h2><p>Beautiful film emulation begins with the original capture. We shoot our wedding footage in RAW and prioritize the highest-quality source files, giving us a rich starting point for accurate color, natural skin tones, and a carefully controlled film-inspired finish.</p><p class="sub">Preserving that image information gives us more flexibility to refine exposure, balance color, and shape highlights and shadows before adding the emulation. From a clean, polished grade to a more expressive vintage look, the finish is built on a high-quality foundation.</p><p>We use DaVinci Resolve, professional film-emulation tools, and industry-standard color-grading techniques to build a considered look. Exposure and white balance come first, followed by shot matching, tonal shaping, and the film-inspired color response.</p><p class="sub">Grain, highlight bloom, and other texture choices are adjusted to suit the footage and the style you choose. We consider how the image feels in motion as well as in a still frame, keeping skin tones and the emotion of your day at the center of the grade.</p><p class="sub">The finishing process is about consistency: a look that holds together across changing light, different scenes, and the complete story. Tell us how subtle or nostalgic you want it to feel, and we’ll discuss the scope and price of your video-emulation package.</p></div><div class="tool-images"><figure class="video-comparison"><div class="video-compare" id="videoCompare" aria-label="RAW and film emulation video comparison">
-<video id="videoRaw" muted playsinline preload="none" poster="/assets/film-web/comparison/raw-poster.jpg" disablepictureinpicture aria-label="Original RAW footage"><source src="/assets/film-web/comparison/raw.mp4" type="video/mp4"></video>
-<video id="videoGraded" class="graded" muted playsinline preload="none" disablepictureinpicture poster="/assets/film-web/comparison/poster.jpg" aria-label="Film emulation footage"><source src="/assets/film-web/comparison/film-emulation.mp4" type="video/mp4"></video>
+<img class="video-poster" src="/assets/film-web/comparison/raw-poster.jpg" alt="" width="1080" height="1350" loading="lazy">
+<img class="video-poster graded" src="/assets/film-web/comparison/poster.jpg" alt="" width="1080" height="1350" loading="lazy">
+<video id="videoComparisonSource" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" hidden><source src="/assets/film-web/comparison/comparison.mp4" type="video/mp4"></video>
+<canvas id="videoComparisonCanvas" style="visibility:hidden" width="640" height="800" role="img" aria-label="Interactive comparison of RAW footage and film emulation"></canvas>
 <span class="video-label-layer graded"><span class="video-label">Film emulation</span></span><span class="video-label-layer raw"><span class="video-label">RAW</span></span>
 <span class="video-divider" aria-hidden="true"><span class="video-handle">‹ ›</span></span>
 <input id="videoReveal" class="video-range" type="range" min="0" max="100" value="50" aria-label="Reveal film emulation" aria-valuetext="50% film emulation revealed" aria-describedby="videoCompareHelp">
@@ -579,39 +581,46 @@ html.cursor-ready video{cursor:auto!important}
 </main><footer><div class="wrap"><span>© Dulce Día Cine · Southern California</span><a href="/">Back to Dulce Día Cine</a><a href="/san-clemente-wedding-photographer-videographer/">San Clemente weddings</a><a href="https://instagram.com/dulcediacine">Instagram ↗</a></div></footer>
 <script>
 
-// Play on interaction, then pause after two seconds of inactivity.
+// One decoder keeps RAW and graded frames perfectly aligned without seeking.
 (function(){
- const box=document.getElementById('videoCompare'), raw=document.getElementById('videoRaw'), graded=document.getElementById('videoGraded'), slider=document.getElementById('videoReveal'), button=document.getElementById('videoPlay');
- const videos=[raw,graded]; let active=false, starting=false, stopTimer;
- videos.forEach(video=>{video.muted=true;});
- function pause(){videos.forEach(video=>video.pause());button.textContent='Preview motion';}
- function stop(){active=false;clearTimeout(stopTimer);pause();}
+ const box=document.getElementById('videoCompare'), video=document.getElementById('videoComparisonSource'), canvas=document.getElementById('videoComparisonCanvas'), slider=document.getElementById('videoReveal'), button=document.getElementById('videoPlay');
+ const ctx=canvas.getContext('2d',{alpha:false});
+ if(!ctx){button.hidden=true;return;}
+ let active=false, stopTimer, frameId=null, loading=false, playPending=false;
+ video.muted=true;
+ function draw(){
+  if(video.readyState<2)return;
+  const half=video.videoWidth/2, height=video.videoHeight;
+  ctx.drawImage(video,0,0,half,height,0,0,640,800);
+  ctx.save();ctx.beginPath();ctx.rect(0,0,640*Number(slider.value)/100,800);ctx.clip();
+  ctx.drawImage(video,half,0,half,height,0,0,640,800);ctx.restore();canvas.style.visibility='visible';
+ }
+ const nativeFrames=typeof video.requestVideoFrameCallback==='function';
+ function cancelFrame(){if(frameId!==null){if(nativeFrames)video.cancelVideoFrameCallback(frameId);else cancelAnimationFrame(frameId);frameId=null;}}
+ function frame(){frameId=null;draw();if(!video.paused&&!video.ended)scheduleFrame();}
+ function scheduleFrame(){if(frameId===null)frameId=nativeFrames?video.requestVideoFrameCallback(frame):requestAnimationFrame(frame);}
+ function stop(){active=false;clearTimeout(stopTimer);video.pause();cancelFrame();button.textContent='Preview motion';draw();}
+ function load(){if(!loading){loading=true;video.preload='auto';video.load();}}
  async function play(){
-  if(starting || !active || document.hidden || videos.every(video=>!video.paused)) return;
-  starting=true;
-  try{
-   await Promise.all(videos.map(video=>video.readyState>=2 ? Promise.resolve() : new Promise((resolve,reject)=>{video.addEventListener('loadeddata',resolve,{once:true});video.addEventListener('error',reject,{once:true});video.load();})));
-   if(!active || document.hidden) return;
-   graded.currentTime=raw.currentTime;
-   await Promise.all(videos.map(video=>video.play()));
-   if(!active || document.hidden) pause(); else button.textContent='Playing preview';
-  }catch(error){pause();}finally{starting=false;}
+  if(!active||document.hidden||playPending||!video.paused)return;
+  load();playPending=true;
+  try{await video.play();if(!active||document.hidden){video.pause();return;}button.textContent='Playing preview';scheduleFrame();}
+  catch(error){button.textContent='Tap to preview motion';}
+  finally{playPending=false;}
  }
- function interact(){
-  active=true;clearTimeout(stopTimer);stopTimer=setTimeout(stop,2000);play();
- }
- slider.addEventListener('input',()=>{box.style.setProperty('--reveal',slider.value+'%');slider.setAttribute('aria-valuetext',slider.value+'% film emulation revealed');interact();});
+ function interact(){active=true;clearTimeout(stopTimer);stopTimer=setTimeout(stop,2000);play();}
+ slider.addEventListener('input',()=>{box.style.setProperty('--reveal',slider.value+'%');slider.setAttribute('aria-valuetext',slider.value+'% film emulation revealed');draw();interact();});
  ['pointerenter','pointerdown','pointermove','pointerup'].forEach(event=>box.addEventListener(event,interact));
  slider.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','PageUp','PageDown'].includes(event.key))interact();});
  button.addEventListener('click',interact);
- raw.addEventListener('ended',()=>{pause();videos.forEach(video=>{video.currentTime=0;});play();});
- // Correct decoder drift without continually seeking during normal playback.
- raw.addEventListener('timeupdate',()=>{if(!raw.paused && !graded.seeking && Math.abs(raw.currentTime-graded.currentTime)>.1)graded.currentTime=raw.currentTime;});
- videos.forEach(video=>video.addEventListener('waiting',()=>{if(!starting)pause();}));
- videos.forEach(video=>video.addEventListener('canplay',()=>{if(active && raw.readyState>=3 && graded.readyState>=3 && raw.paused)play();}));
+ video.addEventListener('loadeddata',draw);
+ video.addEventListener('playing',()=>{if(active)scheduleFrame();else stop();});
+ video.addEventListener('ended',()=>{if(active){video.currentTime=0;play();}});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
- // Leaving the viewport only stops playback; scrolling into view never starts it.
- if('IntersectionObserver' in window)new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)stop();},{threshold:0}).observe(box);
+ if('IntersectionObserver' in window){
+  const preloadObserver=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){load();preloadObserver.disconnect();}},{rootMargin:'600px'});preloadObserver.observe(box);
+  new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)stop();},{threshold:0}).observe(box);
+ }else load();
 })();
 const menu = document.querySelector('.menu-btn');
 const nav = document.querySelector('#local-nav');

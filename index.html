@@ -242,7 +242,9 @@
     #folio .card img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 260ms ease; }
 
     .folio-arrow{ position:absolute; top:50%; translate:0 -50%; width:40px; height:40px; border-radius:999px; border:1px solid var(--line); background:transparent; display:grid; place-items:center; cursor:none; transition:background .15s ease, transform .15s ease, border-color .15s ease; z-index:3; }
-    .folio-arrow:hover{ background:rgba(0,0,0,.03); transform:translateY(-50%) scale(1.03); border-color:#DCD9D2; }
+    .folio-arrow:hover{ background:rgba(0,0,0,.03); transform:scale(1.03); border-color:#DCD9D2; }
+    .folio-arrow:disabled{opacity:.3;pointer-events:none}
+    #folio .vp.is-dragging{scroll-snap-type:none;scroll-behavior:auto;user-select:none}
     .folio-arrow.prev{ left:6px } .folio-arrow.next{ right:6px }
     @media (max-width:560px){ .folio-arrow{ display:none } }
 
@@ -886,8 +888,8 @@
         <a class="btn reveal" href="/film-and-film-emulation/">Explore Film &amp; Film Emulation</a>
 <figure class="video-comparison"><div class="video-compare" id="videoCompare" aria-label="RAW and film emulation video comparison">
 <img class="video-poster" src="/assets/film-web/ag-comparison/raw-poster.jpg" alt="" width="960" height="540" loading="lazy">
-<img class="video-poster graded" src="/assets/film-web/ag-comparison/poster.jpg" alt="" width="960" height="540" loading="lazy">
-<video id="videoComparisonSource" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" hidden><source src="/assets/film-web/ag-comparison/comparison.mp4" type="video/mp4"></video>
+<img class="video-poster graded" src="/assets/film-web/ag-comparison/poster.jpg?v=2" alt="" width="960" height="540" loading="lazy">
+<video id="videoComparisonSource" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" hidden><source src="/assets/film-web/ag-comparison/comparison.mp4?v=2" type="video/mp4"></video>
 <canvas id="videoComparisonCanvas" style="visibility:hidden" width="960" height="540" role="img" aria-label="Interactive comparison of RAW footage and film emulation"></canvas>
 <span class="video-label-layer graded"><span class="video-label">Film emulation</span></span><span class="video-label-layer raw"><span class="video-label">RAW</span></span>
 <span class="video-divider" aria-hidden="true"><span class="video-handle">‹ ›</span></span>
@@ -1333,23 +1335,47 @@
       const next = document.getElementById('folioNext');
       if(!vp || !track) return;
 
-      let isDown = false, startX = 0, startScroll = 0;
-      vp.addEventListener('pointerdown', (e)=>{ isDown = true; vp.setPointerCapture(e.pointerId); startX = e.clientX; startScroll = vp.scrollLeft; });
-      vp.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx = e.clientX - startX; vp.scrollLeft = startScroll - dx; });
-      ['pointerup','pointercancel','pointerleave'].forEach(ev=>vp.addEventListener(ev, ()=>{ isDown=false; }));
-
-      function step(dir){
-        const slide = track.querySelector('.slide');
-        const slideW = slide ? slide.getBoundingClientRect().width : 300;
-        vp.scrollBy({ left: dir * (slideW + 16), behavior:'smooth' });
+      let pendingIndex = null, settleTimer;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function positions(){
+        const max = Math.max(0, vp.scrollWidth - vp.clientWidth);
+        return [...new Set(Array.from(track.children, slide =>
+          Math.max(0, Math.min(max, slide.offsetLeft + slide.offsetWidth/2 - vp.clientWidth/2))
+        ))];
       }
-      if(prev) prev.addEventListener('click', ()=>step(-1));
-      if(next) next.addEventListener('click', ()=>step(1));
-
-      vp.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
-        if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+      function nearest(points){
+        return points.reduce((best, value, index) => Math.abs(value-vp.scrollLeft)<Math.abs(points[best]-vp.scrollLeft) ? index : best, 0);
+      }
+      function updateButtons(){
+        const points=positions(), index=pendingIndex ?? nearest(points);
+        if(prev)prev.disabled=index===0;
+        if(next)next.disabled=index===points.length-1;
+      }
+      function step(dir){
+        const points=positions();
+        pendingIndex=Math.max(0,Math.min(points.length-1,(pendingIndex ?? nearest(points))+dir));
+        vp.scrollTo({left:points[pendingIndex],behavior:reducedMotion?'instant':'smooth'});
+        updateButtons();
+      }
+      if(prev)prev.addEventListener('click',()=>step(-1));
+      if(next)next.addEventListener('click',()=>step(1));
+      vp.addEventListener('keydown',e=>{
+        if(e.key==='ArrowRight'){e.preventDefault();step(1);}
+        if(e.key==='ArrowLeft'){e.preventDefault();step(-1);}
       });
+      // Native touch scrolling; direct mouse dragging without smooth-scroll interference.
+      let isDown=false, startX=0, startScroll=0;
+      vp.addEventListener('pointerdown',e=>{
+        pendingIndex=null;
+        if(e.pointerType!=='mouse'||e.button!==0)return;
+        e.preventDefault();isDown=true;startX=e.clientX;startScroll=vp.scrollLeft;
+        vp.classList.add('is-dragging');vp.setPointerCapture(e.pointerId);
+      });
+      vp.addEventListener('pointermove',e=>{if(isDown)vp.scrollLeft=startScroll-(e.clientX-startX);});
+      function endDrag(){isDown=false;vp.classList.remove('is-dragging');updateButtons();}
+      ['pointerup','pointercancel','lostpointercapture'].forEach(event=>vp.addEventListener(event,endDrag));
+      vp.addEventListener('wheel',()=>{pendingIndex=null;},{passive:true});
+      vp.addEventListener('dragstart',e=>e.preventDefault());
 
       const slides = () => Array.from(track.children);
 
@@ -1368,37 +1394,19 @@
 
       let rafId = null;
       function onScroll(){
-        updateActive();
-        if(rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(()=>{
-          clearTimeout(onScroll._t);
-          onScroll._t = setTimeout(()=>{
-            const vpRect = vp.getBoundingClientRect();
-            const center = vpRect.left + vpRect.width/2;
-            let target = null, bestDist = Infinity;
-            slides().forEach(sl=>{
-              const r = sl.getBoundingClientRect();
-              const c = r.left + r.width/2;
-              const d = Math.abs(c - center);
-              if(d < bestDist){ bestDist = d; target = sl; }
-            });
-            if(target){
-              const r = target.getBoundingClientRect();
-              const delta = (r.left + r.width/2) - center;
-              vp.scrollBy({ left: delta, behavior:'smooth' });
-            }
-          }, 80);
-        });
+        if(rafId===null)rafId=requestAnimationFrame(()=>{rafId=null;updateActive();updateButtons();});
+        clearTimeout(settleTimer);
+        settleTimer=setTimeout(()=>{pendingIndex=null;updateButtons();},180);
       }
-      updateActive();
-      vp.addEventListener('scroll', onScroll, { passive:true });
-      window.addEventListener('resize', updateActive);
+      updateActive();updateButtons();
+      vp.addEventListener('scroll',onScroll,{passive:true});
+      window.addEventListener('resize',()=>{pendingIndex=null;updateActive();updateButtons();});
       if(document.fonts && document.fonts.ready){ document.fonts.ready.then(updateActive); }
     }
 
     // Kick off gallery, then init scroller when ready
     buildRandomGallery();
-    document.addEventListener('gallery:ready', initPortfolioScroller, { once:true });
+    initPortfolioScroller();
 
     // ABOUT video: fade-in when ready + pause on hover
     (function(){
